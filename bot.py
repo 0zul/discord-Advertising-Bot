@@ -53,7 +53,7 @@ async def advertisement():
             else:
                 await client.send_message(channel, "{}".format(ad_1))
                 print("Advertised: {}".format(ad_1))
-        await asyncio.sleep(5)
+        await asyncio.sleep(900)
     
 client.loop.create_task(advertisement())
 
