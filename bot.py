@@ -61,7 +61,7 @@ client.loop.create_task(advertisement())
 client.remove_command('help')
 @client.command(pass_context=True)
 async def help(ctx):
-    await client.say("`List of commands:`\n \n`ad!help - Shows this message.`\n`ad!setup - Adds your server to the advertising list if it isn't added yet.`\n`ad!ping - Use this to check if the bot is online.`\n`ad!support - Gives you the link for the support server.`")
+    await client.say("`List of commands:`\n \n`ad!help - Shows this message.`\n`ad!setup - Adds your server to the advertising list if it isn't added yet.`\n`ad!ping - Use this to check if the bot is online.`\n`ad!support - Gives you the link for the support server.`\n`ad!info - Gives you information about the bot.`")
     await client.say("`Use ad!setup to add your server to the advertising list!`")
     await client.say("`If join the support server ( ad!support ) you can get your server in the special links. Special servers have a higher chance of being advertised.`")
 
