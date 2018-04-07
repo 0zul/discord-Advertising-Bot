@@ -1,0 +1,7 @@
+discord.py==0.16.12
+aiohttp
+websockets
+chardet
+asyncio
+requests==2.18.4
+gtts==1.2.2
