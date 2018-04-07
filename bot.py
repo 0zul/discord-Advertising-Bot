@@ -84,6 +84,7 @@ async def setup(ctx):
 # ad!ping
 @client.command(pass_context=True)
 async def ping(ctx):
+    channel = ctx.message.channel
     t1 = time.perf_counter()
     await client.send_typing(channel)
     t2 = time.perf_counter()
