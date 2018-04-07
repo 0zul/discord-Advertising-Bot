@@ -18,9 +18,9 @@ bot_prefix= "ad!"
 client = commands.Bot(command_prefix=bot_prefix)
 footer_text = "[+]Advertisement Bot[+]"
 
-ad_servers = []
-links = []
-special_links = []
+ad_servers = ["."]
+links = ["https://discord.gg/7BU8Uty"]
+special_links = ["https://discord.gg/7BU8Uty"]
 
 # EVENT - TELLS YOU WHEN THE BOT TURNS ON
 @client.event
