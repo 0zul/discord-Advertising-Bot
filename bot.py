@@ -17,11 +17,13 @@ Client = discord.Client()
 bot_prefix= "ad!"
 client = commands.Bot(command_prefix=bot_prefix)
 footer_text = "[+]Advertisement Bot[+]"
+dmd_star = "https://i.imgur.com/1SuakAM.png"
+gold_star = "https://i.imgur.com/Lv2cocr.png"
 
 ad_servers = []
-links = ["https://discord.gg/7BU8Uty"]
-special_links = ["https://discord.gg/7BU8Uty"]
-chance = ["1", "2", "3", "4", "5"]
+special_ad_servers = []
+links = []
+special_links = []
 
 # EVENT - TELLS YOU WHEN THE BOT TURNS ON
 @client.event
@@ -44,16 +46,28 @@ async def advertisement():
     await client.wait_until_ready()
     while not client.is_closed:
         for server in client.servers:
-            lvl = rndom.choice(chance)
-            ad_1 = rndom.choice(links)
-            ad_2 = rndom.choice(special_links)
-            channel = discord.utils.get(server.channels, name='servers')
-            if lvl == "1" or lvl == "2":
-                await client.send_message(channel, "{}".format(ad_1))
-                print("Advertised: {}".format(ad_1))
+            if server.id in ad_servers or server.id in special_ad_servers:
+                lvl = rndom.randint(0, 100)
+                ad_1 = rndom.choice(links)
+                ad_2 = rndom.choice(special_links)
+                try:
+                    channel = discord.utils.get(server.channels, name='servers')
+                    if lvl >= 50:
+                        await client.send_message(channel, "```diff\n+ <O> ADVERTISEMENT <O> +\n```\n \n{}".format(ad_1))
+                        print("Advertised: {}".format(ad_1))
+                    else:
+                        msg = discord.Embed(colour=0xFF0000, description= "")
+                        msg.title = ""
+                        msg.set_footer(text=footer_text)
+                        msg.set_image(url="{}".format(gold_star))
+                        msg.add_field(name=":star2: ", value="```diff\n- >>>>>>>>>> SPECIAL SERVER <<<<<<<<<< -\n=================================\n--- ----------{o}---------- ---\n+ {}\n--- ----------{o}---------- ---\n=================================\n```\n \n{}".format(ad_2, ad_2))
+                        await client.send_message(channel, embed=msg)
+                        print("Advertised: {}".format(ad_2))
+                except:
+                    print("ERROR IN AUTO ADVERTISEMENT")
             else:
-                await client.send_message(channel, "{}".format(ad_2))
-                print("Advertised: {}".format(ad_2))
+                print(".")
+        print(".")
         await asyncio.sleep(900)
 
 client.loop.create_task(advertisement())
@@ -75,7 +89,7 @@ async def help(ctx):
     msg += "\n   # Gives you information about the bot."
     msg += "\nad!say <text>"
     msg += "\n   # Sends a message to all servers. CREATOR ONLY."
-    msg += "\nad!force [-]"
+    msg += "\nad!force"
     msg += "\n   # Forces the bot to advertise. CREATOR ONLY."
     msg += "\nad!special <link>"
     msg += "\n   # Turns the given link to a special link. CREATOR ONLY."
@@ -85,6 +99,10 @@ async def help(ctx):
     msg += "\n   # Gives you a random server from the advertising list."
     msg += "\nad!test"
     msg += "\n   # Checks if everything is working like it should be."
+    msg += "\nad!serverinfo"
+    msg += "\n   # Gives you information about the server."
+    msg += "\nad!invite"
+    msg += "\n   # Gives you the invite link for the bot."
     msg += "\n```"
     await client.say(msg)
 
@@ -106,23 +124,26 @@ async def setup(ctx, args = None):
         msg += "\n```"
         await client.say(msg)
     elif args == "start":
-        if server in ad_servers:
+        if server.id in ad_servers or server.id in special_ad_servers:
             await client.say("This server is already being advertised!")
         else:
-            await client.say("Starting...\nIf I don't send a message after this, then something went wrong.")
-            channel = discord.utils.get(server.channels, name='servers')
-            invite = await client.create_invite(destination = channel, xkcd = True, max_uses = 0)
-            links.append(invite)
-            ad_servers.append(server)
-            await client.send_message(channel, "```fix\nTEST MESSAGE:\n \nLink used: {}\nServer: {}\n```".format(invite, server))
-            await client.say("Added this server to the advertising list!")
-            print(links)
-            for srv in client.servers:
-                if srv.id == "414089074870321153":
-                    chnl = discord.utils.get(srv.channels, name='servers')
-                    await client.send_message(chnl, "```fix\nNEW SERVER:\n \n{}\n```".format(invite))
-                else:
-                    print(".")
+            await client.say("Starting...")
+            try:
+                channel = discord.utils.get(server.channels, name='servers')
+                invite = await client.create_invite(destination = channel, xkcd = True, max_uses = 0)
+                links.append(invite)
+                ad_servers.append(server.id)
+                await client.send_message(channel, "```fix\nTEST MESSAGE:\n \nLink used: {}\nServer: {}\nID: {}```".format(invite, server, server.id))
+                await client.say("Added this server to the advertising list!")
+                print(links)
+                for srv in client.servers:
+                    try:
+                        chnl = discord.utils.get(srv.channels, name='servers')
+                        await client.send_message(chnl, "```fix\nNEW SERVER:\n```\n{}".format(invite))
+                    except:
+                        print(".")
+            except:
+                await client.say("Error! Make sure you followed the steps in `ad!setup`. If you think this is a bug, please join the support server and DM <@412201413335056386>.")
             print(".")
     else:
         await client.say("Error: `ad!setup [start]`\n \nUse `ad!setup` for help and `ad!setup start` when you are ready to start the setup!")
@@ -140,8 +161,11 @@ async def ping(ctx):
 @client.command(pass_context=True)
 async def support(ctx):
     author = ctx.message.author
-    await client.say("The support server link should be sent in your DMs. If it isn't, please check your profile settings.")
-    await client.send_message(author, "This is the support server for the bot: https://discord.gg/7BU8Uty Once you join, you can DM the owner ( <@412201413335056386> ) for any help.")
+    await client.say("Sliding in your DMs...")
+    try:
+        await client.send_message(author, "This is the support server for the bot: https://discord.gg/7BU8Uty Once you join, you can DM the owner ( <@412201413335056386> ) for any help.")
+    except:
+        await client.say("Error! Please check if the bot is allowed to DM you.")
 
 # ad!info
 @client.command(pass_context=True)
@@ -165,9 +189,13 @@ async def special(ctx, args = None):
             if args in special_links:
                 await client.say("That link is already in the list!")
             else:
+                invite = await client.get_invite(args)
+                server_id = invite.server.id
+                server_name = invite.server.name
                 special_links.append(args)
-                await client.say("Added to special servers!")
-                print(special)
+                special_ad_servers.append(server_id)
+                await client.say("Added to special servers!\n```fix\nLink: {}\nServer: {}\nID: {}```".format(args, server_name, server_id))
+                print("done")
     else:
         await client.say("This can only be used by the bot creator!")
 
@@ -180,37 +208,48 @@ async def say(ctx, *, args = None):
             await client.say("Error: `ad!say <text>`")
         else:
             for server in client.servers:
-                channel = discord.utils.get(server.channels, name='servers')
-                await client.send_message(channel, "```fix\n----------[+][+][+]----------\n \n{}\n \n----------[+][+][+]----------\n```".format(args))
+                try:
+                    channel = discord.utils.get(server.channels, name='servers')
+                    msg = discord.Embed(colour=0xFF0000, description= "")
+                    msg.title = ""
+                    msg.set_footer(text=footer_text)
+                    msg.set_image(url="{}".format(dmd_star))
+                    msg.add_field(name=":loudspeaker: ", value="```md\n# >>>>>>>>>>{x}{X}{x}<<<<<<<<<< # \n[+](+)[+](+)[+](+)[+](+)[+](+)[+](+)[+]\n \n {} \n \nMessage by: {}\n \n[+](+)[+](+)[+](+)[+](+)[+](+)[+](+)[+]\n# >>>>>>>>>>{x}{X}{x}<<<<<<<<<< # \n```".format(args, author))
+                    await client.send_message(channel, embed=msg)
+                except:
+                    print("ERROR IN AUTO ADVERTISEMENT")
             print(".")
                 
     else:
         await client.say("This can only be used by the bot creator!")
 
-# ad!force [-]
+# ad!force
 @client.command(pass_context=True)
-async def force(ctx, args = None):
+async def force(ctx):
     author = ctx.message.author
     if author.id == "412201413335056386":
-        if args == None:
-            for server in client.servers:
-                lvl = rndom.choice(chance)
+        for server in client.servers:
+            if server.id in ad_servers or server.id in special_ad_servers:
+                lvl = rndom.randint(0, 100)
                 ad_1 = rndom.choice(links)
                 ad_2 = rndom.choice(special_links)
-                channel = discord.utils.get(server.channels, name='servers')
-                if lvl == "1" or lvl == "2":
-                    await client.send_message(channel, "{}".format(ad_1))
-                    print("Advertised: {}".format(ad_1))
-                else:
-                    await client.send_message(channel, "{}".format(ad_2))
-                    print("Advertised: {}".format(ad_2))
-        elif args == "-":
-            for server in client.servers:
-                ad_1 = rndom.choice(links)
-                channel = discord.utils.get(server.channels, name='servers')
-                await client.send_message(channel, "{}".format(ad_1))
-        else:
-            await client.say("Error: `ad!force [-]`")
+                try:
+                    channel = discord.utils.get(server.channels, name='servers')
+                    if lvl >= 50:
+                        await client.send_message(channel, "```diff\n+ <O> ADVERTISEMENT <O> +\n```\n \n{}".format(ad_1))
+                        print("Advertised: {}".format(ad_1))
+                    else:
+                        msg = discord.Embed(colour=0xFF0000, description= "")
+                        msg.title = ""
+                        msg.set_footer(text=footer_text)
+                        msg.set_image(url="{}".format(gold_star))
+                        msg.add_field(name=":star2: ", value="```diff\n- >>>>>>>>>> SPECIAL SERVER <<<<<<<<<< -\n=================================\n--- ----------{o}---------- ---\n+ {}\n--- ----------{o}---------- ---\n=================================\n```\n \n{}".format(ad_2, ad_2))
+                        await client.send_message(channel, embed=msg)
+                        print("Advertised: {}".format(ad_2))
+                except:
+                    print("ERROR IN AUTO ADVERTISEMENT")
+            else:
+                print(".")
     else:
         await client.say("This can only be used by the bot creator!")
 
@@ -218,27 +257,76 @@ async def force(ctx, args = None):
 @client.command(pass_context=True)
 async def servers(ctx):
     author = ctx.message.author
-    await client.say("A list of servers should be sent to your DMs. If it isn't, please check your profile settings.")
-    await client.send_message(author, "Normal links: {}".format(links))
-    await client.send_message(author, "Special links: {}".format(special_links))
+    srvlist = ""
+    sp_srvlist = ""
+    for server in client.servers:
+        if server.id in special_ad_servers:
+            sp_srvlist += "\n{} `-` {}".format(server, server.id)
+        else:
+            srvlist += "\n{} `-` {}".format(server, server.id)
+    await client.say("Sliding in your DMs...")
+    try:
+        await client.send_message(author, "`SERVERS:`\n{}".format(srvlist))
+        await client.send_message(author, "`SPECIAL SERVERS:`\n{}".format(sp_srvlist))
+    except:
+        await client.say("Error! Please check if the bot is allowed to DM you.")
 
 # ad!random
 @client.command(pass_context=True)
 async def random(ctx):
     author = ctx.message.author
-    await client.say("A random server link should be sent to your DMs. If it isn't, please check your profile settings.")
-    await client.send_message(author, "Random server: {}".format(rndom.choice(links)))
+    await client.say("Sliding in your DMs...")
+    try:
+        await client.send_message(author, "`Random server:`\n{}".format(rndom.choice(links)))
+    except:
+        await client.say("Error! Either the bot cannot DM you or there are no links to select from.")
 
 # ad!test
 @client.command(pass_context=True)
 async def test(ctx):
     author = ctx.message.author
     server = ctx.message.server
-    await client.say("Testing... If I don't send another message after this one then something went wrong.")
-    channel = discord.utils.get(server.channels, name='servers')
-    invite = await client.create_invite(destination = channel, xkcd = True, max_uses = 1)
-    await client.send_message(channel, "```fix\nTEST MESSAGE\n \n{}\n```".format(invite))
-    await client.say("All good! If there are any problems, please join the support server and DM <@412201413335056386>.")
+    await client.say("Testing...")
+    try:
+        channel = discord.utils.get(server.channels, name='servers')
+        invite = await client.create_invite(destination = channel, xkcd = True, max_uses = 1)
+        await client.send_message(channel, "```fix\nTEST MESSAGE:\n \nLink used: {}\nServer: {}\nID: {}```".format(invite, server, server.id))
+        await client.say("All good! If there are any problems, please join the support server and DM <@412201413335056386>.")
+    except:
+        await client.say("Error! Make sure you followed all steps in `ad!setup`. If you think that this is a bug, pleace join the support server and DM <@412201413335056386>.")
+
+# ad!invite
+@client.command(pass_context=True)
+async def invite(ctx):
+    author = ctx.message.author
+    server = ctx.message.server
+    await client.say("Sliding to your DMs...")
+    try:
+        await client.send_message(author, "This is the link to invite the bot:\nhttps://discordapp.com/oauth2/authorize?client_id=432099205914427394&scope=bot&permissions=379921")
+    except:
+        await client.say("Error! Please check if the bot is allowed to DM you.")
+
+# ad!serverinfo
+@client.command(pass_context=True)
+async def serverinfo(ctx):
+    author = ctx.message.author
+    server = ctx.message.server
+    msg = discord.Embed(colour=0xFF0000, description= "")
+    msg.title = ":page_with_curl: SERVER INFORMATION"
+    msg.set_footer(text=footer_text)
+    msg.add_field(name="MEMBERS", value=(len(ctx.message.server.members)), inline=True)
+    msg.add_field(name="CHANNELS", value=(len(ctx.message.server.channels)), inline=True)
+    msg.add_field(name="EMOJIS", value=(len(ctx.message.server.emojis)), inline=True)
+    msg.add_field(name="ID", value=(ctx.message.server.id), inline=True)
+    msg.add_field(name="REGION", value=(ctx.message.server.region), inline=True)
+    msg.add_field(name="ROLES", value=(len(ctx.message.server.roles)), inline=True)
+    msg.add_field(name="OWNER", value=(ctx.message.server.owner), inline=True)
+    msg.add_field(name="CREATED AT", value=(ctx.message.server.created_at), inline=True)
+    if server.id in special_ad_servers:
+        msg.add_field(name="SPECIAL ADS:", value="True", inline=True)
+    else:
+        msg.add_field(name="SPECIAL ADS:", value="False", inline=True)
+    await client.say(embed=msg)
 
 # TURNS THE BOT ON
 client.run(os.environ['BOT_TOKEN'])
