@@ -54,7 +54,9 @@ async def advertisement():
                     channel = discord.utils.get(server.channels, name='servers')
                     if lvl >= 50:
                         await client.send_message(channel, "```diff\n+ <O> ADVERTISEMENT <O> +\n```\n \n{}".format(ad_1))
+                        print("====================")
                         print("Advertised: {}".format(ad_1))
+                        print("====================")
                     else:
                         msg = discord.Embed(colour=0xFF0000, description= "")
                         msg.title = ""
@@ -62,12 +64,20 @@ async def advertisement():
                         msg.set_image(url="{}".format(gold_star))
                         msg.add_field(name=":star2: ", value="```diff\n- >>>>>>>>>> SPECIAL SERVER <<<<<<<<<< -\n=================================\n--- ----------{o}---------- ---\n+ {}\n--- ----------{o}---------- ---\n=================================\n```\n \n{}".format(ad_2, ad_2))
                         await client.send_message(channel, embed=msg)
+                        print("====================")
                         print("Advertised: {}".format(ad_2))
+                        print("====================")
                 except:
-                    print("ERROR IN AUTO ADVERTISEMENT")
+                    print("====================")
+                    print("!!! Error in auto advertisement!")
+                    print("====================")
             else:
-                print(".")
-        print(".")
+                print("====================")
+                print("!!! Server not in advertisement list.")
+                print("====================")
+        print("====================")
+        print("Finished auto advertisement!")
+        print("====================")
         await asyncio.sleep(900)
 
 client.loop.create_task(advertisement())
@@ -88,7 +98,7 @@ async def help(ctx):
     msg += "\nad!info"
     msg += "\n   # Gives you information about the bot."
     msg += "\nad!say <text>"
-    msg += "\n   # Sends a message to all servers. CREATOR ONLY."
+    msg += "\n   # Sends a fancy message to all servers. CREATOR ONLY."
     msg += "\nad!force"
     msg += "\n   # Forces the bot to advertise. CREATOR ONLY."
     msg += "\nad!special <link>"
@@ -103,6 +113,8 @@ async def help(ctx):
     msg += "\n   # Gives you information about the server."
     msg += "\nad!invite"
     msg += "\n   # Gives you the invite link for the bot."
+    msg += "\nad!rawsay <text>"
+    msg += "\n   # Sends a normal message that supports formats to all servers. CREATOR ONLY"
     msg += "\n```"
     await client.say(msg)
 
@@ -135,16 +147,22 @@ async def setup(ctx, args = None):
                 ad_servers.append(server.id)
                 await client.send_message(channel, "```fix\nTEST MESSAGE:\n \nLink used: {}\nServer: {}\nID: {}```".format(invite, server, server.id))
                 await client.say("Added this server to the advertising list!")
-                print(links)
+                print("====================")
+                print("Trying to setup a new server...")
+                print("====================")
                 for srv in client.servers:
                     try:
                         chnl = discord.utils.get(srv.channels, name='servers')
                         await client.send_message(chnl, "```fix\nNEW SERVER:\n```\n{}".format(invite))
                     except:
-                        print(".")
+                        print("====================")
+                        print("!!! Error in sending 'New Server' message to a server!")
+                        print("====================")
             except:
                 await client.say("Error! Make sure you followed the steps in `ad!setup`. If you think this is a bug, please join the support server and DM <@412201413335056386>.")
-            print(".")
+            print("====================")
+            print("Finished trying to setup a new server!")
+            print("====================")
     else:
         await client.say("Error: `ad!setup [start]`\n \nUse `ad!setup` for help and `ad!setup start` when you are ready to start the setup!")
 
@@ -156,6 +174,9 @@ async def ping(ctx):
     await client.send_typing(channel)
     t2 = time.perf_counter()
     await client.say("Pong! {}ms".format(round((t2-t1)*1000)))
+    print("====================")
+    print("Ping: {}".format(round((t2-t1)*1000)))
+    print("====================")
 
 # ad!support
 @client.command(pass_context=True)
@@ -195,7 +216,9 @@ async def special(ctx, args = None):
                 special_links.append(args)
                 special_ad_servers.append(server_id)
                 await client.say("Added to special servers!\n```fix\nLink: {}\nServer: {}\nID: {}```".format(args, server_name, server_id))
-                print("done")
+                print("====================")
+                print("Added a new server to the special list!")
+                print("====================")
     else:
         await client.say("This can only be used by the bot creator!")
 
@@ -203,22 +226,59 @@ async def special(ctx, args = None):
 @client.command(pass_context=True)
 async def say(ctx, *, args = None):
     author = ctx.message.author
+    msg = discord.Embed(colour=0xFF0000, description= "")
+    msg.title = ""
+    msg.set_footer(text=footer_text)
+    msg.set_thumbnail(url=dmd_star)
+    msg.add_field(name=":loudspeaker: ", value="```md\n# >>>>>>>>>>(x)(X)(x)<<<<<<<<<< # \n[+](+)[+](+)[+](+)[+](+)[+](+)[+](+)[+]\n \n {} \n \nMessage by: {}\n \n[+](+)[+](+)[+](+)[+](+)[+](+)[+](+)[+]\n# >>>>>>>>>>(x)(X)(x)<<<<<<<<<< # \n```".format(args, author))
     if author.id == "412201413335056386":
         if args == None:
             await client.say("Error: `ad!say <text>`")
         else:
+            await client.say("Send messages to servers...")
             for server in client.servers:
                 try:
                     channel = discord.utils.get(server.channels, name='servers')
-                    msg = discord.Embed(colour=0xFF0000, description= "")
-                    msg.title = ""
-                    msg.set_footer(text=footer_text)
-                    msg.set_image(url="{}".format(dmd_star))
-                    msg.add_field(name=":loudspeaker: ", value="```md\n# >>>>>>>>>>{x}{X}{x}<<<<<<<<<< # \n[+](+)[+](+)[+](+)[+](+)[+](+)[+](+)[+]\n \n {} \n \nMessage by: {}\n \n[+](+)[+](+)[+](+)[+](+)[+](+)[+](+)[+]\n# >>>>>>>>>>{x}{X}{x}<<<<<<<<<< # \n```".format(args, author))
                     await client.send_message(channel, embed=msg)
+                    print("====================")
+                    print("Message sent!")
+                    print("====================")
                 except:
-                    print("ERROR IN AUTO ADVERTISEMENT")
-            print(".")
+                    print("====================")
+                    print("!!! Error in sending a message to a server!")
+                    print("====================")
+            print("====================")
+            print("Finished sending messages to servers!")
+            print("====================")
+            await client.say("Finished sending messages!")
+                
+    else:
+        await client.say("This can only be used by the bot creator!")
+
+# ad!rawsay <text>
+@client.command(pass_context=True)
+async def rawsay(ctx, *, args = None):
+    author = ctx.message.author
+    if author.id == "412201413335056386":
+        if args == None:
+            await client.say("Error: `ad!say <text>`")
+        else:
+            await client.say("Send messages to servers...")
+            for server in client.servers:
+                try:
+                    channel = discord.utils.get(server.channels, name='servers')
+                    await client.send_message(channel, "{}\n \nMessage by: {}".format(args, author))
+                    print("====================")
+                    print("Message sent!")
+                    print("====================")
+                except:
+                    print("====================")
+                    print("!!! Error in sending a message to a server!")
+                    print("====================")
+            print("====================")
+            print("Finished sending messages to servers!")
+            print("====================")
+            await client.say("Finished sending messages!")
                 
     else:
         await client.say("This can only be used by the bot creator!")
@@ -228,6 +288,7 @@ async def say(ctx, *, args = None):
 async def force(ctx):
     author = ctx.message.author
     if author.id == "412201413335056386":
+        await client.say("Forcing advertisements...")
         for server in client.servers:
             if server.id in ad_servers or server.id in special_ad_servers:
                 lvl = rndom.randint(0, 100)
@@ -237,7 +298,9 @@ async def force(ctx):
                     channel = discord.utils.get(server.channels, name='servers')
                     if lvl >= 50:
                         await client.send_message(channel, "```diff\n+ <O> ADVERTISEMENT <O> +\n```\n \n{}".format(ad_1))
-                        print("Advertised: {}".format(ad_1))
+                        print("====================")
+                        print("Force Advertised: {}".format(ad_1))
+                        print("====================")
                     else:
                         msg = discord.Embed(colour=0xFF0000, description= "")
                         msg.title = ""
@@ -245,11 +308,21 @@ async def force(ctx):
                         msg.set_image(url="{}".format(gold_star))
                         msg.add_field(name=":star2: ", value="```diff\n- >>>>>>>>>> SPECIAL SERVER <<<<<<<<<< -\n=================================\n--- ----------{o}---------- ---\n+ {}\n--- ----------{o}---------- ---\n=================================\n```\n \n{}".format(ad_2, ad_2))
                         await client.send_message(channel, embed=msg)
-                        print("Advertised: {}".format(ad_2))
+                        print("====================")
+                        print("Force Advertised: {}".format(ad_2))
+                        print("====================")
                 except:
-                    print("ERROR IN AUTO ADVERTISEMENT")
+                    print("====================")
+                    print("!!! Error in force advertising to a server!")
+                    print("====================")
             else:
-                print(".")
+                print("====================")
+                print("!!! Server is not advertisement list!")
+                print("====================")
+        print("====================")
+        print("Finished force advertising to servers!")
+        print("====================")
+        await client.say("Finished sending forced advertisements!")
     else:
         await client.say("This can only be used by the bot creator!")
 
