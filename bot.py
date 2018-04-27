@@ -1172,29 +1172,21 @@ async def delete(ctx, option = None, args = None):
                 try:
                     if args in gaming_servers:
                         gaming_servers.remove(args)
-                        msg = "gaming"
                     elif args in anime_servers:
                         anime_servers.remove(args)
-                        msg = "anime"
                     elif args in nsfw_servers:
                         nsfw_servers.remove(args)
-                        msg = "nsfw"
                     elif args in memes_servers:
                         memes_servers.remove(args)
-                        msg = "memes"
                     elif args in other_servers:
                         other_servers.remove(args)
-                        msg = "other"
                     elif args in community_servers:
                         community_servers.remove(args)
-                        msg = "community"
                     elif args in programming_servers:
                         programming_servers.remove(args)
-                        msg = "programming"
                     else:
                         none_servers.remove(args)
-                        msg = "none"
-                    await client.say(":white_check_mark: Deleted from the {} list!".format(msg))
+                    await client.say(":white_check_mark: Server removed!")
                 except:
                     await client.say(":octagonal_sign: Error in deleting link!")
             elif option == "server":
