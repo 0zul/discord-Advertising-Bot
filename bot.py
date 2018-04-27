@@ -110,6 +110,8 @@ help_message3 += "\nad!delete <server link>"
 help_message3 += "\n   # Deletes a server link from both the normal and special list."
 help_message3 += "\nad!dm <server id> <message>"
 help_message3 += "\n   # DMs the owner of the server with the matching ID as the one given."
+help_message3 += "\nad!delete <link/server> <invite/id>"
+help_message3 += "\n   # Either removes an invite link or server ID from the lists. Depends on the option you choose."
 help_message3 += "\n```"
 
 help_message4 = "**__COMMANDS FOR THE BOT CREATOR__**"
@@ -1157,6 +1159,79 @@ async def dm(ctx, target = None, *, args = None):
     else:
         await client.say(":octagonal_sign: This command can only be used by bot moderators!")
 
+# ad!delete <link/server> <invite/id>
+@client.command(pass_context=True)
+async def delete(ctx, option = None, args = None):
+    author = ctx.message.author
+    if author.id in bot_moderators:
+        if option == None or args == None:
+            await client.say(":octagonal_sign: Please use the command correctly.\n`ad!delete <link/server> <invite/id>`")
+        else:
+            if option == "link":
+                await client.say("Deleting link...")
+                try:
+                    if args in gaming_servers:
+                        gaming_servers.remove(args)
+                        msg = "gaming"
+                    elif args in anime_servers:
+                        anime_servers.remove(args)
+                        msg = "anime"
+                    elif args in nsfw_servers:
+                        nsfw_servers.remove(args)
+                        msg = "nsfw"
+                    elif args in memes_servers:
+                        memes_servers.remove(args)
+                        msg = "memes"
+                    elif args in other_servers:
+                        other_servers.remove(args)
+                        msg = "other"
+                    elif args in community_servers:
+                        community_servers.remove(args)
+                        msg = "community"
+                    elif args in programming_servers:
+                        programming_servers.remove(args)
+                        msg = "programming"
+                    else:
+                        none_servers.remove(args)
+                        msg = "none"
+                    await client.say(":white_check_mark: Deleted from the {} list!".format(msg))
+                except:
+                    await client.say(":octagonal_sign: Error in deleting link!")
+            elif option == "server":
+                try:
+                    servers_ids.remove(args)
+                    if args in gaming_servers_ids:
+                        gaming_servers_ids.remove(args)
+                        msg = "gaming"
+                    elif args in anime_servers_ids:
+                        anime_servers_ids.remove(args)
+                        msg = "anime"
+                    elif args in nsfw_servers_ids:
+                        nsfw_servers_ids.remove(args)
+                        msg = "nsfw"
+                    elif args in community_servers_ids:
+                        community_servers_ids.remove(args)
+                        msg = "community"
+                    elif args in programming_servers_ids:
+                        programming_servers_ids.remove(args)
+                        msg = "programming"
+                    elif args in memes_servers_ids:
+                        memes_servers_ids.remove(args)
+                        msg = "memes"
+                    elif args in other_servers_ids:
+                        other_servers_ids.remove(args)
+                        msg = "other"
+                    else:
+                        none_servers_ids.remove(args)
+                        msg = "none"
+                    await client.say(":white_check_mark: Deleted from the {} list!")
+                except:
+                    await client.say(":octagonal_sign: Error in deleting server!")
+            else:
+                await client.say(":octagonal_sign: Please use the command correctly.\n`ad!delete <link/server> <invite/id>`")
+    else:
+        await client.say(":octagonal_sign: This command can only be used by bot moderators!")
+        
 ''' COMMANDS FOR THE BOT CREATOR '''
 # ad!mod <del/add> <user>
 @client.command(pass_context=True)
