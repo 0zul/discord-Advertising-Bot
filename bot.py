@@ -63,7 +63,7 @@ help_message1 += "\n   # Gives you this list."
 help_message1 += "\nad!ping"
 help_message1 += "\n   # Pings the bot. Use this to check if the bot is lagging."
 help_message1 += "\nad!support"
-help_message1 += "\n   # Gives you the invite link to the support server and the creator's ID."
+help_message1 += "\n   # Gives you the invite link to the community server and the bot moderators' IDs."
 help_message1 += "\nad!info"
 help_message1 += "\n   # Shows information about the bot."
 help_message1 += "\nad!servers"
@@ -270,7 +270,7 @@ async def ping(ctx):
 async def support(ctx):
     author = ctx.message.author
     await client.say("Sliding in your DMs...")
-    msg = "Here is the invite link to the support server:\nhttps://discord.gg/7BU8Uty\n \nHere are the bot moderators:"
+    msg = "This bot does not have a support server, but we do have a community server where you can chill and talk to other people about anything:\nhttps://discord.gg/jN6CcpY\n \nIf you need help with the bot, you can DM these users:"
     for ids in bot_moderators:
         msg += "\n<@{}>".format(ids)
     try:
