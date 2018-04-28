@@ -1217,6 +1217,31 @@ async def delete(ctx, args = None):
                 await client.say(":octagonal_sign: Error in removing server!")
     else:
         await client.say(":octagonal_sign: This command can only be used by bot moderators!")
+
+# ad!massdm <text>
+@client.command(pass_context=True)
+async def msg(ctx, *, args = None):
+    author = ctx.message.author
+    cnsl_chnl = client.get_channel(console_channel)
+    if author.id in bot_moderators:
+        await client.say("DMing all owners...")
+        failed = []
+        total = []
+        for server in client.servers:
+            try:
+                await client.send_message(server.owner, "{}\n \n:label: Message sent by: {}".format(args, author))
+                total.append("+1")
+            except:
+                failed.append("+1")
+        msg = "**__MASS DM__**"
+        msg += "\n "
+        msg += "\n**~~`==========`~~**"
+        msg += "\nDMs sent: {}".format(len(total))
+        msg += "\nDMs failed: {}".format(len(failed))
+        msg += "\n**~~`==========`~~**"
+        await client.send_message(cnsl_chnl, msg)
+    else:
+        await client.say(":octagonal_sign: This command can only be used by bot moderators!")
         
 ''' COMMANDS FOR THE BOT CREATOR '''
 # ad!mod <del/add> <user>
