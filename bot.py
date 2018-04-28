@@ -141,15 +141,16 @@ async def on_ready():
     msg += "\n**~~`==========`~~**"
     await client.send_message(chnl, msg)
 
-# AUTO CHANGING PLAYING STATUS
-async def gamechanger():
+# SERVER COUNT
+@client.event
+async def on_server_join(server):
     await client.wait_until_ready()
-    while not client.is_closed:
-        servers = client.servers
-        await client.change_presence(game=discord.Game(name='in {} servers!'.format(len(servers))))
-        await asyncio.sleep(1800)
+    await client.change_presence(game=discord.Game(name='in {} servers!'.format(len(client.servers))))
 
-client.loop.create_task(gamechanger())
+@client.event
+async def on_server_remove(server):
+    await client.wait_until_ready()
+    await client.change_presence(game=discord.Game(name='in {} servers!'.format(len(client.servers))))
             
 # AUTO ADVERTISING SYSTEM
 async def autoad():
