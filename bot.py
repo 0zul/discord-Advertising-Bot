@@ -79,19 +79,27 @@ announcement_img = "https://i.imgur.com/2m9gzUm.png"
 new_server_img = "https://i.imgur.com/79FgWOd.png"
 special_server_img = "https://i.imgur.com/G5SWYtL.png"
 
-bot_mods = ["412201413335056386"]
+bot_mods = ['412201413335056386', '278478326014803968', '288872682492133378', '367417841563074570']
 bot_admins = ["412201413335056386"]
 
-servers_ids = []
-special_servers_ids = []
+servers_ids = ['414089074870321153', '424282235554889742', '384884562582437889', '430564956497510410', '416108185498419206', '439448228165844993', '441652820148748335', '441393763647094816']
+special_servers_ids = ['414089074870321153']
 
-channels_ids = []
+channels_ids = ['432135342569553920', '439629288891875340', '401161763749494785', '442692512889438209', '440027866810548234', '440045431733354497', '441664448269385739', '441684937393831947']
 
-servers_msgs = []
-special_servers_msgs = []
+servers_msgs = ["Hello everyone! This is a chill community server where you can talk about anything! We have everything you will ever need so you don't have to switch thru servers! We hope to see you here!\n***__This is also the bot creator's server and you can win some free special codes from giveaways!__***\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 365 members!\n:credit_card: ID: 414089074870321153\n:link: Link: http://discord.gg/DkPFrBg\n**~~= = = = = = = = = = = = = == = = = =~~*",
+                ".\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 32 members!\n:credit_card: ID: 424282235554889742\n:link: Link: http://discord.gg/UX52RQb\n**~~= = = = = = = = = = = = = == = = = =~~**",
+                "This is Maple Realm™, a chatting server, where you can just hang out with your friends!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 232 members!\n:credit_card: ID: 384884562582437889\n:link: Link: http://discord.gg/Zcz6nB8\n**~~= = = = = = = = = = = = = == = = = =~~**",
+                "This is a social server as well as abit of a game server made by @big mami , here you can talk about anything with other cool people.\nWe hope to see you all there!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 50 members!\n:credit_card: ID: 430564956497510410\n:link: Link: http://discord.gg/6qhtWT2\n**~~= = = = = = = = = = = = = == = = = =~~**",
+                "if u like roblox join\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 45 members!\n:credit_card: ID: 416108185498419206\n:link: Link: http://discord.gg/AHyrjCm\n**~~= = = = = = = = = = = = = == = = = =~~**",
+                ".\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 88 members!\n:credit_card: ID: 439448228165844993\n:link: Link: http://discord.gg/hHbhyR2\n**~~= = = = = = = = = = = = = == = = = =~~**",
+                "Welcome To The VinternoZ Community.A Gaming Community Owned by VinternoZ#3843.Play,Make Friends And have fun!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 21 members!\n:credit_card: ID: 441652820148748335\n:link: Link: http://discord.gg/akJ4Hcs**~~= = = = = = = = = = = = = == = = = =~~**",
+                " 'Very    Cool    Server\n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 12 members!\n:credit_card: ID: 441393763647094816\n:link: Link: http://discord.gg/pWpUwC9\n**~~= = = = = = = = = = = = = == = = = =~~**"]
 
-servers_links = []
-special_servers_links = []
+special_servers_msgs = ["Hello everyone! This is a chill community server where you can talk about anything! We have everything you will ever need so you don't have to switch thru servers! We hope to see you here\n***__This is also the bot creator's server and you can win some free special codes from giveaways!__***\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 365 members!\n:credit_card: ID: 414089074870321153\n:link: Link: http://discord.gg/DkPFrBg\n**~~= = = = = = = = = = = = = == = = = =~~**"]
+
+servers_links = ['http://discord.gg/DkPFrBg', 'http://discord.gg/UX52RQb', 'http://discord.gg/Zcz6nB8', 'http://discord.gg/6qhtWT2', 'http://discord.gg/AHyrjCm', 'http://discord.gg/hHbhyR2', 'http://discord.gg/akJ4Hcs', 'http://discord.gg/pWpUwC9']
+special_servers_links = ['http://discord.gg/6Fn6tUJ']
 
 ignored_servers_ids = []
 banned_servers_ids = []
@@ -203,19 +211,20 @@ async def autoad():
                         total.append("+1")
                     except:
                         failed.append("+1")
-                msg = "```diff"
-                msg += "\n- AUTO ADVERTISEMENT -"
-                msg += "\n+ Total sent: {}".format(len(total))
-                msg += "\n+ Failed: {}".format(len(failed))
-                msg += "\n+ Special sent: {}".format(len(spe))
-                msg += "\n+ Normal sent: {}".format(len(nor))
-                msg += "\n```"
-                await client.send_message(cnsl, msg)
             except:
                 print("")
+        try:
+            msg = "```diff"
+            msg += "\n- AUTO ADVERTISEMENT -"
+            msg += "\n+ Total sent: {}".format(len(total))
+            msg += "\n+ Failed: {}".format(len(failed))
+            msg += "\n+ Special sent: {}".format(len(spe))
+            msg += "\n+ Normal sent: {}".format(len(nor))
+            msg += "\n```"
+            await client.send_message(cnsl, msg)
+        except:
+            print("")
         await asyncio.sleep(1200)
-
-client.loop.create_task(autoad())
 
 # UPTIME SYSTEM
 async def uptime_system():
