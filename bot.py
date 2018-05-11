@@ -91,7 +91,7 @@ servers_msgs = ["Hello everyone! This is a chill community server where you can 
 
 special_servers_msgs = ["Hello everyone! This is a chill community server where you can talk about anything! We have everything you will ever need so you don't have to switch thru servers! We hope to see you here\n***__This is also the bot creator's server and you can win some free special codes from giveaways!__***\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 365 members!\n:credit_card: ID: 414089074870321153\n:link: Link: http://discord.gg/DkPFrBg\n**~~= = = = = = = = = = = = = == = = = =~~**"]
 
-servers_links = ['http://discord.gg/DkPFrBg', 'http://discord.gg/UX52RQb', 'http://discord.gg/Zcz6nB8', 'http://discord.gg/6qhtWT2', 'http://discord.gg/AHyrjCm', 'http://discord.gg/hHbhyR2', 'http://discord.gg/akJ4Hcs', 'http://discord.gg/pWpUwC9', <discord.invite.Invite object at 0x02CBF228>, <discord.invite.Invite object at 0x03BDBB28>]
+servers_links = ['http://discord.gg/DkPFrBg', 'http://discord.gg/UX52RQb', 'http://discord.gg/Zcz6nB8', 'http://discord.gg/6qhtWT2', 'http://discord.gg/AHyrjCm', 'http://discord.gg/hHbhyR2', 'http://discord.gg/akJ4Hcs', 'http://discord.gg/pWpUwC9', '<discord.invite.Invite object at 0x02CBF228>', '<discord.invite.Invite object at 0x03BDBB28>']
 special_servers_links = ['http://discord.gg/6Fn6tUJ']
 
 ignored_servers_ids = ['412201413335056386', '278478326014803968', '288872682492133378', '367417841563074570']
