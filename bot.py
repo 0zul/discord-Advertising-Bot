@@ -132,7 +132,7 @@ async def on_server_join(server):
     await client.change_presence(game=discord.Game(name='in {} servers!'.format(len(client.servers))))
     await client.send_message(chnl, "```diff\n- JOINED SERVER -\n+ Name: {}\n+ ID: {}\n```".format(server.name, server.id))
     try:
-        await client.send_message(server.owner, tos)
+        await client.send_message(server.owner, tos_msg)
     except:
         print("")
 
