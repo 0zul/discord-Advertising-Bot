@@ -1351,7 +1351,7 @@ async def announce(ctx, *, args = None):
                 msg += "\n- ANNOUNCE -"
                 msg += "\n+ Author: {} - {}".format(author, author.id)
                 msg += "\n+ From: {} - {}".format(ctx.message.server.name, ctx.message.server.id)
-                msg += "\n+ Message: {}".format(args)
+                msg += "\n+ Message:\n{}".format(args)
                 msg += "\n+ Sent: {}/{}".format(len(done), len(channels_ids))
                 msg += "\n```"
                 await client.send_message(cnsl, msg)
