@@ -170,7 +170,7 @@ async def on_server_remove(server):
 async def autoad():
     await client.wait_until_ready()
     while not client.is_closed:
-        cnsl = client.get_channel(console_channel)
+        cnsl = random.randint(0, 10)
         c1 = ["n", "s"]
         nor = []
         spe = []
@@ -178,7 +178,7 @@ async def autoad():
         failed = []
         try:
             for channel in channels_ids:
-                c = random.choice(c1)
+                c >= 6:
                 if c == "n":
                     m = random.choice(servers_msgs)
                     embed = discord.Embed(colour=0x00FFF7, description= "")
@@ -1326,10 +1326,6 @@ async def announce(ctx, *, args = None):
                 cnsl = client.get_channel(console_channel)
                 done = []
                 pos = []
-                embed = discord.Embed(colour=0xFF0000, description= "")
-                embed.title = ""
-                embed.set_image(url="{}".format(announcement_img))
-                embed.set_footer(text=footer_text)
                 await client.say("Sending announcement...")
                 for channel in channels_ids:
                     pos.append("+1")
@@ -1338,10 +1334,12 @@ async def announce(ctx, *, args = None):
                         for server in client.servers:
                             if dest in server.channels:
                                 try:
+                                    embed = discord.Embed(colour=0xFF0000, description= "")
+                                    embed.title = ""
+                                    embed.set_image(url="{}".format(announcement_img))
+                                    embed.set_footer(text=footer_text)
                                     embed.add_field(name="announcement", value="{}\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Message by: {} - {}\n:arrows_counterclockwise: Position: {}/{}\n**~~= = = = = = = = = = = = = == = = = =~~**".format(args, author, author.id, len(pos), len(channels_ids)))
-                                    print("EMBED!!!")
                                     await client.send_message(dest, "<@{}>".format(server.owner.id), embed=embed)
-                                    print("SEND!!!")
                                     done.append("+1")
                                 except:
                                     print("")
