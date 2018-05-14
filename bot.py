@@ -94,7 +94,7 @@ special_servers_msgs = ['.\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:bu
 servers_links = ['http://discord.gg/DkPFrBg', 'http://discord.gg/UX52RQb', 'http://discord.gg/Zcz6nB8', 'http://discord.gg/6qhtWT2', 'http://discord.gg/AHyrjCm', 'http://discord.gg/hHbhyR2', 'http://discord.gg/akJ4Hcs', 'http://discord.gg/pWpUwC9', '<discord.invite.Invite object at 0x02CBF228>', '<discord.invite.Invite object at 0x03BDBB28>', 'http://discord.gg/6aW4vBQ']
 special_servers_links = ['http://discord.gg/6Fn6tUJ']
 
-ignored_servers_ids = ['412201413335056386', '278478326014803968', '288872682492133378', '367417841563074570', '374074135506190349']
+ignored_servers_ids = ['412201413335056386', '278478326014803968', '288872682492133378', '367417841563074570', '438095161541787648', '426162708484980739', '440652723504021504', '437321903066185729', '440108166789988353', '441003406371454986', '444866585661014016', '443834435620831232']
 banned_servers_ids = []
 toggled_servers = []
 
