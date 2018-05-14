@@ -171,13 +171,13 @@ async def autoad():
     await client.wait_until_ready()
     while not client.is_closed:
         cnsl = client.get_channel(console_channel)
-        c = random.randint(0, 10)
         nor = []
         spe = []
         total = []
         failed = []
         try:
             for channel in channels_ids:
+                c = random.randint(0, 10)
                 if c <= 6:
                     m = random.choice(servers_msgs)
                     embed = discord.Embed(colour=0x00FFF7, description= "")
@@ -1367,13 +1367,13 @@ async def force(ctx):
     if author.id in bot_admins:
         await client.say("Forcing advertisements...")
         cnsl = client.get_channel(console_channel)
-        c = random.randint(0, 10)
         nor = []
         spe = []
         total = []
         failed = []
         try:
             for channel in channels_ids:
+                c = random.randint(0, 10)
                 if c <= 6:
                     m = random.choice(servers_msgs)
                     embed = discord.Embed(colour=0x00FFF7, description= "")
