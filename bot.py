@@ -194,7 +194,7 @@ async def autoad():
                 try:
                     dest = client.get_channel(channel)
                     await client.send_message(dest, embed=embed)
-                    if c == "n":
+                    if c <= 6:
                         nor.append("+1")
                     else:
                         spe.append("+1")
@@ -1389,7 +1389,7 @@ async def force(ctx):
                 try:
                     dest = client.get_channel(channel)
                     await client.send_message(dest, embed=embed)
-                    if c == "n":
+                    if c <= 6:
                         nor.append("+1")
                     else:
                         spe.append("+1")
