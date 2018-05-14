@@ -170,16 +170,15 @@ async def on_server_remove(server):
 async def autoad():
     await client.wait_until_ready()
     while not client.is_closed:
-        cnsl = random.randint(0, 10)
-        c1 = ["n", "s"]
+        cnsl = client.get_channel(console_channel)
+        c = random.randint(0, 10)
         nor = []
         spe = []
         total = []
         failed = []
         try:
             for channel in channels_ids:
-                c >= 6:
-                if c == "n":
+                if c >= 6:
                     m = random.choice(servers_msgs)
                     embed = discord.Embed(colour=0x00FFF7, description= "")
                     embed.title = ""
