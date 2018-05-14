@@ -512,7 +512,7 @@ async def setup(ctx, channel: discord.Channel = None, *, args = None):
                 else:
                     text = "{}".format(args)
                     if len(str(text)) > 1000:
-                        await client.say(":octagonal_sign: The message cannot be longer than 300 characters!")
+                        await client.say(":octagonal_sign: The message cannot be longer than 1000 characters!")
                     else:
                         urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
                         if len(urls) != 0:
