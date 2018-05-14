@@ -1365,15 +1365,14 @@ async def force(ctx):
     if author.id in bot_admins:
         await client.say("Forcing advertisements...")
         cnsl = client.get_channel(console_channel)
-        c1 = ["n", "s"]
+        c = random.randint(0, 10)
         nor = []
         spe = []
         total = []
         failed = []
         try:
             for channel in channels_ids:
-                c = random.choice(c1)
-                if c == "n":
+                if c >= 6:
                     m = random.choice(servers_msgs)
                     embed = discord.Embed(colour=0x00FFF7, description= "")
                     embed.title = ""
