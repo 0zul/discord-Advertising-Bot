@@ -498,7 +498,7 @@ async def setup(ctx, channel: discord.Channel = None, *, args = None):
         if channel == None:
             msg = "**~~=~~** Make sure the bot has the following permissions: `Manage Server`, `Manage Channels`, `Kick Members`, `Ban Members`, `Create Instant Invite`, `Manage Webhooks`, `Read Messages`, `Send Messages`, `Manage Messages`, `Embed Links`, `Attach Files`, `Read Message History`, `Add Reactions`, `Use External Emojis`. The bot should already have these permissions if you use the official invite link (`ad!invite`)."
             msg += "\n**~~=~~** If you are using a bot to log stuff, make an exception for this bot so it doesn't spam your logs."
-            msg += "\n**~~=~~** Use `ad!setup [channel] [message]`. Replace [channel] with the channel you want the bot to send advertisements to and [message] with the message you want the bot to use. The message cannot be longer than 300 characters. Do not add any links to the message!"
+            msg += "\n**~~=~~** Use `ad!setup [channel] [message]`. Replace [channel] with the channel you want the bot to send advertisements to and [message] with the message you want the bot to use. The message cannot be longer than 1000 characters. Do not add any links to the message!"
             msg += "\n**~~=~~** Once the bot is done setting up, use `ad!test` to check if everything is working correctly."
             msg += "\n**~~=~~** Remember the read the bot's rules and TOS (`ad!tos`)."
             msg += "\n**~~=~~** If you have any issues with the bot just join the support server and ask for help (`ad!support`)."
@@ -511,7 +511,7 @@ async def setup(ctx, channel: discord.Channel = None, *, args = None):
                     await client.say(":octagonal_sign: Looks like this server is already being advertised! If you think that this is an error or if you want to re-setup your server, you can use the `ad!unsetup` command.")
                 else:
                     text = "{}".format(args)
-                    if len(str(text)) > 300:
+                    if len(str(text)) > 1000:
                         await client.say(":octagonal_sign: The message cannot be longer than 300 characters!")
                     else:
                         urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
