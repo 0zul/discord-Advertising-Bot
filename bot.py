@@ -22,7 +22,7 @@ help_msg1 += "\n`ad!support` - Gives you the support server link and a list of b
 help_msg1 += "\n`ad!info` - Shows information about the bot."
 help_msg1 += "\n`ad!servers` - Gives you a list of servers that aren't setup."
 help_msg1 += "\n`ad!rnd` - Gives you a random server."
-help_msg1 += "\n`ad!serverinfo` - Shows information about the server."
+help_msg1 += "\n`ad!serverinfo [server id]` - Shows information about a server."
 help_msg1 += "\n`ad!invite` - Gives you the invite link for the bot."
 help_msg1 += "\n`ad!tos` - Gives you bot's rules and TOS."
 help_msg1 += "\n`ad!suggest <suggestion>` - Sends a suggestion to the bot moderators."
@@ -106,7 +106,7 @@ ut_hours = []
 @client.event
 async def on_ready():
     t1 = time.perf_counter()
-    await client.change_presence(game=discord.Game(name='ad!help - For help.'))
+    await client.change_presence(game=discord.Game(name='ad!help | ad!support'))
     await client.wait_until_ready()
     chnl = client.get_channel(console_channel)
     msg = "```diff"
@@ -129,7 +129,6 @@ async def on_ready():
 async def on_server_join(server):
     await client.wait_until_ready()
     chnl = client.get_channel(console_channel)
-    await client.change_presence(game=discord.Game(name='in {} servers!'.format(len(client.servers))))
     await client.send_message(chnl, "```diff\n- JOINED SERVER -\n+ Name: {}\n+ ID: {}\n```".format(server.name, server.id))
     try:
         await client.send_message(server.owner, tos_msg)
@@ -140,7 +139,6 @@ async def on_server_join(server):
 async def on_server_remove(server):
     await client.wait_until_ready()
     chnl = client.get_channel(console_channel)
-    await client.change_presence(game=discord.Game(name='in {} servers!'.format(len(client.servers))))
     await client.send_message(chnl, "```diff\n- LEFT SERVER -\n+ Name: {}\n+ ID: {}\n```".format(server.name, server.id))
     if server.id in servers_ids or server.id in special_servers_ids:
         try:
@@ -369,37 +367,73 @@ async def rnd(ctx):
             msg += "\n{}".format(random.choice(special_servers_links))
         await client.say(msg)
 
-# ad!serverinfo
+# ad!serverinfo [server id]
 @client.command(pass_context=True)
-async def serverinfo(ctx):
+async def serverinfo(ctx, target = None):
     if ctx.message.server.id in banned_servers_ids:
         await client.say(":no_entry_sign: This server is banned! For more information join the support server and contact a bot moderator (`ad!support`).")
     else:
-        author = ctx.message.author
-        server = ctx.message.server
-        msg = "**__INFORMATION ABOUT `{}`__**".format(server.name)
-        msg += "\nMembers: `{}`".format(len(server.members))
-        msg += "\nChannels: `{}`".format(len(server.channels))
-        msg += "\nEmojis: `{}`".format(len(server.emojis))
-        msg += "\nID: `{}`".format(server.id)
-        msg += "\nRegion: `{}`".format(server.region)
-        msg += "\nRoles: `{}`".format(len(server.roles))
-        msg += "\nOwner: `{}`".format(server.owner)
-        msg += "\nCreated at: `{}`".format(server.created_at)
-        if server.id in servers_ids:
-            msg += "\nSetup: `True`"
-            msg += "\nSpecial ADs: `False`"
-        elif server.id in special_servers_ids:
-            msg += "\nSetup: `True`"
-            msg += "\nSpecial ADs: `True`"
+        if target == None:
+            try:
+                author = ctx.message.author
+                server = ctx.message.server
+                msg = "**__INFORMATION ABOUT `{}`__**".format(server.name)
+                msg += "\nMembers: `{}`".format(len(server.members))
+                msg += "\nChannels: `{}`".format(len(server.channels))
+                msg += "\nEmojis: `{}`".format(len(server.emojis))
+                msg += "\nID: `{}`".format(server.id)
+                msg += "\nRegion: `{}`".format(server.region)
+                msg += "\nRoles: `{}`".format(len(server.roles))
+                msg += "\nOwner: `{}`".format(server.owner)
+                msg += "\nCreated at: `{}`".format(server.created_at)
+                if server.id in servers_ids:
+                    msg += "\nSetup: `True`"
+                    msg += "\nSpecial ADs: `False`"
+                elif server.id in special_servers_ids:
+                    msg += "\nSetup: `True`"
+                    msg += "\nSpecial ADs: `True`"
+                else:
+                    msg += "\nSetup: `False`"
+                    msg += "\nSpecial ADs: `False`"
+                if server.id in toggled_servers:
+                    msg += "\nAdvertising: `False`"
+                else:
+                    msg += "\nAdvertising: `True`"
+                await client.say(msg)
+            except:
+                await client.say(":octagonal_sign: Error in collecting information!\nMake sure the bot has the required permissions.")
         else:
-            msg += "\nSetup: `False`"
-            msg += "\nSpecial ADs: `False`"
-        if server.id in toggled_servers:
-            msg += "\nAdvertising: `False`"
-        else:
-            msg += "\nAdvertising: `True`"
-        await client.say(msg)
+            author = ctx.message.author
+            try:
+                server = client.get_server(target)
+                try:
+                    msg = "**__INFORMATION ABOUT `{}`__**".format(server.name)
+                    msg += "\nMembers: `{}`".format(len(server.members))
+                    msg += "\nChannels: `{}`".format(len(server.channels))
+                    msg += "\nEmojis: `{}`".format(len(server.emojis))
+                    msg += "\nID: `{}`".format(server.id)
+                    msg += "\nRegion: `{}`".format(server.region)
+                    msg += "\nRoles: `{}`".format(len(server.roles))
+                    msg += "\nOwner: `{}`".format(server.owner)
+                    msg += "\nCreated at: `{}`".format(server.created_at)
+                    if server.id in servers_ids:
+                        msg += "\nSetup: `True`"
+                        msg += "\nSpecial ADs: `False`"
+                    elif server.id in special_servers_ids:
+                        msg += "\nSetup: `True`"
+                        msg += "\nSpecial ADs: `True`"
+                    else:
+                        msg += "\nSetup: `False`"
+                        msg += "\nSpecial ADs: `False`"
+                    if server.id in toggled_servers:
+                        msg += "\nAdvertising: `False`"
+                    else:
+                        msg += "\nAdvertising: `True`"
+                    await client.say(msg)
+                except:
+                    await client.say(":octagonal_sign: Error in collecting information!\nMaybe the bot doesn't have the required permissions in that server.")
+            except:
+                await client.say(":octagonal_sign: Server not found!")
 
 # ad!invite
 @client.command(pass_context=True)
