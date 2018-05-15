@@ -396,9 +396,9 @@ async def serverinfo(ctx, target = None):
                     msg += "\nSetup: `False`"
                     msg += "\nSpecial ADs: `False`"
                 if server.id in toggled_servers:
-                    msg += "\nAdvertising: `False`"
+                    msg += "\nToggled: `True`"
                 else:
-                    msg += "\nAdvertising: `True`"
+                    msg += "\nToggled: `False`"
                 await client.say(msg)
             except:
                 await client.say(":octagonal_sign: Error in collecting information!\nMake sure the bot has the required permissions.")
@@ -426,9 +426,9 @@ async def serverinfo(ctx, target = None):
                         msg += "\nSetup: `False`"
                         msg += "\nSpecial ADs: `False`"
                     if server.id in toggled_servers:
-                        msg += "\nAdvertising: `False`"
+                        msg += "\nToggled: `True`"
                     else:
-                        msg += "\nAdvertising: `True`"
+                        msg += "\nToggled: `False`"
                     await client.say(msg)
                 except:
                     await client.say(":octagonal_sign: Error in collecting information!\nMaybe the bot doesn't have the required permissions in that server.")
