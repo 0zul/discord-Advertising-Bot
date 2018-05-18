@@ -105,7 +105,7 @@ ut_hours = []
 @client.event
 async def on_ready():
     t1 = time.perf_counter()
-    await client.change_presence(game=discord.Game(name='ad!help | ad!support'))
+    await client.change_presence(game=discord.Game(name='- Loading...'))
     await client.wait_until_ready()
     chnl = client.get_channel(console_channel)
     msg = "```diff"
@@ -115,13 +115,15 @@ async def on_ready():
     msg += "\n+ Total Server Count: {}".format(len(client.servers))
     msg += "\n+ Normal Servers: {}".format(len(servers_ids))
     msg += "\n+ Special Servers: {}".format(len(special_servers_ids))
-    msg += "\n+ Ignored Servers: {}".format(len(ignored_servers_ids))
+    msg += "\n+ Banned Servers: {}".format(len(banned_servers_ids))
+    msg += "\n+ Banned Users: {}".format(len(banned_users_ids))
     msg += "\n+ Bot Moderator Count: {}".format(len(bot_mods))
     msg += "\n+ Bot Administrator Count: {}".format(len(bot_admins))
     t2 = time.perf_counter()
     msg += "\n+ Ping: {}".format(round((t2-t1)*1000))
     msg += "```"
     await client.send_message(chnl, msg)
+    await client.change_presence(game=discord.Game(name='ad!help | ad!support'))
 
 # SERVER COUNT
 @client.event
