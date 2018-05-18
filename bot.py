@@ -123,6 +123,7 @@ async def on_ready():
     msg += "\n+ Ping: {}".format(round((t2-t1)*1000))
     msg += "```"
     await client.send_message(chnl, msg)
+    await client.wait_until_ready()
     await client.change_presence(game=discord.Game(name='ad!help | ad!support'))
 
 # SERVER COUNT
