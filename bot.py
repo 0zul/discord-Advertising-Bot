@@ -20,7 +20,6 @@ help_msg1 += "\n`ad!help` - Gives you a list of commands."
 help_msg1 += "\n`ad!ping` - Pings the bot. Used to check if the bot is lagging."
 help_msg1 += "\n`ad!support` - Gives you the support server link and a list of bot moderators.`"
 help_msg1 += "\n`ad!info` - Shows information about the bot."
-help_msg1 += "\n`ad!servers` - Gives you a list of servers that aren't setup."
 help_msg1 += "\n`ad!rnd` - Gives you a random server."
 help_msg1 += "\n`ad!serverinfo [server id]` - Shows information about a server."
 help_msg1 += "\n`ad!invite` - Gives you the invite link for the bot."
@@ -34,6 +33,7 @@ help_msg2 += "\n "
 help_msg2 += "\n`ad!setup [channel] [message]` - Shows you help on how to setup your server or starts the setup if you put the arguments."
 help_msg2 += "\n`ad!unsetup` - Removes your server from all lists and stops advertising it."
 help_msg2 += "\n`ad!test` - Checks if your server is setup correctly."
+help_msg2 += "\n`ad!scan` - Bans users who are on the black list. Those users are most likely banned for harming servers or breaking the discord TOS."
 
 help_msg3 = "**__COMMANDS FOR BOT MODERATORS__**"
 help_msg3 += "\n "
@@ -41,7 +41,6 @@ help_msg3 += "\n`ad!msg <user/server> <id> <message>` - DMs an user or the owner
 help_msg3 += "\n`ad!ban <user/server> <id> <reason>` - Bans an user from all servers or prevents a server from using the bot."
 help_msg3 += "\n`ad!unban <user/server> <id>` - Unbans an user from all servers or gives access to a server that was banned."
 help_msg3 += "\n`ad!reset <server id>` - Removes a server from all lists."
-help_msg3 += "\n`ad!ignore <server id>` - Ignores a server. Ignored servers won't be shown in the lists."
 
 help_msg4 = "**__COMMANDS FOR BOT ADMINISTRATORS__**"
 help_msg4 += "\n "
@@ -82,19 +81,19 @@ special_server_img = "https://i.imgur.com/G5SWYtL.png"
 bot_mods = ['412201413335056386', '278478326014803968', '288872682492133378', '367417841563074570']
 bot_admins = ["412201413335056386"]
 
-servers_ids = ['424282235554889742', '384884562582437889', '430564956497510410', '416108185498419206', '439448228165844993', '441652820148748335', '439526724854743040', '286875870176477184', '412662563789078549', '445551461858803735', '414089074870321153', '441712376358895617', '440314931212976128', '445766228594917407', '442108025935888385', '401126058243522560', '439946421244919818', '442168846712045568', '444782303277875201', '393392786222874629']
+servers_ids = ['424282235554889742', '384884562582437889', '430564956497510410', '416108185498419206', '439448228165844993', '441652820148748335', '439526724854743040', '286875870176477184', '412662563789078549', '445551461858803735', '414089074870321153', '441712376358895617', '440314931212976128', '445766228594917407', '442108025935888385', '401126058243522560']
 special_servers_ids = ['414089074870321153']
 
-channels_ids = ['442135555678011394', '439629288891875340', '401161763749494785', '442692512889438209', '440027866810548234', '440045431733354497', '441664448269385739', '441684937393831947', '443489988936597524', '442033265637982218', '437742612078919681', '445555285101379594', '432135342569553920', '441966421765783562', '443535295971983371', '446281190677282816', '442135555678011394', '429672679482851328', '439946997533900811', '446427813633982464', '446593283343384576', '429595598052655115']
+channels_ids = ['442135555678011394', '439629288891875340', '401161763749494785', '442692512889438209', '440027866810548234', '440045431733354497', '441664448269385739', '441684937393831947', '443489988936597524', '442033265637982218', '437742612078919681', '445555285101379594', '432135342569553920', '441966421765783562', '443535295971983371', '446281190677282816', '429672679482851328']
 
-servers_msgs = ['.\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 32 members!\n:credit_card: ID: 424282235554889742\n:link: Link: http://discord.gg/UX52RQb\n**~~= = = = = = = = = = = = = == = = = =~~**', 'This is Maple Realm™, a chatting server, where you can just hang out with your friends!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 232 members!\n:credit_card: ID: 384884562582437889\n:link: Link: http://discord.gg/Zcz6nB8\n**~~= = = = = = = = = = = = = == = = = =~~**', 'This is a social server as well as abit of a game server made by @big mami , here you can talk about anything with other cool people.\nWe hope to see you all there!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 50 members!\n:credit_card: ID: 430564956497510410\n:link: Link: http://discord.gg/6qhtWT2\n**~~= = = = = = = = = = = = = == = = = =~~**', 'if u like roblox join\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 45 members!\n:credit_card: ID: 416108185498419206\n:link: Link: http://discord.gg/AHyrjCm\n**~~= = = = = = = = = = = = = == = = = =~~**', '.\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 88 members!\n:credit_card: ID: 439448228165844993\n:link: Link: http://discord.gg/hHbhyR2\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Welcome To The VinternoZ Community.A Gaming Community Owned by VinternoZ#3843.Play,Make Friends And have fun!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 21 members!\n:credit_card: ID: 441652820148748335\n:link: Link: http://discord.gg/akJ4Hcs\n**~~= = = = = = = = = = = = = == = = = =~~**', "ad!setup <#435392629769764864>  welcome everyone to World of Music A server of music If u like music u will like this server and i'm hoping for it to get more active when some of you join i need a couple more staff who will be active and not lazy\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: World of Music\n:busts_in_silhouette: 85 members!\n:credit_card: ID: 427289292692258826\n:link: Link: http://discord.gg/997ZeeT\n**~~= = = = = = = = = = = = = == = = = =~~**", "Thanks for checking out Five Star Roleplay! We are a roleplaying community based on the popular GTA5 modification FiveM! Join us if you're looking for a cool gaming community!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Five Star Roleplay\n:busts_in_silhouette: 44 members!\n:credit_card: ID: 439526724854743040\n:link: Link: http://discord.gg/4bP6xjf\n**~~= = = = = = = = = = = = = == = = = =~~**", "Do you search for cool bots?  (like game bots, verification bots). If yes that's the right place for you! Join and enjoy!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: The Bot Farms\n:busts_in_silhouette: 81 members!\n:credit_card: ID: 401126058243522560\n:link: Link: http://discord.gg/PU2HtW7\n**~~= = = = = = = = = = = = = == = = = =~~**", '🍪 Friendly Members 🍪 \n🎶 Voice and Music Room 🎶 \n⚔  Roleplaying ⚔ \n🐹  Uniques Roles 🐹 \n☀  Leveling sysem 🌕\n🍆 Hentai channels (verified) 🍑 \n🔨  Events coming soon! 🔨\n🆕 Building more and improving! 🆕\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Role play and Hentai Gods\n:busts_in_silhouette: 25 members!\n:credit_card: ID: 388498690081423370\n:link: Link: http://discord.gg/ej9uFF3\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Wanna have fun with bots? JOIN!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: BOT Playplace and Leisure Lounge OFFICIAL(NTRS)\n:busts_in_silhouette: 56 members!\n:credit_card: ID: 337458654682808320\n:link: Link: http://discord.gg/hQtBY2s\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Special V.I.P Community Super Chilling server\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: :BattleGaming=Hurricane G a m e r s:\n:busts_in_silhouette: 59 members!\n:credit_card: ID: 439033705693184002\n:link: Link: http://discord.gg/dK92PdW\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Looking for a developing community? Well look no more! Arce Deving Community offers you to get help from other users and meet new friends! Join and see the magic!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Arce Deving Community\n:busts_in_silhouette: 12 members!\n:credit_card: ID: 444516771794255892\n:link: Link: http://discord.gg/AWgAMYY\n**~~= = = = = = = = = = = = = == = = = =~~**', '**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n__**~~====================~~**__\n❄ CHILL PEOPLE ❄ \n💯 TONS OF MEMES 💯 \n🌌 ANIME CHANNELS 🌌 \n🕹 GAMING CHANNELS 🕹 \n🔞 NSFW CHANNELS 🔞 \n🙂 VENTING AND ADVICE CHANNELS 🙂 \n💻 PROGRAMMING CHANNELS 💻 \n🛡 CLEAN CHATS 🛡 \n🌐 RARE everyone AND here TAGS 🌐 \n🎁 EVENTS AND 24/7 GIVEAWAYS 🎁 \n👥 PARTNERSHIPS 👥 \n🤖 FUN BOTS 🤖 \n🗺 SPECIAL ADVERTISEMENTS FOR FREE 🗺 \n📦 AND A LOT MORE 📦 \n__**~~====================~~**__\n**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: The Realm Of Darkness\n:busts_in_silhouette: 383 members!\n:credit_card: ID: 414089074870321153\n:link: Link: http://discord.gg/uW5whT5\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Join my discord please\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: THE SQUAD\n:busts_in_silhouette: 34 members!\n:credit_card: ID: 441712376358895617\n:link: Link: http://discord.gg/U7Yejx7\n**~~= = = = = = = = = = = = = == = = = =~~**', 'game\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Virtual Junkies Land\n:busts_in_silhouette: 13 members!\n:credit_card: ID: 440314931212976128\n:link: Link: http://discord.gg/dqFkeRK\n**~~= = = = = = = = = = = = = == = = = =~~**', "Special server let's try to get up to 100 members and make it active last old server I had almost 100 member until someone ruined it but it will not happen again join\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: The Community Hurricanes 🌀\n:busts_in_silhouette: 9 members!\n:credit_card: ID: 445766228594917407\n:link: Link: http://discord.gg/AsMVSvT\n**~~= = = = = = = = = = = = = == = = = =~~**", '🍑HENTAI HEAVEN🍆\n\n |WARNING]\n🚫 WE DO NOT ACCEPT USERS UNDER THE AGE OF 16 🚫\n\n👪 Growing fast and strong 👪 🎉 Giveaways all the time :tada\n💦Tons of nsfw and lots of hentai, porn, sex, and nudes and lots more💦\n🛡Active chat🛡\n🤝 We Partner with everyone 🤝\n\n[Thanks! We hope to see you here!]\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Hentai Heaven\n:busts_in_silhouette: 1471 members!\n:credit_card: ID: 442108025935888385\n:link: Link: http://discord.gg/s3MhWQm\n**~~= = = = = = = = = = = = = == = = = =~~**', ':peach:HENTAI HEAVEN:eggplant:\n\n |WARNING]\n:no_entry_sign: WE DO NOT ACCEPT USERS UNDER THE\nAGE OF 16 :no_entry_sign:\n \n:family: Growing fast and strong :family:\n :tada: Giveaways all the time :tada\n:sweat_drops:Tons of nsfw and lots of hentai, porn, sex, and nudes and lots more:sweat_drops:\n:shield:Active chat:shield:\n:handshake: We Partner with everyone :handshake:\n \n[Thanks! We hope to see you here!]\n  \n= = = = = = = = = = = = = == = = = =\n:label: Name: Hentai Heaven\n:busts_in_silhouette: 1471 members!\n:credit_card: ID: 442108025935888385\n:link: Link:\nhttp://discord.gg/s3MhWQm\n= = = = = = = = = = = = = == = = = =', "Do you search for cool bots?  (like game bots, verification bots). If yes that's the right place for you! Join and enjoy!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: The Bot Farms\n:busts_in_silhouette: 87 members!\n:credit_card: ID: 401126058243522560\n:link: Link: http://discord.gg/n7ZSXSP\n**~~= = = = = = = = = = = = = == = = = =~~**", 'the chillest chat in the universe\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: \U0001f964 SuperChill Community\n:busts_in_silhouette: 82 members!\n:credit_card: ID: 439946421244919818\n:link: Link: http://discord.gg/F58PS8R\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Join The Server! is Fresh and Very Cool Server\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: FrostyNation / FrostySquad\n:busts_in_silhouette: 22 members!\n:credit_card: ID: 442168846712045568\n:link: Link: http://discord.gg/cgaF8YU\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Join The Official Galaxy FanGroup Chat!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Galaxus FanGroup Chat\n:busts_in_silhouette: 8 members!\n:credit_card: ID: 444782303277875201\n:link: Link: http://discord.gg/rcCus2f\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Join Our Gaming Commuinty Members Are 100% Online\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: {Gaming- Community}\n:busts_in_silhouette: 45 members!\n:credit_card: ID: 393392786222874629\n:link: Link: http://discord.gg/8NH9S8n\n**~~= = = = = = = = = = = = = == = = = =~~**']
+servers_msgs = ['.\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 32 members!\n:credit_card: ID: 424282235554889742\n:link: Link: http://discord.gg/UX52RQb\n**~~= = = = = = = = = = = = = == = = = =~~**', 'This is Maple Realm™, a chatting server, where you can just hang out with your friends!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 232 members!\n:credit_card: ID: 384884562582437889\n:link: Link: http://discord.gg/Zcz6nB8\n**~~= = = = = = = = = = = = = == = = = =~~**', 'This is a social server as well as abit of a game server made by @big mami , here you can talk about anything with other cool people.\nWe hope to see you all there!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 50 members!\n:credit_card: ID: 430564956497510410\n:link: Link: http://discord.gg/6qhtWT2\n**~~= = = = = = = = = = = = = == = = = =~~**', 'if u like roblox join\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 45 members!\n:credit_card: ID: 416108185498419206\n:link: Link: http://discord.gg/AHyrjCm\n**~~= = = = = = = = = = = = = == = = = =~~**', '.\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 88 members!\n:credit_card: ID: 439448228165844993\n:link: Link: http://discord.gg/hHbhyR2\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Welcome To The VinternoZ Community.A Gaming Community Owned by VinternoZ#3843.Play,Make Friends And have fun!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:busts_in_silhouette: 21 members!\n:credit_card: ID: 441652820148748335\n:link: Link: http://discord.gg/akJ4Hcs\n**~~= = = = = = = = = = = = = == = = = =~~**', "ad!setup <#435392629769764864>  welcome everyone to World of Music A server of music If u like music u will like this server and i'm hoping for it to get more active when some of you join i need a couple more staff who will be active and not lazy\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: World of Music\n:busts_in_silhouette: 85 members!\n:credit_card: ID: 427289292692258826\n:link: Link: http://discord.gg/997ZeeT\n**~~= = = = = = = = = = = = = == = = = =~~**", "Thanks for checking out Five Star Roleplay! We are a roleplaying community based on the popular GTA5 modification FiveM! Join us if you're looking for a cool gaming community!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Five Star Roleplay\n:busts_in_silhouette: 44 members!\n:credit_card: ID: 439526724854743040\n:link: Link: http://discord.gg/4bP6xjf\n**~~= = = = = = = = = = = = = == = = = =~~**", "Do you search for cool bots?  (like game bots, verification bots). If yes that's the right place for you! Join and enjoy!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: The Bot Farms\n:busts_in_silhouette: 81 members!\n:credit_card: ID: 401126058243522560\n:link: Link: http://discord.gg/PU2HtW7\n**~~= = = = = = = = = = = = = == = = = =~~**", '🍪 Friendly Members 🍪 \n🎶 Voice and Music Room 🎶 \n⚔  Roleplaying ⚔ \n🐹  Uniques Roles 🐹 \n☀  Leveling sysem 🌕\n🍆 Hentai channels (verified) 🍑 \n🔨  Events coming soon! 🔨\n🆕 Building more and improving! 🆕\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Role play and Hentai Gods\n:busts_in_silhouette: 25 members!\n:credit_card: ID: 388498690081423370\n:link: Link: http://discord.gg/ej9uFF3\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Wanna have fun with bots? JOIN!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: BOT Playplace and Leisure Lounge OFFICIAL(NTRS)\n:busts_in_silhouette: 56 members!\n:credit_card: ID: 337458654682808320\n:link: Link: http://discord.gg/hQtBY2s\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Special V.I.P Community Super Chilling server\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: :BattleGaming=Hurricane G a m e r s:\n:busts_in_silhouette: 59 members!\n:credit_card: ID: 439033705693184002\n:link: Link: http://discord.gg/dK92PdW\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Looking for a developing community? Well look no more! Arce Deving Community offers you to get help from other users and meet new friends! Join and see the magic!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Arce Deving Community\n:busts_in_silhouette: 12 members!\n:credit_card: ID: 444516771794255892\n:link: Link: http://discord.gg/AWgAMYY\n**~~= = = = = = = = = = = = = == = = = =~~**', '**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n__**~~====================~~**__\n❄ CHILL PEOPLE ❄ \n💯 TONS OF MEMES 💯 \n🌌 ANIME CHANNELS 🌌 \n🕹 GAMING CHANNELS 🕹 \n🔞 NSFW CHANNELS 🔞 \n🙂 VENTING AND ADVICE CHANNELS 🙂 \n💻 PROGRAMMING CHANNELS 💻 \n🛡 CLEAN CHATS 🛡 \n🌐 RARE everyone AND here TAGS 🌐 \n🎁 EVENTS AND 24/7 GIVEAWAYS 🎁 \n👥 PARTNERSHIPS 👥 \n🤖 FUN BOTS 🤖 \n🗺 SPECIAL ADVERTISEMENTS FOR FREE 🗺 \n📦 AND A LOT MORE 📦 \n__**~~====================~~**__\n**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: The Realm Of Darkness\n:busts_in_silhouette: 383 members!\n:credit_card: ID: 414089074870321153\n:link: Link: http://discord.gg/uW5whT5\n**~~= = = = = = = = = = = = = == = = = =~~**', 'Join my discord please\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: THE SQUAD\n:busts_in_silhouette: 34 members!\n:credit_card: ID: 441712376358895617\n:link: Link: http://discord.gg/U7Yejx7\n**~~= = = = = = = = = = = = = == = = = =~~**', 'game\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Virtual Junkies Land\n:busts_in_silhouette: 13 members!\n:credit_card: ID: 440314931212976128\n:link: Link: http://discord.gg/dqFkeRK\n**~~= = = = = = = = = = = = = == = = = =~~**', "Special server let's try to get up to 100 members and make it active last old server I had almost 100 member until someone ruined it but it will not happen again join\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: The Community Hurricanes 🌀\n:busts_in_silhouette: 9 members!\n:credit_card: ID: 445766228594917407\n:link: Link: http://discord.gg/AsMVSvT\n**~~= = = = = = = = = = = = = == = = = =~~**", '🍑HENTAI HEAVEN🍆\n\n |WARNING]\n🚫 WE DO NOT ACCEPT USERS UNDER THE AGE OF 16 🚫\n\n👪 Growing fast and strong 👪 🎉 Giveaways all the time :tada\n💦Tons of nsfw and lots of hentai, porn, sex, and nudes and lots more💦\n🛡Active chat🛡\n🤝 We Partner with everyone 🤝\n\n[Thanks! We hope to see you here!]\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: Hentai Heaven\n:busts_in_silhouette: 1471 members!\n:credit_card: ID: 442108025935888385\n:link: Link: http://discord.gg/s3MhWQm\n**~~= = = = = = = = = = = = = == = = = =~~**', ':peach:HENTAI HEAVEN:eggplant:\n\n |WARNING]\n:no_entry_sign: WE DO NOT ACCEPT USERS UNDER THE\nAGE OF 16 :no_entry_sign:\n \n:family: Growing fast and strong :family:\n :tada: Giveaways all the time :tada\n:sweat_drops:Tons of nsfw and lots of hentai, porn, sex, and nudes and lots more:sweat_drops:\n:shield:Active chat:shield:\n:handshake: We Partner with everyone :handshake:\n \n[Thanks! We hope to see you here!]\n  \n= = = = = = = = = = = = = == = = = =\n:label: Name: Hentai Heaven\n:busts_in_silhouette: 1471 members!\n:credit_card: ID: 442108025935888385\n:link: Link:\nhttp://discord.gg/s3MhWQm\n= = = = = = = = = = = = = == = = = =', "Do you search for cool bots?  (like game bots, verification bots). If yes that's the right place for you! Join and enjoy!\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: The Bot Farms\n:busts_in_silhouette: 90 members!\n:credit_card: ID: 401126058243522560\n:link: Link: http://discord.gg/nw8Hpj5\n**~~= = = = = = = = = = = = = == = = = =~~**"]
 
 special_servers_msgs = ['**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n__**~~====================~~**__\n❄ CHILL PEOPLE ❄ \n💯 TONS OF MEMES 💯 \n🌌 ANIME CHANNELS 🌌 \n🕹 GAMING CHANNELS 🕹 \n🔞 NSFW CHANNELS 🔞 \n🙂 VENTING AND ADVICE CHANNELS 🙂 \n💻 PROGRAMMING CHANNELS 💻 \n🛡 CLEAN CHATS 🛡 \n🌐 RARE everyone AND here TAGS 🌐 \n🎁 EVENTS AND 24/7 GIVEAWAYS 🎁 \n👥 PARTNERSHIPS 👥 \n🤖 FUN BOTS 🤖 \n🗺 SPECIAL ADVERTISEMENTS FOR FREE 🗺 \n📦 AND A LOT MORE 📦 \n__**~~====================~~**__\n**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n**__~~`>>>>>>>>>>×××<<<<<<<<<<`~~__**\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Name: The Realm Of Darkness\n:busts_in_silhouette: 383 members!\n:credit_card: ID: 414089074870321153\n:link: Link: http://discord.gg/uW5whT5\n**~~= = = = = = = = = = = = = == = = = =~~**']
 
-servers_links = ['http://discord.gg/s3MhWQm', 'http://discord.gg/DkPFrBg', 'http://discord.gg/UX52RQb', 'http://discord.gg/Zcz6nB8', 'http://discord.gg/6qhtWT2', 'http://discord.gg/AHyrjCm', 'http://discord.gg/hHbhyR2', 'http://discord.gg/akJ4Hcs', 'http://discord.gg/pWpUwC9', 'http://discord.gg/6aW4vBQ', 'http://discord.gg/vayR7Tf', 'http://discord.gg/uW5whT5', 'http://discord.gg/Ys768Nj', 'http://discord.gg/U7Yejx7', 'http://discord.gg/dqFkeRK', 'http://discord.gg/AsMVSvT', 'http://discord.gg/s3MhWQm', 'http://discord.gg/n7ZSXSP', 'http://discord.gg/F58PS8R', 'http://discord.gg/cgaF8YU', 'http://discord.gg/rcCus2f', 'http://discord.gg/8NH9S8n']
+servers_links = ['http://discord.gg/s3MhWQm', 'http://discord.gg/DkPFrBg', 'http://discord.gg/UX52RQb', 'http://discord.gg/Zcz6nB8', 'http://discord.gg/6qhtWT2', 'http://discord.gg/AHyrjCm', 'http://discord.gg/hHbhyR2', 'http://discord.gg/akJ4Hcs', 'http://discord.gg/pWpUwC9', 'http://discord.gg/6aW4vBQ', 'http://discord.gg/vayR7Tf', 'http://discord.gg/uW5whT5', 'http://discord.gg/Ys768Nj', 'http://discord.gg/U7Yejx7', 'http://discord.gg/dqFkeRK', 'http://discord.gg/AsMVSvT', 'http://discord.gg/s3MhWQm', 'http://discord.gg/nw8Hpj5']
 special_servers_links = ['https://discord.gg/jN6CcpY']
 
-ignored_servers_ids = ['412201413335056386', '278478326014803968', '288872682492133378', '367417841563074570', '438095161541787648', '426162708484980739', '440652723504021504', '437321903066185729', '440108166789988353', '441003406371454986', '444866585661014016', '443834435620831232', '413458499176235017', '337458654682808320', '440974481905811458', '440314931212976128', '439749890156003328', '439605324593364992', '343820652697878539', '443907495371735042', '433822549273739264', '418893238490103808', '401126058243522560', '395624386075426826', '367836965242011649', '434776674421309441', '412088408463114240', '421435329484947458', '410077580658606081', '390912888954421249', '415719893854322719', '443601722183778324', '413458499176235017', '439538127586066432', '440974481905811458', '439749890156003328', '433822549273739264', '444516771794255892', '441651763792183316', '418893238490103808', '395624386075426826', '401126058243522560', '395624386075426826', '412088408463114240', '421435329484947458', '445966355494338561', '414949377241776148', '410077580658606081', '410247327559843851', '419839275333320704', '441568242335612948', '390912888954421249', '415719893854322719', '323889558594912266', '443601722183778324']
+banned_users_ids = []
 banned_servers_ids = []
 toggled_servers = []
 
@@ -176,7 +175,7 @@ async def autoad():
         try:
             for channel in channels_ids:
                 c = random.randint(0, 10)
-                if c <= 6:
+                if c <= 7:
                     m = random.choice(servers_msgs)
                     embed = discord.Embed(colour=0x00FFF7, description= "")
                     embed.title = ""
@@ -192,7 +191,7 @@ async def autoad():
                 try:
                     dest = client.get_channel(channel)
                     await client.send_message(dest, embed=embed)
-                    if c <= 6:
+                    if c <= 7:
                         nor.append("+1")
                     else:
                         spe.append("+1")
@@ -273,19 +272,20 @@ async def info(ctx):
         author = ctx.message.author
         big = []
         await client.say("Collecting information...")
-        msg = "I'm in currently in `{}` servers!".format(len(client.servers))
+        msg = "Total server count: `{}`".format(len(client.servers))
         for server in client.servers:
             if len(server.members) >= 500:
                 big.append("+1")
             else:
                 print("")
-        msg += "\nI'm in currently in `{}` big servers!".format(len(big))
-        msg += "\nI've saved `{}` links in total!".format(len(servers_links) + len(special_servers_links))
-        msg += "\nI've saved `{}` special links!".format(len(special_servers_links))
-        msg += "\nI'm currently advertising `{}` servers in total!".format(len(servers_ids) + len(special_servers_ids))
-        msg += "\nI'm currently advertising `{}` special servers!".format(len(special_servers_ids))
-        msg += "\nI'm currently ignoring `{}` servers!".format(len(ignored_servers_ids))
-        msg += "\nCurrently there are `{}` bot moderators and `{}` bot administrators!".format(len(bot_mods), len(bot_admins))
+        msg += "\nBig server count: `{}`".format(len(big))
+        msg += "\nBanned servers count: `{}`".format(len(banned_servers_ids))
+        msg += "\nBanned users count: `{}`".format(len(banned_users_ids))
+        msg += "\nTotal link count: `{}`".format(len(servers_links) + len(special_servers_links))
+        msg += "\nSpecial link count: `{}`".format(len(special_servers_links))
+        msg += "\nAdvertising server count: `{}`".format(len(servers_ids) + len(special_servers_ids))
+        msg += "\nAdvertising special server count: `{}`".format(len(special_servers_ids))
+        msg += "\nCommunity server link: https://discord.gg/jN6CcpY"
         await client.say(msg)
 
 # ad!support
@@ -314,43 +314,6 @@ async def support(ctx):
     except:
         await client.say(":octagonal_sign: Make sure the bot has permission to send you DMs!")
 
-# ad!servers
-@client.command(pass_context=True)
-async def servers(ctx):
-    if ctx.message.server.id in banned_servers_ids:
-        await client.say(":no_entry_sign: This server is banned! For more information join the support server and contact a bot moderator (`ad!support`).")
-    else:
-        author = ctx.message.author
-        failed = []
-        msg = "**__Servers that aren't setup:__**"
-        await client.say("Collecting data...")
-        print(">>>SERVERS THAT ARE NOT SETUP<<<")
-        for server in client.servers:
-            if server.id in servers_ids or server.id in special_servers_ids or server.id in ignored_servers_ids:
-                print("")
-            else:
-                try:
-                    links = await client.invites_from(server)
-                    msg += "\n{} `-` {} `-` {}".format(server.name, server.id, links[1])
-                except:
-                    failed.append("+1")
-                try:
-                    print("\n{} - {} - {} - {}\n".format(server.name, server.id, links[1], len(server.members)))
-                except:
-                    try:
-                        print("\n[?] - {} - {} - {}\n".format(server.id, links[1], len(server.members)))
-                    except:
-                        print("\nError in loading server\n")
-        if len(failed) == 0:
-            msg += "\n \n`Collected links from all servers!`"
-        else:
-            msg += "\n \n`Unable to collect links from {} servers!`".format(len(failed))
-        await client.say("Sliding in your DMs...")
-        try:
-            await client.send_message(author, msg)
-        except:
-            await client.say(":octagonal_sign: Error! Either there are too many servers in the list or the bot has no permission to DM you!")
-
 # ad!rnd
 @client.command(pass_context=True)
 async def rnd(ctx):
@@ -358,10 +321,9 @@ async def rnd(ctx):
         await client.say(":no_entry_sign: This server is banned! For more information join the support server and contact a bot moderator (`ad!support`).")
     else:
         author = ctx.message.author
-        choices = ["1", "2"]
-        choice = random.choice(choices)
+        c = random.randint(0, 10)
         msg = "**__Random server:__**"
-        if choice == "1":
+        if c <= 7:
             msg += "\n{}".format(random.choice(servers_links))
         else:
             msg += "\n{}".format(random.choice(special_servers_links))
@@ -399,6 +361,19 @@ async def serverinfo(ctx, target = None):
                     msg += "\nToggled: `True`"
                 else:
                     msg += "\nToggled: `False`"
+                if server.id in banned_servers_ids:
+                    msg += "\nBanned: `True`"
+                else:
+                    msg += "\nBanned: `False`"
+                if author.id in bot_mods or author.id in bot_admins:
+                    msg += "\nThe server's invite link will be sent to your DMs!"
+                    try:
+                        links = await client.invites_from(server)
+                        await client.send_message(author, "The server's invite link: {}".format(links[1]))
+                    except:
+                        print("")
+                else:
+                    print("")
                 await client.say(msg)
             except:
                 await client.say(":octagonal_sign: Error in collecting information!\nMake sure the bot has the required permissions.")
@@ -429,6 +404,19 @@ async def serverinfo(ctx, target = None):
                         msg += "\nToggled: `True`"
                     else:
                         msg += "\nToggled: `False`"
+                    if server.id in banned_servers_ids:
+                        msg += "\nBanned: `True`"
+                    else:
+                        msg += "\nBanned: `False`"
+                    if author.id in bot_mods or author.id in bot_admins:
+                        msg += "\nThe server's invite link will be sent to your DMs!"
+                        try:
+                            links = await client.invites_from(server)
+                            await client.send_message(author, "The server's invite link: {}".format(links[1]))
+                        except:
+                            print("")
+                    else:
+                        print("")
                     await client.say(msg)
                 except:
                     await client.say(":octagonal_sign: Error in collecting information!\nMaybe the bot doesn't have the required permissions in that server.")
@@ -521,6 +509,30 @@ async def uptime(ctx):
     await client.say("I've been online for:\n{}".format(msg))
 
 ''' COMMANDS FOR SERVER ADMINS '''
+# ad!scan
+@client.command(pass_context=True)
+async def scan(ctx):
+    author = ctx.message.author
+    server = ctx.message.server
+    if ctx.message.server.id in banned_servers_ids:
+        await client.say(":no_entry_sign: This server is banned! For more information join the support server and contact a bot moderator (`ad!support`).")
+    elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
+        await client.say("Scanning...")
+        banned = []
+        fail = []
+        for user in banned_users_ids:
+            try:
+                await client.http.ban(user, server.id, 0)
+                banned.append("+1")
+            except:
+                fail.append("+1")
+        if len(banned) == 0:
+            await client.say(":octagonal_sign: Didn't ban any users! Make sure the bot has permissions to ban.")
+        else:
+            await client.say("Scanning complete!\nBanned: `{}`\nFailed: `{}`".format(len(banned), len(fail)))
+    else:
+        await client.say(":octagonal_sign: This command can only be used by users who have the `Manage Server` permission and can be bypassed by the bot's staff!")
+
 # ad!setup [channel] [message]
 @client.command(pass_context=True)
 async def setup(ctx, channel: discord.Channel = None, *, args = None):
@@ -911,6 +923,7 @@ async def ban(ctx, option = None, target = None, *, reason = None):
                     for server in client.servers:
                         try:
                             await client.http.ban(target, server.id, 0)
+                            banned_users_ids.append(target)
                             find.append("+1")
                         except:
                             print("")
@@ -991,6 +1004,7 @@ async def unban(ctx, option = None, target = None):
                             user = discord.utils.get(banned_users,id=target)
                             try:
                                 await client.unban(server, user)
+                                banned_users_ids.remove(target)
                                 find.append("+1")
                             except:
                                 print("")
@@ -1127,46 +1141,6 @@ async def reset(ctx, target = None):
                 await client.send_message(cnsl, m)
             except:
                 log += "\n- Server not found!"
-    else:
-        await client.say(":octagonal_sign: This command can only be used by the bot's staff!")
-
-# ad!ignore <server id>
-@client.command(pass_context=True)
-async def ignore(ctx, target = None):
-    author = ctx.message.author
-    if author.id in bot_mods or author.id in bot_admins:
-        if target == None:
-            await client.say(":octagonal_sign: No server given!\n`ad!ignore <server id>`.")
-        else:
-            cnsl = client.get_channel(console_channel)
-            if target in ignored_servers_ids:
-                await client.say("Removing the given ID from the ignored list...")
-                try:
-                    ignored_servers_ids.remove(target)
-                    await client.say("Removed! Now I am no longer ignoring the server with the following ID: {}".format(target))
-                    msg = "```diff"
-                    msg += "\n- IGNORE (del) -"
-                    msg += "\n+ Author: {} - {}".format(author, author.id)
-                    msg += "\n+ From: {} - {}".format(ctx.message.server.name, ctx.message.server.id)
-                    msg += "\n+ Target: {}".format(target)
-                    msg += "\n```"
-                    await client.send_message(cnsl, msg)
-                except:
-                    await client.say("Unable to un-ignore server!")
-            else:
-                await client.say("Adding the given ID to the ignored list...")
-                try:
-                    ignored_servers_ids.append(target)
-                    await client.say("Added! Now I am ignoring the server with the following ID: {}".format(target))
-                    msg = "```diff"
-                    msg += "\n- IGNORE (add) -"
-                    msg += "\n+ Author: {} - {}".format(author, author.id)
-                    msg += "\n+ From: {} - {}".format(ctx.message.server.name, ctx.message.server.id)
-                    msg += "\n+ Target: {}".format(target)
-                    msg += "\n```"
-                    await client.send_message(cnsl, msg)
-                except:
-                    await client.say("Unable to ignore server!")
     else:
         await client.say(":octagonal_sign: This command can only be used by the bot's staff!")
 
@@ -1374,7 +1348,7 @@ async def announce(ctx, *, args = None):
                                     embed.set_image(url="{}".format(announcement_img))
                                     embed.set_footer(text=footer_text)
                                     embed.add_field(name="announcement", value="{}\n \n**~~= = = = = = = = = = = = = == = = = =~~**\n:label: Message by: {} - {}\n:arrows_counterclockwise: Position: {}/{}\n**~~= = = = = = = = = = = = = == = = = =~~**".format(args, author, author.id, len(pos), len(channels_ids)))
-                                    await client.send_message(dest, "<@{}>".format(server.owner.id), embed=embed)
+                                    await client.send_message(dest, embed=embed)
                                     done.append("+1")
                                 except:
                                     print("")
@@ -1408,7 +1382,7 @@ async def force(ctx):
         try:
             for channel in channels_ids:
                 c = random.randint(0, 10)
-                if c <= 6:
+                if c <= 7:
                     m = random.choice(servers_msgs)
                     embed = discord.Embed(colour=0x00FFF7, description= "")
                     embed.title = ""
@@ -1424,7 +1398,7 @@ async def force(ctx):
                 try:
                     dest = client.get_channel(channel)
                     await client.send_message(dest, embed=embed)
-                    if c <= 6:
+                    if c <= 7:
                         nor.append("+1")
                     else:
                         spe.append("+1")
