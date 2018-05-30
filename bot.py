@@ -125,7 +125,7 @@ async def on_ready():
     msg += "```"
     await client.send_message(chnl, msg)
     await client.wait_until_ready()
-    await client.change_presence(game=discord.Game(name='ad!help | ad!support'))
+    await client.change_presence(game=discord.Game(name='ad!help | ad!support | UPDATE COMING SOON'))
 
 # SERVER COUNT
 @client.event
