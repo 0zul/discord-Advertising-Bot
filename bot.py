@@ -476,7 +476,8 @@ async def support(ctx, *, args = None):
             await client.say("{} The message cannot be longer than 1000 characters.".format(error_img))
         else:
             await client.say("Sending... <a:typing:393848431413559296>")
-            msg = "```diff"
+            msg = "@everyone "
+            msg += "```diff"
             msg += "\n- SUPPORT -"
             msg += "\n+ Author: {} ### {}".format(author, author.id)
             msg += "\n+ From: {} ### {}".format(server.name, server.id)
@@ -485,6 +486,10 @@ async def support(ctx, *, args = None):
             msg += "\n{}".format(args)
             await client.send_message(chnl, msg)
             await client.say("{} Message sent!".format(check_img))
+            try:
+                await client.send_message(author, "{} The support ticket has been sent to the bot's staff. They will reply using this DM once they see the support ticket.".format(check_img))
+            except:
+                await client.say("{} Make sure the bot can send you DMs!".format(error_img))
 
 # ad!info
 @client.command(pass_context=True)
@@ -920,22 +925,6 @@ async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Chann
                         msg += "\n:label: Name: {}".format(server.name)
                         msg += "\n:credit_card: ID: {}".format(server.id)
                         msg += "\n:crown: Owner: {} ### {}".format(server.owner, server.owner.id)
-                        if len(server.members) >= 100:
-                            msg += "\n:busts_in_silhouette: Type: Small (100+ members)"
-                        elif len(server.members) >= 250:
-                            msg += "\n:busts_in_silhouette: Type: Medium (250+ members)"
-                        elif len(server.members) >= 500:
-                            msg += "\n:busts_in_silhouette: Type: Big (500+ members)"
-                        elif len(server.members) >= 750:
-                            msg += "\n:busts_in_silhouette: Type: Very Big (750+ members)"
-                        elif len(server.members) >= 1000:
-                            msg += "\n:busts_in_silhouette: Type: Huge (1000+ members)"
-                        elif len(server.members) >= 5000:
-                            msg += "\n:busts_in_silhouette: Type: Massive (5000+ members)"
-                        elif len(server.members) >= 10000:
-                            msg += "\n:busts_in_silhouette: Type: Enormous (10000+ members)"
-                        else:
-                            msg += "\n:busts_in_silhouette: Type: Very small (100- members)"
                         msg += "\n:link: Link: {}".format(invite.url)
                         msg += "\n**__~~= = = = = = = = = = = = = = = = = = = =~~__**"
                         log += "\n+ Message created!"
@@ -1406,7 +1395,7 @@ async def test(ctx):
                 except:
                     await client.say(log)
                     await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.".format(error_img))
-                
+                invites
         else:
             await client.say("{} The server is not setup!\nYou can set it up with `ad!setup`.\nIf you need any help you can use `ad!support`.".format(error_img))
     else:
@@ -1537,37 +1526,26 @@ async def msg(ctx, option = None, target = None, *, args = None):
                 else:
                     if option == "user":
                         find = []
-                        finish = []
                         await client.say("Searching for user... <a:typing:393848431413559296>")
-                        for s in client.servers:
+                        try:
+                            user = await client.get_user_info(target)
+                            await client.say("{} User found: {}#{}!\nSending message... <a:typing:393848431413559296>".format(check_img, user.name, user.discriminator))
                             try:
-                                user = s.get_member(target)
-                                find.append("+1")
-                                if len(finish) == 0:
-                                    await client.say("{} User found: {}!\nSending message... <a:typing:393848431413559296>".format(check_img, user))
-                                    try:
-                                        await client.send_message(user, "{}\n \n:label: Message sent by: {} ### {}\n`(Advertiser Bot Staff Member)`".format(args, author, author.id))
-                                        await client.say("{} Message sent!".format(check_img))
-                                        msg = "```diff"
-                                        msg += "\n- USER MESSAGE -"
-                                        msg += "\n+ Author: {} ### {}".format(author, author.id)
-                                        msg += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
-                                        msg += "\n+ Target: {} ### {}".format(user, user.id)
-                                        msg += "\n+ Message:"
-                                        msg += "\n```"
-                                        msg += "\n{}".format(args)
-                                        await client.send_message(chnl, msg)
-                                    except:
-                                        await client.say("{} Could not send the message to the user!".format(error_img))
-                                    finish.append("+1")
-                                else:
-                                    print("")
+                                await client.send_message(user, "{}\n \n:label: Message sent by: {} ### {}\n`(Advertiser Bot Staff Member)`".format(args, author, author.id))
+                                await client.say("{} Message sent!".format(check_img))
+                                msg = "```diff"
+                                msg += "\n- USER MESSAGE -"
+                                msg += "\n+ Author: {} ### {}".format(author, author.id)
+                                msg += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
+                                msg += "\n+ Target: {} ### {}".format(user, user.id)
+                                msg += "\n+ Message:"
+                                msg += "\n```"
+                                msg += "\n{}".format(args)
+                                await client.send_message(chnl, msg)
                             except:
-                                print("")
-                        if len(finish) == 0:
+                                await client.say("{} Could not send the message to the user!\nEither the bot has no permission to send DMs to that user or they don't have a mutual server.".format(error_img))
+                        except:
                             await client.say("{} User not found!".format(error_img))
-                        else:
-                            print("")
                     elif option == "server":
                         find = []
                         finish = []
@@ -1916,6 +1894,36 @@ async def reset(ctx, target = None):
                         await client.say("{} Looks like there was an error!\nMake sure the bot has the required permissions in that server!\nFor any help contact a bot administrator.".format(error_img))
             except:
                 await client.say("{} An unknown error has occured!".format(error_img))
+    else:
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
+
+# ad!link <server id>
+@client.command(pass_context=True)
+async def link(ctx, target = None):
+    author = ctx.message.author
+    if author.id in bot_mods or author.id in bot_admins:
+        if target == None:
+            await client.say("{} No server ID given.".format(error_img))
+        else:
+            await client.say("Searching for server... <a:typing:393848431413559296>")
+            a = []
+            for s in client.servers:
+                if s.id == target:
+                    await client.say("{} Server found ( {} )!".format(check_img, s.name))
+                    a.append("+1")
+                    try:
+                        invs = await client.invites_from(s)
+                        await client.say("The server's link is: {}".format(invs[0]))
+                        break
+                    except:
+                        await client.say("{} Unable to collect invites from that server.\nMake sure the bot has the required permissions in that server.".format(error_img))
+                        break
+                else:
+                    print("")
+            if len(a) == 0:
+                await client.say("{} Server not found.\nEither the bot is not in that server or it doesn't have the required permissions.".format(error_img))
+            else:
+                print("")
     else:
         await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
