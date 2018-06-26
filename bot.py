@@ -13,7 +13,7 @@ import re
 Client = discord.Client()
 bot_prefix= "ad!"
 client = commands.Bot(command_prefix=bot_prefix)
-footer_text = "[+]Advertisement Bot[+]"
+footer_text = "[+] Get Advertiser Bot: https://discord.gg/UBh9FpK [+]"
 
 help_msg1 = "```diff"
 help_msg1 += "\n- COMMANDS FOR EVERYONE -"
