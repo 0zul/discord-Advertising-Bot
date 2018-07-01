@@ -1245,7 +1245,7 @@ async def test(ctx):
         if server.id in normal_servers:
             await client.say("Testing... <a:typing:393848431413559296>")
             log = "```diff"
-            log += "\n--- STARTING TEST LOGGER ---"
+            log += "\n--- STARTING TEST LOGGER (NORMAL) ---"
             limit = 100000
             nsm = client.get_channel(normal_servers_msgs_chnl)
             cc = client.get_channel(channels_chnl)
@@ -1262,17 +1262,10 @@ async def test(ctx):
                         async for message in client.logs_from(nsm, limit=limit):
                             if message.content == m:
                                 msgs.append(m)
-                                log += "\n+ Message found 1/2!"
+                                log += "\n+ Message found!"
                                 break
                             else:
                                 print("")
-                    else:
-                        print("")
-                for m in normal_servers_msgs:
-                    a = str(m)
-                    if server.id in a:
-                        log += "\n+ Message found 2/2!"
-                        break
                     else:
                         print("")
                         
@@ -1282,16 +1275,10 @@ async def test(ctx):
                         async for message in client.logs_from(cc, limit=limit):
                             if message.content == c.id:
                                 chnl = c
-                                log += "\n+ Channel found 1/2!"
+                                log += "\n+ Channel found!"
                                 break
                             else:
                                 print("")
-                    else:
-                        print("")
-                for c in server.channels:
-                    if c.id in channels_ids:
-                        log += "\n+ Channel found 2/2!"
-                        break
                     else:
                         print("")
 
@@ -1301,15 +1288,10 @@ async def test(ctx):
                         async for message in client.logs_from(lc, limit=limit):
                             if message.content == c.id:
                                 log_chnl = c
-                                log += "\n+ Log channel found 1/2!"
+                                log += "\n+ Log channel found!"
                                 break
                             else:
                                 print("")
-                    else:
-                        print("")
-                for c in server.channels:
-                    if c.id in log_channels_ids:
-                        log += "\n+ Log channel found 2/2!"
                     else:
                         print("")
                         
@@ -1333,16 +1315,10 @@ async def test(ctx):
                     if link.url in servers_links:
                         async for message in client.logs_from(sl, limit=limit):
                             if message.content == link.url:
-                                log += "\n+ Link found 1/2!"
+                                log += "\n+ Link found!"
                                 break
                             else:
                                 print("")
-                    else:
-                        print("")
-                for link in invites:
-                    if link.url in servers_links:
-                        log += "\n+ Link found 2/2!"
-                        break
                     else:
                         print("")
                 log += "\n= Creating test message..."
@@ -1395,7 +1371,135 @@ async def test(ctx):
                 except:
                     await client.say(log)
                     await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.".format(error_img))
-                invites
+        elif server.id in special_servers:
+            await client.say("Testing... <a:typing:393848431413559296>")
+            log = "```diff"
+            log += "\n--- STARTING TEST LOGGER (SPECIAL) ---"
+            limit = 100000
+            ssm = client.get_channel(special_servers_msgs_chnl)
+            cc = client.get_channel(channels_chnl)
+            lc = client.get_channel(log_channels_chnl)
+            ss = client.get_channel(special_servers_chnl)
+            sl = client.get_channel(servers_links_chnl)
+            ts = client.get_channel(toggled_servers_chnl)
+            msgs = []
+            try:
+                log += "\n= Searching for used message..."
+                for m in special_servers_msgs:
+                    a = str(m)
+                    if server.id in a:
+                        async for message in client.logs_from(ssm, limit=limit):
+                            if message.content == m:
+                                msgs.append(m)
+                                log += "\n+ Message found!"
+                                break
+                            else:
+                                print("")
+                    else:
+                        print("")
+                        
+                log += "\n= Searching for used channel..."
+                for c in server.channels:
+                    if c.id in channels_ids:
+                        async for message in client.logs_from(cc, limit=limit):
+                            if message.content == c.id:
+                                chnl = c
+                                log += "\n+ Channel found!"
+                                break
+                            else:
+                                print("")
+                    else:
+                        print("")
+
+                log += "\n= Searching for log channel..."
+                for c in server.channels:
+                    if c.id in log_channels_ids:
+                        async for message in client.logs_from(lc, limit=limit):
+                            if message.content == c.id:
+                                log_chnl = c
+                                log += "\n+ Log channel found!"
+                                break
+                            else:
+                                print("")
+                    else:
+                        print("")
+                        
+                log += "\n= Searching for server's ID..."
+                if server.id in special_servers:
+                    log += "\n+ Server's ID found 1/2!"
+                    async for message in client.logs_from(ss, limit=limit):
+                        if message.content == server.id:
+                            log += "\n+ Server's ID found 2/2!"
+                            break
+                        else:
+                            print("")
+                else:
+                    log += "\n- Server ID not found!"
+                    
+                log += "\n= Collecting links..."
+                invites = await client.invites_from(server)
+                log += "\n+ Links collected!"
+                log += "\n= Searching for used link..."
+                for link in invites:
+                    if link.url in servers_links:
+                        async for message in client.logs_from(sl, limit=limit):
+                            if message.content == link.url:
+                                log += "\n+ Link found!"
+                                break
+                            else:
+                                print("")
+                    else:
+                        print("")
+                log += "\n= Creating test message..."
+                msg = msgs[0]
+                embed = discord.Embed(colour=0x00FF00, description= "")
+                embed.title = ""
+                embed.set_image(url="{}".format(test_msg_img))
+                embed.set_footer(text=footer_text)
+                embed.add_field(name="test message", value="{}".format(msg))
+                log += "\n+ Message created!"
+                log += "\n= Sending test message..."
+                await client.send_message(chnl, embed=embed)
+                log += "\n+ Test message sent!"
+                log += "\n= Creating test log message..."
+                tl = "```diff"
+                tl += "\n- TEST LOG MESSAGE -"
+                tl += "\n+ {}".format(server.id)
+                found = []
+                for srv in client.servers:
+                    if srv.id == server.id:
+                        found.append("+1")
+                        break
+                    else:
+                        print("")
+                tl += "\n+ {}/{}".format(len(found), len(client.servers))
+                tl += "\n```"
+                embed2 = discord.Embed(colour=0x00FF00, description= "")
+                embed2.title = ""
+                embed2.set_image(url="{}".format(test_msg_img))
+                embed2.set_footer(text=footer_text)
+                embed2.add_field(name="test log message", value="{}".format(tl))
+                log += "\n+ Test log message created!"
+                log += "\n= Sending test log message..."
+                await client.send_message(log_chnl, embed=embed2)
+                log += "\n+ Test log message sent!"
+                log += "\n= Sending results..."
+                log += "\n+ Finished!"
+                log += "\n--- CLOSING SETUP LOGGER ---"
+                log += "\n```"
+                await client.send_message(log_chnl, log)
+                await client.say("{} Everything should be working like it should!\nIf you have any problems you can use `ad!support`.\nThe test log has been sent to <#{}>.".format(check_img, log_chnl.id))
+            except:
+                log += "\n- ^ Error!"
+                log += "\n--- CLOSING TEST LOGGER ---"
+                log += "\n```"
+                try:
+                    chnl = client.get_channel(log_chnls[0])
+                    await client.send_message(chnl, log)
+                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.\nThe test log has been sent to <#{}>.".format(error_img, chnl.id))
+                except:
+                    await client.say(log)
+                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.".format(error_img))
         else:
             await client.say("{} The server is not setup!\nYou can set it up with `ad!setup`.\nIf you need any help you can use `ad!support`.".format(error_img))
     else:
