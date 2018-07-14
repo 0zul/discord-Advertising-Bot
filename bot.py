@@ -245,27 +245,31 @@ async def on_server_remove(server):
         ss = client.get_channel(special_servers_chnl)
         sl = client.get_channel(servers_links_chnl)
         try:
-            invs = await client.invites_from(server)
             o = []
-            for i in invs:
-                if i.url in servers_links:
-                    servers_links.remove(i.url)
-                    o.append(i.url)
+            for i in server_links:
+                a = await client.get_invite(i)
+                s = a.server.id
+                if s == server.id:
+                    servers_links.remove(i)
+                    o.append(i)
+                    print("REMOVED INVITE")
                     break
                 else:
                     print("")
             async for m in client.logs_from(sl):
                 if m.content == o[0]:
                     await client.delete_message(m)
+                    print("REMOVED INVITE 2")
                     break
                 else:
                     print("")
         except:
             print("")
         async for m in client.logs_from(nsm):
-            a = str(m)
+            a = str(m.content)
             if server.id in a:
                 await client.delete_message(m)
+                print("REMOVED MSG")
                 break
             else:
                 print("")
@@ -273,13 +277,15 @@ async def on_server_remove(server):
             a = str(i)
             if server.id in a:
                 normal_servers_msgs.remove(i)
+                print("REMOVED MSG 2")
                 break
             else:
                 print("")
         async for m in client.logs_from(ssm):
-            a = str(m)
+            a = str(m.content)
             if server.id in a:
                 await client.delete_message(m)
+                print("REMOVED SPEC MSG")
                 break
             else:
                 print("")
@@ -287,31 +293,39 @@ async def on_server_remove(server):
             a = str(i)
             if server.id in a:
                 special_servers_msgs.remove(i)
+                print("REMOVED SPEC MSG 2")
                 break
             else:
                 print("")
         async for m in client.logs_from(ns):
-            if m.content == server.id:
+            a = str(m.content)
+            if server.id in a:
                 await client.delete_message(m)
+                print("REMOVED ID")
                 break
             else:
                 print("")
         try:
             normal_servers.remove(server.id)
+            print("REMOVED ID 2")
         except:
             print("")
         async for m in client.logs_from(ss):
-            if m.content == server.id:
+            a = str(m.content)
+            if server.id in a:
                 await client.delete_message(m)
+                print("REMOVED SPEC ID")
                 break
             else:
                 print("")
         try:
             special_servers.remove(server.id)
+            print("REMOVED SPEC ID 2")
         except:
             print("")
     else:
         print("")
+    print("FINISHED")
 
 # AUTO ADVERTISING SYSTEM
 async def autoad():
