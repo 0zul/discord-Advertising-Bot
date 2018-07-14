@@ -891,7 +891,7 @@ async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Chann
                 a += "\n "
                 a += "\n+ Remember the read the bot's rules and TOS (ad!tos)."
                 a += "\n "
-                a += "\n+ If you have any issues with the bot just join the support server and ask for help (ad!support)."
+                a += "\n+ If you have any issues with the bot just use the ad!support command."
                 a += "\n```"
                 await client.say(a)
             elif server.id in normal_servers or server.id in special_servers:
@@ -2190,12 +2190,12 @@ async def announce(ctx, *, args = None):
             fail = []
             pos = []
             try:
-                embed = discord.Embed(colour=0xFF0000, description= "")
-                embed.title = ""
-                embed.set_image(url="{}".format(announcement_img))
-                embed.set_footer(text=footer_text)
                 for c in log_channels_ids:
                     pos.append("+1")
+                    embed = discord.Embed(colour=0xFF0000, description= "")
+                    embed.title = ""
+                    embed.set_image(url="{}".format(announcement_img))
+                    embed.set_footer(text=footer_text)
                     m = "{}".format(args)
                     m += "\n~~__**= = = = = = = = = = = = = = = = = = = =**__~~"
                     m += "\n:label: Message by: `{} ### {}`".format(author, author.id)
