@@ -807,6 +807,7 @@ async def bump(ctx):
         if server.id in normal_servers:
             await client.say("Bumping... <a:typing:393848431413559296>")
             try:
+                bumped_servers.append(server.id)
                 msgs = []
                 found = []
                 sent = []
@@ -830,13 +831,17 @@ async def bump(ctx):
                         sent.append("+1")
                     except:
                         print("")
-                bumped_servers.append(server.id)
                 await client.say("{} The server has been bumped on {}/{} servers!".format(check_img, len(sent), len(found)))
             except:
+                try:
+                    bumped_servers.remove(server.id)
+                except:
+                    print("")
                 await client.say("{} Error in bumping the server!\nFor any help use `ad!support`.".format(error_img))
         elif server.id in special_servers:
             await client.say("Bumping... <a:typing:393848431413559296>")
             try:
+                bumped_servers.append(server.id)
                 msgs = []
                 found = []
                 sent = []
@@ -861,9 +866,12 @@ async def bump(ctx):
                         sent.append("+1")
                     except:
                         print("")
-                bumped_servers.append(server.id)
                 await client.say("{} The server has been bumped on {}/{} servers!".format(check_img, len(sent), len(found)))
             except:
+                try:
+                    bumped_servers.remove(server.id)
+                except:
+                    print("")
                 await client.say("{} Error in bumping the server!\nFor any help use `ad!support`.".format(error_img))
         else:
             await client.say("{} This server is not being advertised. Use `ad!setup` to set it up.".format(error_img))
