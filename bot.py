@@ -483,27 +483,32 @@ async def support(ctx, *, args = None):
     author = ctx.message.author
     server = ctx.message.server
     chnl = client.get_channel(support_chnl)
-    if args == None:
-        await client.say("{} No message given!\nExample: `ad!support I need help with setting up the bot.`.\nThe message cannot be longer than 1000 characters.".format(error_img))
+    if ctx.message.server.id in banned_servers:
+        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+    elif ctx.message.author.id in banned_users:
+        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
     else:
-        if len(str(args)) > 1000:
-            await client.say("{} The message cannot be longer than 1000 characters.".format(error_img))
+        if args == None:
+            await client.say("{} No message given!\nExample: `ad!support I need help with setting up the bot.`.\nThe message cannot be longer than 1000 characters.".format(error_img))
         else:
-            await client.say("Sending... <a:typing:393848431413559296>")
-            msg = "@everyone "
-            msg += "```diff"
-            msg += "\n- SUPPORT -"
-            msg += "\n+ Author: {} ### {}".format(author, author.id)
-            msg += "\n+ From: {} ### {}".format(server.name, server.id)
-            msg += "\n+ Message:"
-            msg += "\n```"
-            msg += "\n{}".format(args)
-            await client.send_message(chnl, msg)
-            await client.say("{} Message sent!".format(check_img))
-            try:
-                await client.send_message(author, "{} The support ticket has been sent to the bot's staff. They will reply using this DM once they see the support ticket.".format(check_img))
-            except:
-                await client.say("{} Make sure the bot can send you DMs!".format(error_img))
+            if len(str(args)) > 1000:
+                await client.say("{} The message cannot be longer than 1000 characters.".format(error_img))
+            else:
+                await client.say("Sending... <a:typing:393848431413559296>")
+                msg = "@everyone "
+                msg += "```diff"
+                msg += "\n- SUPPORT -"
+                msg += "\n+ Author: {} ### {}".format(author, author.id)
+                msg += "\n+ From: {} ### {}".format(server.name, server.id)
+                msg += "\n+ Message:"
+                msg += "\n```"
+                msg += "\n{}".format(args)
+                await client.send_message(chnl, msg)
+                await client.say("{} Message sent!".format(check_img))
+                try:
+                    await client.send_message(author, "{} The support ticket has been sent to the bot's staff. They will reply using this DM once they see the support ticket.".format(check_img))
+                except:
+                    await client.say("{} Make sure the bot can send you DMs!".format(error_img))
 
 # ad!info
 @client.command(pass_context=True)
