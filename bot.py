@@ -218,7 +218,7 @@ async def on_ready():
     msg += "\n```"
     await client.send_message(c, msg)
     await client.wait_until_ready()
-    await client.change_presence(game=discord.Game(name=updating_status))
+    await client.change_presence(game=discord.Game(name=start_status))
     print("==========")
     print("==========")
     print("==========")
