@@ -1658,6 +1658,48 @@ async def toggle(ctx):
         await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 ''' COMMANDS FOR BOT MODERATORS '''
+# ad!check <user/server> <id>
+@client.command(pass_context=True)
+async def check(ctx, option = None, target = None):
+    author = ctx.message.author
+    server = ctx.message.server
+    if option == None or target == None:
+        await client.say("{} Not all arguments were given!\nExamples:\n`ad!check user 412201413335056386`.\n`ad!check server 452865346081128448`.".format(error_img))
+    else:
+        o = []
+        if option == "user":
+            chnl = client.get_channel(banned_users_chnl)
+            async for i in client.logs_from(chnl):
+                a = str(i.content)
+                if target in a:
+                    b = i.content.split(" | ")
+                    await client.say("The user with the ID: `{}` has been banned for `{}`.".format(b[0], b[1]))
+                    o.append("+1")
+                    break
+                else:
+                    print("")
+            if len(o) == 0:
+                await client.say("The user with the ID: `{}` is not banned.".format(target))
+            else:
+                print("")
+        elif option == "server":
+            chnl = client.get_channel(banned_servers_chnl)
+            async for i in client.logs_from(chnl):
+                a = str(i.content)
+                if target in a:
+                    b = i.content.split(" | ")
+                    await client.say("The server with the ID: `{}` has been banned for `{}`.".format(b[0], b[1]))
+                    o.append("+1")
+                    break
+                else:
+                    print("")
+            if len(o) == 0:
+                await client.say("The server with the ID: `{}` is not banned.".format(target))
+            else:
+                print("")
+        else:
+            await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+            
 # ad!msg <user/server> <id> <message>
 @client.command(pass_context=True)
 async def msg(ctx, option = None, target = None, *, args = None):
