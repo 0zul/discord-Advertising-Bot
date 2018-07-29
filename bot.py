@@ -128,6 +128,7 @@ banned_users = []
 banned_servers = []
 toggled_servers = []
 bumped_servers = []
+bumping = []
 
 bot_mods = ['412201413335056386']
 bot_admins = ['412201413335056386']
@@ -806,15 +807,18 @@ async def bug(ctx, *, args = None):
 # ad!bump
 @client.command(pass_context=True)
 async def bump(ctx):
+    server = ctx.message.server
+    author = ctx.message.author
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
         await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+    elif server.id in bumping:
+        await client.say("The server is already being bumped. Please wait.")
     elif ctx.message.server.id in bumped_servers:
         await client.say("{} This server is already bumped. Please try again after the bot restarts (`ad!uptime`).".format(error_img))
     else:
-        server = ctx.message.server
-        author = ctx.message.author
+        bumping.append(server.id)
         if server.id in normal_servers:
             await client.say("Bumping... <a:typing:393848431413559296>")
             try:
@@ -849,6 +853,7 @@ async def bump(ctx):
                 except:
                     print("")
                 await client.say("{} Error in bumping the server!\nFor any help use `ad!support`.".format(error_img))
+            bumping.remove(server.id)
         elif server.id in special_servers:
             await client.say("Bumping... <a:typing:393848431413559296>")
             try:
@@ -884,6 +889,7 @@ async def bump(ctx):
                 except:
                     print("")
                 await client.say("{} Error in bumping the server!\nFor any help use `ad!support`.".format(error_img))
+            bumping.remove(server.id)
         else:
             await client.say("{} This server is not being advertised. Use `ad!setup` to set it up.".format(error_img))
 
