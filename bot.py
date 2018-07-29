@@ -11,7 +11,7 @@ import re
 ''''''
 
 Client = discord.Client()
-bot_prefix= "ad!dev!"
+bot_prefix= "ad!"
 client = commands.Bot(command_prefix=bot_prefix)
 footer_text = "[+]Advertisement Bot[+]"
 
@@ -159,7 +159,7 @@ async def on_ready():
     sl = client.get_channel(servers_links_chnl)
     lc = client.get_channel(log_channels_chnl)
     msg = "```diff"
-    msg += "\n- LOGGED IN (DEV VERSION) -"
+    msg += "\n- LOGGED IN -"
     msg += "\n+ Name: {}".format(client.user.name)
     msg += "\n+ ID: {}".format(client.user.id)
     msg += "\n+ Total server count: {}".format(len(client.servers))
