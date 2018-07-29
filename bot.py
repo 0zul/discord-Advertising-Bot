@@ -11,9 +11,9 @@ import re
 ''''''
 
 Client = discord.Client()
-bot_prefix= "ad!"
+bot_prefix= "ad!dev!"
 client = commands.Bot(command_prefix=bot_prefix)
-footer_text = "[+] Get Advertiser Bot: https://discord.gg/UBh9FpK [+]"
+footer_text = "[+]Advertisement Bot[+]"
 
 help_msg1 = "```diff"
 help_msg1 += "\n- COMMANDS FOR EVERYONE -"
@@ -47,6 +47,7 @@ help_msg3 += "\nad!msg <user/server> <id> <message>\n+ DMs an user or the owner 
 help_msg3 += "\nad!ban <user/server> <id> <reason>\n+ Bans an user from all servers or prevents a server from using the bot."
 help_msg3 += "\nad!unban <user/server> <id>\n+ Unbans an user from all servers or gives access to a server that was banned."
 help_msg3 += "\nad!reset <server id>\n+ Removes a server from all lists."
+help_msg3 += "\nad!link <server id>\n+ Gives you a link to a server."
 help_msg3 += "\n```"
 
 help_msg4 = "```diff"
@@ -85,7 +86,7 @@ special_server_img = "https://i.imgur.com/G5SWYtL.png"
 random_servers_chnl = '450625326943436800'
 console_chnl = '450625267413680148'
 logs_chnl = '450625284664983562'
-reports_users_chnl = '450625233913774080'
+reports_users_chnl = '450625846047145986'
 reports_servers_chnl = '450625596943499264'
 reports_bugs_chnl = '450625543495221248'
 suggestions_chnl = '450625186245378058'
@@ -154,7 +155,7 @@ async def on_ready():
     sl = client.get_channel(servers_links_chnl)
     lc = client.get_channel(log_channels_chnl)
     msg = "```diff"
-    msg += "\n- LOGGED IN -"
+    msg += "\n- LOGGED IN (DEV VERSION) -"
     msg += "\n+ Name: {}".format(client.user.name)
     msg += "\n+ ID: {}".format(client.user.id)
     msg += "\n+ Total server count: {}".format(len(client.servers))
@@ -213,7 +214,7 @@ async def on_ready():
     msg += "\n```"
     await client.send_message(c, msg)
     await client.wait_until_ready()
-    await client.change_presence(game=discord.Game(name=start_status))
+    await client.change_presence(game=discord.Game(name=updating_status))
     print("==========")
     print("==========")
     print("==========")
@@ -461,7 +462,7 @@ async def ping(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         channel = ctx.message.channel
         t1 = time.perf_counter()
@@ -477,6 +478,11 @@ async def ping(ctx):
             msg += "\nThe bot isn't lagging! <:online:313956277808005120>"
         await client.say(msg)
 
+@client.command(pass_context=True)
+async def o(ctx):
+    for i in ctx.message.server.roles:
+        await client.say("{} `-` {}".format(i.name, i.id))
+
 # ad!support <message>
 @client.command(pass_context=True)
 async def support(ctx, *, args = None):
@@ -486,7 +492,7 @@ async def support(ctx, *, args = None):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         if args == None:
             await client.say("{} No message given!\nExample: `ad!support I need help with setting up the bot.`.\nThe message cannot be longer than 1000 characters.".format(error_img))
@@ -516,7 +522,7 @@ async def info(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         big = []
         await client.say("Collecting information... <a:updating:403035325242540032>")
@@ -546,7 +552,7 @@ async def rnd(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         await client.say("**Random server:**\n{}".format(random.choice(servers_links)))
 
@@ -556,7 +562,7 @@ async def serverinfo(ctx, target = None):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         if target == None:
             await client.say("Collecting information... <a:updating:403035325242540032>")
@@ -638,7 +644,7 @@ async def invite(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         await client.say("Here is the link to invite the bot:\n \nhttps://discordapp.com/oauth2/authorize?client_id=439051827384680449&scope=bot&permissions=537259127")
 
@@ -653,7 +659,7 @@ async def suggest(ctx, *, args = None):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         author = ctx.message.author
         server = ctx.message.server
@@ -684,7 +690,7 @@ async def uptime(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         nr_hours = 23 - len(ut_hours)
         nr_minutes = 59 - len(ut_minutes)
@@ -709,7 +715,7 @@ async def report(ctx, option = None, target = None, *, reason = None):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         author = ctx.message.author
         server = ctx.message.server
@@ -772,7 +778,7 @@ async def bug(ctx, *, args = None):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
         if args == None:
             await client.say("{} No message given.\n`ad!bug <message>`.".format(error_img))
@@ -803,7 +809,7 @@ async def bump(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     elif ctx.message.server.id in bumped_servers:
         await client.say("{} This server is already bumped. Please try again after the bot restarts (`ad!uptime`).".format(error_img))
     else:
@@ -882,111 +888,170 @@ async def bump(ctx):
             await client.say("{} This server is not being advertised. Use `ad!setup` to set it up.".format(error_img))
 
 ''' COMMANDS FOR SERVER MANAGERS '''
-# ad!setup [channel] [message]
+# ad!setup [log channel] [channel] [message]
 @client.command(pass_context=True)
-async def setup(ctx, channel: discord.Channel = None, *, args = None):
-    author = ctx.message.author
-    server = ctx.message.server
-    if ctx.message.server.id in banned_servers_ids:
-        await client.say(":no_entry_sign: This server is banned! For more information join the support server and contact a bot moderator (`ad!support`).")
-    elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
-        if channel == None:
-            msg = "**~~=~~** Make sure the bot has the following permissions: `Manage Server`, `Manage Channels`, `Kick Members`, `Ban Members`, `Create Instant Invite`, `Manage Webhooks`, `Read Messages`, `Send Messages`, `Manage Messages`, `Embed Links`, `Attach Files`, `Read Message History`, `Add Reactions`, `Use External Emojis`. The bot should already have these permissions if you use the official invite link (`ad!invite`)."
-            msg += "\n**~~=~~** If you are using a bot to log stuff, make an exception for this bot so it doesn't spam your logs."
-            msg += "\n**~~=~~** Use `ad!setup [channel] [message]`. Replace [channel] with the channel you want the bot to send advertisements to and [message] with the message you want the bot to use. The message cannot be longer than 1000 characters. Do not add any links to the message!"
-            msg += "\n**~~=~~** Once the bot is done setting up, use `ad!test` to check if everything is working correctly."
-            msg += "\n**~~=~~** Remember the read the bot's rules and TOS (`ad!tos`)."
-            msg += "\n**~~=~~** If you have any issues with the bot just join the support server and ask for help (`ad!support`)."
-            await client.say(msg)
-        else:
-            if args == None:
-                await client.say(":octagonal_sign: No message given! Please add the message you want the bot to use to the command.\n`ad!setup [channel] [message]`")
-            else:
-                if server.id in servers_ids or server.id in special_servers_ids:
-                    await client.say(":octagonal_sign: Looks like this server is already being advertised! If you think that this is an error or if you want to re-setup your server, you can use the `ad!unsetup` command.")
-                else:
-                    text = "{}".format(args)
-                    if len(str(text)) > 1000:
-                        await client.say(":octagonal_sign: The message cannot be longer than 1000 characters!")
-                    else:
-                        urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
-                        if len(urls) != 0:
-                            await client.say(":octagonal_sign: Please do not put any links in your message!")
-                        else:
-                            await client.say("Setting up...")
-                            log = "`THIS IS THE BOT'S LOG:`"
-                            log += "\n**Starting logger...**\n```diff"
-                            try:
-                                log += "\n= Trying to get the channel's ID..."
-                                chnl_id = channel.id
-                                log += "\n+ Channel ID found!"
-                                log += "\n= Trying to find the channel using its ID..."
-                                chnl = client.get_channel(chnl_id)
-                                log += "\n+ Channel found!"
-                                log += "\n= Trying to create an invite for the channel..."
-                                invite = await client.create_invite(destination = chnl, xkcd = True, max_uses = 0)
-                                log += "\n+ Invite created!"
-                                log += "\n= Creating message..."
-                                msg = "{}".format(args)
-                                msg += "\n \n**~~= = = = = = = = = = = = = == = = = =~~**"
-                                msg += "\n:label: Name: {}".format(server.name)
-                                msg += "\n:busts_in_silhouette: {} members!".format(len(server.members))
-                                msg += "\n:credit_card: ID: {}".format(server.id)
-                                msg += "\n:link: Link: {}".format(invite)
-                                msg += "\n**~~= = = = = = = = = = = = = == = = = =~~**"
-                                log += "\n+ Message created!"
-                                log += "\n= Trying to convert the message into an embed..."
-                                embed = discord.Embed(colour=0x00FF00, description= "")
-                                embed.title = ""
-                                embed.set_image(url="{}".format(test_msg_img))
-                                embed.set_footer(text=footer_text)
-                                embed.add_field(name="test message", value="{}".format(msg))
-                                log += "\n+ Converting finished!"
-                                log += "\n= Sending test message..."
-                                await client.send_message(chnl, embed=embed)
-                                log += "\n+ Message sent!"
-                                log += "\n= Saving the message to the list..."
-                                servers_msgs.append(msg)
-                                log += "\n+ Message saved!"
-                                log += "\n= Saving the server ID to the list..."
-                                servers_ids.append(server.id)
-                                log += "\n+ Server ID saved!"
-                                log += "\n= Saving the invite to the list..."
-                                servers_links.append(invite.url)
-                                log += "\n+ Invite link saved!"
-                                log += "\n= Saving the channel's ID..."
-                                channels_ids.append(chnl_id)
-                                log += "\n+ Channel ID saved!"
-                                log += "\n= Creating a new message..."
-                                embed1 = discord.Embed(colour=0x0017FF, description= "")
-                                embed1.title = ""
-                                embed1.set_image(url="{}".format(new_server_img))
-                                embed1.set_footer(text=footer_text)
-                                embed1.add_field(name="new server", value="{}".format(msg))
-                                log += "\n+ New message created!"
-                                log += "\n= Trying to send a message about the server to all other servers..."
-                                s = []
-                                for c in channels_ids:
-                                    try:
-                                        c1 = client.get_channel(c)
-                                        await client.send_message(c1, embed=embed1)
-                                        s.append("+1")
-                                    except:
-                                        print("")
-                                log += "\n+ Sent message to {}/{} channels!".format(len(s), len(channels_ids))
-                                log += "\n= Sending results..."
-                                log += "\n+ Finished!"
-                                log += "\n```\n**Closing logger...**"
-                                await client.say(log)
-                                await client.say(":white_check_mark: This server is good to go! You can do `ad!test` anytime to test if your server is setup correctly.")
-                            except:
-                                log += "\n- ^ Error!"
-                                log += "\n= Sending results..."
-                                log += "\n+ Results sent!\n```\n**Closing logger...**"
-                                await client.say(log)
-                                await client.say(":octagonal_sign: Looks like there has been an error! Make sure the bot has the required permissions. For more help use `ad!setup`.\nUse `ad!unsetup` and try again.")
+async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Channel = None, *, message = None):
+    if ctx.message.server.id in banned_servers:
+        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+    elif ctx.message.author.id in banned_users:
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     else:
-        await client.say(":octagonal_sign: This command can only be used by users who have the `Manage Server` permission and can be bypassed by the bot's staff!")
+        author = ctx.message.author
+        server = ctx.message.server
+        if author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
+            if channel == None or message == None or log_channel == None:
+                a = "```diff"
+                a += "\n- SETUP GUIDE -"
+                a += "\n+ Command: ad!setup <log channel> <ad channel> <message>"
+                a += "\n"
+                a += "\n+ Make sure the bot has the following permissions: Manage Server, Manage Channels, Kick Members, Ban Members, Create Instant Invite, Manage Webhooks, Read Messages, Send Messages, Manage Messages, Embed Links, Attach Files, Read Message History, Add Reactions, Use External Emojis."
+                a += "\n "
+                a += "\n+ The bot should already have these permissions if you use the official invite link (ad!invite)."
+                a += "\n "
+                a += "\n+ Create 2 channels for the bot. One where the bot will send advertisements and another one where the bot logs stuff. You can also use already existing channels, but its recommended to create a separate channel for the bot to log stuff in."
+                a += "\n "
+                a += "\n+ If you are using a bot to log stuff, make an exception for this bot so it doesn't spam your logs."
+                a += "\n "
+                a += "\n+ Use ad!setup [log channel] [channel] [message]."
+                a += "\n "
+                a += "\n+ log channel - The channel where the bot will send logs, announcements etc."
+                a += "\n "
+                a += "\n+ channel - The channel where the bot will send advertisements."
+                a += "\n "
+                a += "\n+ message - The message you want the bot to use when advertising your server. The message cannot be longer than 500 characters."
+                a += "\n "
+                a += "\n+ Once the bot is done setting up, use ad!test to check if everything is working correctly."
+                a += "\n "
+                a += "\n+ Remember the read the bot's rules and TOS (ad!tos)."
+                a += "\n "
+                a += "\n+ If you have any issues with the bot just use the ad!support command."
+                a += "\n```"
+                await client.say(a)
+            elif server.id in normal_servers or server.id in special_servers:
+                await client.say("{} This server is already being advertised.\nYou can use `ad!unsetup` to un-set it up.".format(error_img))
+            else:
+                if len(str(message)) > 500:
+                    await client.say("{} The message cannot be longer than 500 characters.".format(error_img))
+                else:
+                    urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', message)
+                    if len(urls) != 0:
+                        await client.say("{} Please do not put any links in your message!".format(error_img))
+                    else:
+                        await client.say("Starting setup... <a:typing:393848431413559296>")
+                        log = "```diff"
+                        log += "\n--- STARTING SETUP LOGGER ---"
+                        try:
+                            log += "\n= Trying to get the log channel's ID..."
+                            log_chnl_id = log_channel.id
+                            log += "\n+ Found the log channel's ID!"
+                            log += "\n= Trying to find the log channel using its ID..."
+                            log_chnl = client.get_channel(log_chnl_id)
+                            log += "\n+ The log channel has been found!"
+                            log += "\n= Trying to get the channel's ID..."
+                            chnl_id = channel.id
+                            log += "\n+ Found the channel's ID!"
+                            log += "\n= Trying to find the channel using its ID..."
+                            chnl = client.get_channel(chnl_id)
+                            log += "\n+ The channel has been found!"
+                            log += "\n= Trying to create an invite link for the channel..."
+                            invite = await client.create_invite(destination = chnl, xkcd = True, max_uses = 0)
+                            log += "\n+ Invite link created!"
+                            log += "\n= Creating message..."
+                            msg = "{}".format(message)
+                            msg += "\n**__~~= = = = = = = = = = = = = = = = = = = =~~__**"
+                            msg += "\n:label: Name: {}".format(server.name)
+                            msg += "\n:credit_card: ID: {}".format(server.id)
+                            msg += "\n:crown: Owner: {} ### {}".format(server.owner, server.owner.id)
+                            msg += "\n:link: Link: {}".format(invite.url)
+                            msg += "\n**__~~= = = = = = = = = = = = = = = = = = = =~~__**"
+                            log += "\n+ Message created!"
+                            log += "\n= Trying to convert the message into an embed..."
+                            embed = discord.Embed(colour=0x00FF00, description= "")
+                            embed.title = ""
+                            embed.set_image(url="{}".format(test_msg_img))
+                            embed.set_footer(text=footer_text)
+                            embed.add_field(name="test message", value="{}".format(msg))
+                            log += "\n+ Converting finished!"
+                            log += "\n= Sending test message..."
+                            await client.send_message(chnl, embed=embed)
+                            log += "\n+ Test message sent!"
+                            log += "\n= Creating log message..."
+                            tl = "```diff"
+                            tl += "\n- TEST LOG MESSAGE -"
+                            tl += "\n+ {}".format(server.id)
+                            found = []
+                            for srv in client.servers:
+                                if srv.id == server.id:
+                                    found.append("+1")
+                                    break
+                                else:
+                                    print("")
+                            tl += "\n+ {}/{}".format(len(found), len(client.servers))
+                            tl += "\n```"
+                            log += "\n+ Log message created!"
+                            log += "\n= Trying to convert the log message into an embed..."
+                            embed2 = discord.Embed(colour=0x00FF00, description= "")
+                            embed2.title = ""
+                            embed2.set_image(url="{}".format(test_msg_img))
+                            embed2.set_footer(text=footer_text)
+                            embed2.add_field(name="test log message", value="{}".format(tl)) 
+                            log += "\n+ Converting finished!"
+                            log += "\n= Sending test log..."
+                            await client.send_message(log_chnl, embed=embed2)
+                            log += "\n+ Test log sent!"
+                            log += "\n= Saving the log channel 1/2..."
+                            log_channels_ids.append(log_chnl_id)
+                            log += "\n+ Saved 1/2!"
+                            log += "\n= Saving the log channel 2/2..."
+                            lc = client.get_channel(log_channels_chnl)
+                            await client.send_message(lc, log_chnl_id)
+                            log += "\n+ Saved 2/2!"
+                            log += "\n= Saving the channel 1/2..."
+                            channels_ids.append(chnl_id)
+                            log += "\n+ Saved 1/2!"
+                            log += "\n= Saving the channel 2/2..."
+                            c = client.get_channel(channels_chnl)
+                            await client.send_message(c, chnl_id)
+                            log += "\n+ Saved 2/2!"
+                            log += "\n= Saving the invite link 1/2..."
+                            servers_links.append(invite.url)
+                            log += "\n+ Saved 1/2!"
+                            log += "\n= Saving the invite link 2/2..."
+                            sl = client.get_channel(servers_links_chnl)
+                            await client.send_message(sl, invite.url)
+                            log += "\n+ Saved 2/2!"
+                            log += "\n= Saving the message 1/2..."
+                            normal_servers_msgs.append(msg)
+                            log += "\n+ Saved 1/2!"
+                            log += "\n= Saving the message 2/2..."
+                            nsm = client.get_channel(normal_servers_msgs_chnl)
+                            await client.send_message(nsm, msg)
+                            log += "\n+ Saved 2/2!"
+                            log += "\n= Saving the server's ID 1/2..."
+                            normal_servers.append(server.id)
+                            log += "\n+ Saved 1/2!"
+                            log += "\n= Saving the server's ID 2/2..."
+                            ns = client.get_channel(normal_servers_chnl)
+                            await client.send_message(ns, server.id)
+                            log += "\n+ Saved 2/2!"
+                            log += "\n= Sending results..."
+                            log += "\n+ Finished!"
+                            log += "\n--- CLOSING SETUP LOGGER ---"
+                            log += "\n```"
+                            await client.send_message(log_chnl, log)
+                            await client.say("{} Everything should be working now and your server should be advertised.\nYou can use `ad!test` to check if everything is working and you can use `ad!bump` to force the bot to advertise your server.\nThe setup log has been sent to <#{}>.\nIf you have any questions or need any help, just use `ad!support`.\nThank you for using this bot! :grinning: ".format(check_img, log_chnl_id))
+                        except:
+                            log += "\n- ^ Error!"
+                            log += "\n--- CLOSING SETUP LOGGER ---"
+                            log += "\n```"
+                            try:
+                                await client.send_message(log_chnl, log)
+                                await client.say("{} Looks like an error occured!\nThe setup log has been sent to <#{}>.\nMake sure the bot has the required permissions.\nYou can use `ad!unsetup` and try again.\nIf you need any help, just use `ad!support`.".format(error_img, log_chnl_id))
+                            except:
+                                await client.say(log)
+                                await client.say("{} Looks like an error occured!\nMake sure the bot has the required permissions.\nYou can use `ad!unsetup` and try again.\nIf you need any help, just use `ad!support`.".format(error_img))
+        else:
+            await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 # ad!unsetup
 @client.command(pass_context=True)
@@ -996,7 +1061,7 @@ async def unsetup(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         if server.id in normal_servers:
             await client.say("Removing data... <a:typing:393848431413559296>")
@@ -1212,7 +1277,7 @@ async def test(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         if server.id in normal_servers:
             await client.say("Testing... <a:typing:393848431413559296>")
@@ -1485,7 +1550,7 @@ async def scan(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         await client.say("Scanning... <a:typing:393848431413559296>")
         ban = []
@@ -1528,7 +1593,7 @@ async def toggle(ctx):
     if ctx.message.server.id in banned_servers:
         await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the blacklist and cannot use the bot.")
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         await client.say("Toggling... <a:typing:393848431413559296>")
         if server.id in toggled_servers:
@@ -1679,37 +1744,14 @@ async def ban(ctx, option = None, target = None, *, reason = None):
                     if target in banned_users:
                         await client.say("{} This user is already banned!".format(error_img))
                     else:
-                        await client.say("Banning user... <a:typing:393848431413559296>")
-                        await client.send_message(chnl, target)
+                        await client.send_message(chnl, "{} | {}".format(target, reason))
                         banned_users.append(target)
-                        a = []
-                        f = []
-                        for server in client.servers:
-                            for c in server.channels:
-                                if c.id in log_channels_ids:
-                                    try:
-                                        msg = "```diff"
-                                        msg += "\n- BAN -"
-                                        msg += "\n+ Banned user's ID: {}".format(target)
-                                        msg += "\n+ Banned by: {} ### {}".format(author, author.id)
-                                        msg += "\n+ You can use 'ad!scan' to ban all the black listed users."
-                                        msg += "\n+ Reason:"
-                                        msg += "\n```"
-                                        msg += "\n{}".format(reason)
-                                        await client.send_message(c, msg)
-                                        a.append("+1")
-                                    except:
-                                        f.append("+1")
-                                    break
-                                else:
-                                    print("")
-                        await client.say("{} Finished!\nCheck the console for information.".format(check_img))
+                        await client.say("{} **{}** has been added to the ban list!".format(check_img, target))
                         log = "```diff"
                         log += "\n- USER BAN -"
                         log += "\n+ Author: {} ### {}".format(author, author.id)
                         log += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
-                        log += "\n+ Notified: {}/{}".format(len(a), len(client.servers))
-                        log += "\n+ Failed: {}/{}".format(len(f), len(client.servers))
+                        log += "\n+ Target: {}".format(target)
                         log += "\n+ Reason:"
                         log += "\n```"
                         log += "\n{}".format(reason)
@@ -1718,36 +1760,14 @@ async def ban(ctx, option = None, target = None, *, reason = None):
                     if target in banned_servers:
                         await client.say("{} This server is already banned!".format(error_img))
                     else:
-                        await client.say("Banning server... <a:typing:393848431413559296>")
-                        await client.send_message(chnl2, target)
+                        await client.send_message(chnl2, "{} | {}".format(target, reason))
                         banned_servers.append(target)
-                        a = []
-                        f = []
-                        for server in client.servers:
-                            for c in server.channels:
-                                if c.id in log_channels_ids:
-                                    try:
-                                        msg = "```diff"
-                                        msg += "\n- BAN -"
-                                        msg += "\n+ Banned server's ID: {}".format(target)
-                                        msg += "\n+ Banned by: {} ### {}".format(author, author.id)
-                                        msg += "\n+ Reason:"
-                                        msg += "\n```"
-                                        msg += "\n{}".format(reason)
-                                        await client.send_message(c, msg)
-                                        a.append("+1")
-                                        break
-                                    except:
-                                        f.append("+1")
-                                else:
-                                    print("")
-                        await client.say("{} Finished!\nCheck the console for information.".format(check_img))
+                        await client.say("{} **{}** has been added to the ban list!".format(check_img, target))
                         log = "```diff"
                         log += "\n- SERVER BAN -"
                         log += "\n+ Author: {} ### {}".format(author, author.id)
                         log += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
-                        log += "\n+ Notified: {}/{}".format(len(a), len(client.servers))
-                        log += "\n+ Failed: {}/{}".format(len(f), len(client.servers))
+                        log += "\n+ Target: {}".format(target)
                         log += "\n+ Reason:"
                         log += "\n```"
                         log += "\n{}".format(reason)
@@ -1771,10 +1791,10 @@ async def unban(ctx, option = None, target = None):
             await client.say("{} Not all arguments were given!\nExamples:\n`ad!unban user 412201413335056386`.\n`ad!unban server 440108166789988353`.".format(error_img))
         else:
             if option == "user":
-                await client.say("Unbanning... <a:typing:393848431413559296>")
                 try:
                     async for message in client.logs_from(chnl):
-                        if message.content == target:
+                        a = str(message.content)
+                        if target in a:
                             await client.delete_message(message)
                             break
                         else:
@@ -1794,10 +1814,10 @@ async def unban(ctx, option = None, target = None):
                 except:
                     await client.say("{} There was an error while trying to unban that user!".format(error_img))
             elif option == "server":
-                await client.say("Unbanning... <a:typing:393848431413559296>")
                 try:
                     async for message in client.logs_from(chnl2):
-                        if message.content == target:
+                        a = str(message.content)
+                        if target in a:
                             await client.delete_message(message)
                             break
                         else:
@@ -2549,6 +2569,17 @@ async def say(ctx, *, args = None):
                 await client.say("{}".format(args))
     else:
         await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
+
+@client.command(pass_context=True)
+async def ooooo(ctx, *, args = None):
+    a = []
+    for s in client.servers:
+        try:
+            await client.send_message(s.owner, args)
+            a.append("+1")
+        except:
+            print("")
+    await client.say("{}/{}".format(len(a), len(client.servers)))
 
 # TURNS THE BOT ON
 client.run(os.environ['BOT_TOKEN'])
