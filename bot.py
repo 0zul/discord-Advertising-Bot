@@ -81,10 +81,11 @@ tos_msg += "\n**~~=~~** Breaking any of these rules will get you and/or your ser
 tos_msg += "\n "
 tos_msg += "\n**__You can use `ad!help` to see a list of commands!__**"
 
-test_msg_img = "https://i.imgur.com/3zHcRpt.png"
-announcement_img = "https://i.imgur.com/2m9gzUm.png"
-new_server_img = "https://i.imgur.com/79FgWOd.png"
-special_server_img = "https://i.imgur.com/G5SWYtL.png"
+test_msg_img = "https://i.imgur.com/Cln6BAr.png"
+announcement_img = "https://i.imgur.com/4vxwaYD.png"
+new_server_img = "https://i.imgur.com/kA6ZEOQ.png"
+special_server_img = "https://i.imgur.com/ZFU25Iy.png"
+reminder_img = "https://i.imgur.com/qKDSpFL.png"
 random_servers_chnl = '450625326943436800'
 console_chnl = '450625267413680148'
 logs_chnl = '450625284664983562'
