@@ -48,6 +48,8 @@ help_msg3 += "\nad!ban <user/server> <id> <reason>\n+ Bans an user from all serv
 help_msg3 += "\nad!unban <user/server> <id>\n+ Unbans an user from all servers or gives access to a server that was banned."
 help_msg3 += "\nad!reset <server id>\n+ Removes a server from all lists."
 help_msg3 += "\nad!link <server id>\n+ Gives you a link to a server."
+help_msg3 += "\nad!check <user/server> <id>\n+ Checks if a server or user is banned and why."
+help_msg3 += "\nad!remind\n+ Sends a reminder to all servers to use ad!scan. Use this only after banning someone."
 help_msg3 += "\n```"
 
 help_msg4 = "```diff"
@@ -1658,47 +1660,85 @@ async def toggle(ctx):
         await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 ''' COMMANDS FOR BOT MODERATORS '''
+# ad!remind
+@client.command(pass_context=True)
+async def remind(ctx):
+    author = ctx.message.author
+    if author.id in bot_mods or author.id in bot_admins:
+        o = []
+        await client.say("Sending reminders...<a:typing:393848431413559296>")
+        for c in log_channels_ids:
+            try:
+                embed = discord.Embed(colour=0x8D50D9, description= "")
+                embed.title = ""
+                embed.set_image(url="{}".format(reminder_img))
+                embed.set_footer(text=footer_text)
+                m = "***__Remember to use `ad!scan` to ban all the users from Advertiser Bot's ban list.__***"
+                m += "\n*These users and servers are banned for either breaking discord or ADbot's TOS.*"
+                m += "\n "
+                m += "\nUsers on the ban list: `{}`".format(len(banned_users))
+                m += "\nServers on the ban list: `{}`".format(len(banned_servers))
+                m += "\n "
+                m += "\n`-` Reminder sent by: **{} ### {}**".format(author, author.id)
+                m += "\n`-` Position: {}/{}".format(len(o), len(client.servers))
+                embed.add_field(name="reminder", value=m)
+                try:
+                    dest = client.get_channel(c)
+                    await client.send_message(dest, embed=embed)
+                    print("sent")
+                except:
+                    print("pass 1")
+                o.append("+1")
+            except:
+                print("pass 2")
+        await client.say("{} Finished!".format(check_img))
+    else:
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
+
 # ad!check <user/server> <id>
 @client.command(pass_context=True)
 async def check(ctx, option = None, target = None):
     author = ctx.message.author
     server = ctx.message.server
-    if option == None or target == None:
-        await client.say("{} Not all arguments were given!\nExamples:\n`ad!check user 412201413335056386`.\n`ad!check server 452865346081128448`.".format(error_img))
-    else:
-        o = []
-        if option == "user":
-            chnl = client.get_channel(banned_users_chnl)
-            async for i in client.logs_from(chnl):
-                a = str(i.content)
-                if target in a:
-                    b = i.content.split(" | ")
-                    await client.say("The user with the ID: `{}` has been banned for `{}`.".format(b[0], b[1]))
-                    o.append("+1")
-                    break
-                else:
-                    print("")
-            if len(o) == 0:
-                await client.say("The user with the ID: `{}` is not banned.".format(target))
-            else:
-                print("")
-        elif option == "server":
-            chnl = client.get_channel(banned_servers_chnl)
-            async for i in client.logs_from(chnl):
-                a = str(i.content)
-                if target in a:
-                    b = i.content.split(" | ")
-                    await client.say("The server with the ID: `{}` has been banned for `{}`.".format(b[0], b[1]))
-                    o.append("+1")
-                    break
-                else:
-                    print("")
-            if len(o) == 0:
-                await client.say("The server with the ID: `{}` is not banned.".format(target))
-            else:
-                print("")
+    if author.id in bot_mods or author.id in bot_admins:
+        if option == None or target == None:
+            await client.say("{} Not all arguments were given!\nExamples:\n`ad!check user 412201413335056386`.\n`ad!check server 452865346081128448`.".format(error_img))
         else:
-            await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+            o = []
+            if option == "user":
+                chnl = client.get_channel(banned_users_chnl)
+                async for i in client.logs_from(chnl):
+                    a = str(i.content)
+                    if target in a:
+                        b = i.content.split(" | ")
+                        await client.say("The user with the ID: `{}` has been banned for `{}`.".format(b[0], b[1]))
+                        o.append("+1")
+                        break
+                    else:
+                        print("")
+                if len(o) == 0:
+                    await client.say("The user with the ID: `{}` is not banned.".format(target))
+                else:
+                    print("")
+            elif option == "server":
+                chnl = client.get_channel(banned_servers_chnl)
+                async for i in client.logs_from(chnl):
+                    a = str(i.content)
+                    if target in a:
+                        b = i.content.split(" | ")
+                        await client.say("The server with the ID: `{}` has been banned for `{}`.".format(b[0], b[1]))
+                        o.append("+1")
+                        break
+                    else:
+                        print("")
+                if len(o) == 0:
+                    await client.say("The server with the ID: `{}` is not banned.".format(target))
+                else:
+                    print("")
+            else:
+                await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+    else:
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
             
 # ad!msg <user/server> <id> <message>
 @client.command(pass_context=True)
