@@ -14,7 +14,7 @@ Client = discord.Client()
 bot_prefix= "ad!"
 client = commands.Bot(command_prefix=bot_prefix)
 footer_text = "Get Advertiser Bot: https://discord.gg/UBh9FpK"
-ersion = '2.5'
+version = '2.5'
 
 help_msg1 = "```diff"
 help_msg1 += "\n- COMMANDS FOR EVERYONE -"
