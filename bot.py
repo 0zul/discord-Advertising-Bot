@@ -13,7 +13,8 @@ import re
 Client = discord.Client()
 bot_prefix= "ad!"
 client = commands.Bot(command_prefix=bot_prefix)
-footer_text = "[+]Advertisement Bot[+]"
+footer_text = "Get Advertiser Bot: https://discord.gg/UBh9FpK"
+ersion = '2.5'
 
 help_msg1 = "```diff"
 help_msg1 += "\n- COMMANDS FOR EVERYONE -"
@@ -30,6 +31,7 @@ help_msg1 += "\nad!uptime\n+ Shows you how long the bot's been online for."
 help_msg1 += "\nad!report <user/server> <id> <reason>\n+ Reports a server or user to the bot moderators."
 help_msg1 += "\nad!bug <message>\n+ Reports a bug to the bot moderators."
 help_msg1 += "\nad!bump\n+ Forces the bot to advertise the server which the command is run in. This can only be used once every day."
+help_msg1 += "\nad!m [user]\n+ Checks if someone is a bot moderator, bot administrator or neither of those."
 help_msg1 += "\n```"
 
 help_msg2 = "```diff"
@@ -39,6 +41,7 @@ help_msg2 += "\nad!unsetup\n+ Removes your server from all lists and deletes all
 help_msg2 += "\nad!test\n+ Checks if your server is setup correctly."
 help_msg2 += "\nad!scan\n+ Bans users who are on the black list. Those users are most likely banned for harming servers or breaking the discord TOS."
 help_msg2 += "\nad!toggle\n+ Toggles advertise mode on or off for your server."
+help_msg2 += "\nad!tas\n+ Toggles auto-scan on or off for your server."
 help_msg2 += "\n```"
 
 help_msg3 = "```diff"
@@ -48,8 +51,10 @@ help_msg3 += "\nad!ban <user/server> <id> <reason>\n+ Bans an user from all serv
 help_msg3 += "\nad!unban <user/server> <id>\n+ Unbans an user from all servers or gives access to a server that was banned."
 help_msg3 += "\nad!reset <server id>\n+ Removes a server from all lists."
 help_msg3 += "\nad!link <server id>\n+ Gives you a link to a server."
-help_msg3 += "\nad!check <user/server> <id>\n+ Checks if a server or user is banned and why."
+help_msg3 += "\nad!check <user/server> <id>\n+ Checks if an user or server is banned and warned and why."
 help_msg3 += "\nad!remind\n+ Sends a reminder to all servers to use ad!scan. Use this only after banning someone."
+help_msg3 += "\nad!warn <user/server> <id> <reason>\n+ Warns an user or a server."
+help_msg3 += "\nad!clear <user/server> <id> <warn number>\n+ Clears a warning for a server or user."
 help_msg3 += "\n```"
 
 help_msg4 = "```diff"
@@ -61,25 +66,40 @@ help_msg4 += "\nad!force\n+ Forces the bot to advertise."
 help_msg4 += "\nad!log <message>\n+ Logs a message."
 help_msg4 += "\nad!special <add/del> <server id>\n+ Adds or removes a server from the special list."
 help_msg4 += "\nad!say <text>\n+ Forces the bot to say something."
+help_msg4 += "\nad!ms run\n+ Runs the mass scan."
 help_msg4 += "\n```"
 
-tos_msg = "**__By using this bot you agree to the following:__**"
-tos_msg += "\n**~~=~~** Letting the bot ban and unban users that are known for harming other discord servers and/or breaking the discord TOS!"
-tos_msg += "\n**~~=~~** Letting the bot create invite linnks for your server!"
-tos_msg += "\n**~~=~~** Letting the bot send advertisements for other discord servers on your server and sending your server links to other servers!"
-tos_msg += "\n**~~=~~** Giving the required permissions to the bot!"
-tos_msg += "\n**~~=~~** Letting the bot get your server information such as members, server id, channel count, owner id etc!"
+tos_msg = "***__By using this bot you agree to the following:__***"
+tos_msg += "\n<:arrowemoji:473457682049662977> Letting the bot ban and unban users that are on the ban list. If you want to disable this use `ad!tas`."
+tos_msg += "\n<:arrowemoji:473457682049662977> Letting the bot create invite links for your server."
+tos_msg += "\n<:arrowemoji:473457682049662977> Letting the bot send advertisements for other discord servers on your server and sending your server links to other servers."
+tos_msg += "\n<:arrowemoji:473457682049662977> Giving the required permissions to the bot."
+tos_msg += "\n<:arrowemoji:473457682049662977> Letting the bot get your server information such as members, server ID, channel count, owner ID etc."
 tos_msg += "\n "
-tos_msg += "\n**__Bot rules:__**"
-tos_msg += "\n**~~=~~** Everyone must be able to see the channel that the bot creates!"
-tos_msg += "\n**~~=~~** Spamming bot commands or trying to make the bot lag is not allowed!"
-tos_msg += "\n**~~=~~** Asking to become a bot moderator is not allowed!"
-tos_msg += "\n**~~=~~** Only DM the bot administrators or bot moderators if you have any questions or if you need help!"
-tos_msg += "\n**~~=~~** Do not send stupid suggestions!"
-tos_msg += "\n**~~=~~** Do not false report users, servers and/or bugs!"
-tos_msg += "\n**~~=~~** Breaking any of these rules will get you and/or your server banned!"
-tos_msg += "\n "
-tos_msg += "\n**__You can use `ad!help` to see a list of commands!__**"
+tos_msg += "\n***__Bot's rules:__***"
+tos_msg += "\n<:arrowemoji:473457682049662977> Everyone must be able to see the channel that the bot sends ADs to in your server."
+tos_msg += "\n<:arrowemoji:473457682049662977> Spamming bot commands or trying to make the bot lag will get you instantly banned."
+tos_msg += "\n<:arrowemoji:473457682049662977> Continuous asking to become a bot moderator/administrator is not allowed."
+tos_msg += "\n<:arrowemoji:473457682049662977> Do not use the support system or any other system just to mess around."
+tos_msg += "\n<:arrowemoji:473457682049662977> Only use the support system if you need help with the bot or have a question about it."
+tos_msg += "\n<:arrowemoji:473457682049662977> Only suggest things that can actually improve the bot."
+tos_msg += "\n<:arrowemoji:473457682049662977> Do not false report users, servers or bugs."
+tos_msg += "\n<:arrowemoji:473457682049662977> The bot's code is open source. You are not allowed to copy it and make your own bot out of it. You can copy some parts if you are creating your own bot, but not full commands, functions etc."
+tos_msg += "\n<:arrowemoji:473457682049662977> Do not take advantage of bugs. Please report them instead."
+tos_msg += "\n<:arrowemoji:473457682049662977> Breaking any of these rules will get you and/or your server banned."
+
+tos_msg2 = "***__Other information:__***"
+tos_msg2 += "\n<:arrowemoji:473457682049662977> Users who do any of the following will be banned:"
+tos_msg2 += "\n    - Raid servers."
+tos_msg2 += "\n    - Spam servers."
+tos_msg2 += "\n    - Nuke servers."
+tos_msg2 += "\n    - Sending viruses or any kind of malicious files."
+tos_msg2 += "\n    - Copying the bot's code."
+tos_msg2 += "\n    - Making drama about the bot. We rather talk about it and find a solution to whatever it is."
+tos_msg2 += "\n    - And similar acts."
+tos_msg2 += "\n<:arrowemoji:473457682049662977> Being disrespectful, toxic, sending NSFW content and similar acts will not get you banned."
+tos_msg2 += "\n<:arrowemoji:473457682049662977> The bot has a feature that you can enable and disable for your server called 'auto-scan'. Use `ad!tas` to toggle it on and off. If you have this feature enabled on your server, the bot will automatically ban users on the ban list from your server."
+tos_msg2 += "\n<:arrowemoji:473457682049662977> Do not give staff or any kind of moderation permission to people claiming that they are staff unless they can prove that they are actually one of the bot's staff members. Ask them to use `ad!m` that way you can tell who's an actual staff and who's fake."
 
 test_msg_img = "https://i.imgur.com/Cln6BAr.png"
 announcement_img = "https://i.imgur.com/4vxwaYD.png"
@@ -115,6 +135,9 @@ start_status = '- ad!help | ad!support'
 loading_status = '- Loading...'
 updating_status = '- Updating...'
 support_chnl = '453133652029865995'
+warns_chnl = '474114441689038848'
+mass_ban_chnl = '474138613165326336'
+as_chnl = '474322276851122186'
 
 servers_links = []
 
@@ -158,8 +181,9 @@ async def on_ready():
     c = client.get_channel(console_chnl)
     sl = client.get_channel(servers_links_chnl)
     lc = client.get_channel(log_channels_chnl)
+    asc = client.get_channel(as_chnl)
     msg = "```diff"
-    msg += "\n- LOGGED IN -"
+    msg += "\n- LOGGED IN (DEV VERSION) -"
     msg += "\n+ Name: {}".format(client.user.name)
     msg += "\n+ ID: {}".format(client.user.id)
     msg += "\n+ Total server count: {}".format(len(client.servers))
@@ -183,6 +207,9 @@ async def on_ready():
         toggled_servers.append(message.content)
         print("[START UP][TOGGLED SERVERS] ADDED {}".format(message.content))
     msg += "\n+ Toggled server count: {}".format(len(toggled_servers))
+    async for message in client.logs_from(asc, limit=limit):
+        ass.append(message.content)
+        print("[START UP][TOGGLED AS] ADDED: {}".format(message.content))
     async for message in client.logs_from(sl, limit=limit):
         servers_links.append(message.content)
         print("[START UP][SERVERS LINKS] ADDED {}".format(message.content))
@@ -196,12 +223,14 @@ async def on_ready():
         print("[START UP][LOG CHANNELS IDS] ADDED {}".format(message.content))
     msg += "\n+ Total log channel count: {}".format(len(log_channels_ids))
     async for message in client.logs_from(bs, limit=limit):
-        banned_servers.append(message.content)
-        print("[START UP][BANNED SERVERS] ADDED {}".format(message.content))
+        a = message.content.split(' | ')
+        banned_servers.append(a[0])
+        print("[START UP][BANNED SERVERS] ADDED {}".format(a[0]))
     msg += "\n+ Banned server count: {}".format(len(banned_users))
     async for message in client.logs_from(bu, limit=limit):
-        banned_users.append(message.content)
-        print("[START UP][BANNED USERS] ADDED {}".format(message.content))
+        a = message.content.split(' | ')
+        banned_users.append(a[0])
+        print("[START UP][BANNED USERS] ADDED {}".format(a[0]))
     msg += "\n+ Banned user count: {}".format(len(banned_servers))
     async for message in client.logs_from(bm, limit=limit):
         bot_mods.append(message.content)
@@ -218,7 +247,7 @@ async def on_ready():
     msg += "\n```"
     await client.send_message(c, msg)
     await client.wait_until_ready()
-    await client.change_presence(game=discord.Game(name=start_status))
+    await client.change_presence(game=discord.Game(name=updating_status))
     print("==========")
     print("==========")
     print("==========")
@@ -482,11 +511,6 @@ async def ping(ctx):
             msg += "\nThe bot isn't lagging! <:online:313956277808005120>"
         await client.say(msg)
 
-@client.command(pass_context=True)
-async def o(ctx):
-    for i in ctx.message.server.roles:
-        await client.say("{} `-` {}".format(i.name, i.id))
-
 # ad!support <message>
 @client.command(pass_context=True)
 async def support(ctx, *, args = None):
@@ -532,6 +556,7 @@ async def info(ctx):
         await client.say("Collecting information... <a:updating:403035325242540032>")
         msg = "```diff"
         msg += "\n- INFORMATION ABOUT THE BOT -"
+        msg += "\n- VERSION: {} -".format(version)
         msg += "\n+ Total server count: {}".format(len(client.servers))
         for server in client.servers:
             if len(server.members) >= 750:
@@ -656,6 +681,7 @@ async def invite(ctx):
 @client.command(pass_context=True)
 async def tos(ctx):
     await client.say(tos_msg)
+    await client.say(tos_msg2)
 
 # ad!suggest <suggestion>
 @client.command(pass_context=True)
@@ -895,8 +921,37 @@ async def bump(ctx):
             bumping.remove(server.id)
         else:
             await client.say("{} This server is not being advertised. Use `ad!setup` to set it up.".format(error_img))
+            
+# ad!m [user]
+@client.command(pass_context=True)
+async def m(ctx, user: discord.User = None):
+    if user == None:
+        author = ctx.message.author
+    else:
+        author = user
+    if author.id in bot_admins:
+        await client.say("{} <@{}> is a bot administrator.".format(check_img, author.id))
+    elif author.id in bot_mods:
+        await client.say("{} <@{}> is a bot moderator.".format(check_img, author.id))
+    else:
+        await client.say("{} <@{}> is not a bot administrator nor a bot moderator.".format(x_img, author.id))
 
 ''' COMMANDS FOR SERVER MANAGERS '''
+# ad!tas
+@client.command(pass_context=True)
+async def tas(ctx):
+    author = ctx.message.author
+    server = ctx.message.server
+    if author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
+        if server.id in ass:
+            ass.remove(server.id)
+            await client.say("{} The auto-scan has been toggled on for this server.".format(check_img))
+        else:
+            ass.append(server.id)
+            await client.say("{} The auto-scan has been toggled off for this server.".format(check_img))
+    else:
+        await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
+
 # ad!setup [log channel] [channel] [message]
 @client.command(pass_context=True)
 async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Channel = None, *, message = None):
@@ -1661,6 +1716,141 @@ async def toggle(ctx):
         await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 ''' COMMANDS FOR BOT MODERATORS '''
+# ad!warn <user/server> <id> <reason>
+@client.command(pass_context=True)
+async def warn(ctx, option = None, target = None, *, reason = None):
+    author = ctx.message.author
+    if author.id in bot_mods or author.id in bot_admins:
+        if option == None or target == None or reason == None:
+            await client.say("{} Not all arguments were given!\nExamples:\n`ad!warn user 412201413335056386 Not following the TOS`.\n`ad!warn server 452865346081128448 Not following the TOS`.".format(error_img))
+        else:
+            warnsc = client.get_channel(warns_chnl)
+            ubanc = client.get_channel(banned_users_chnl)
+            sbanc = client.get_channel(banned_servers_chnl)
+            o = []
+            p = []
+            k = []
+            if option == "user" or option == "server":
+                async for i in client.logs_from(warnsc):
+                    a = i.content.split(' | ')
+                    if target == a[0]:
+                        p.append("+1")
+                        if len(p) == 3:
+                            await client.say("That ID has already been warned 3 times. Use `ad!check <user/server> <id>` to check if they are banned.")
+                            break
+                        else:
+                            if len(o) == 2:
+                                break
+                            else:
+                                o.append("+1")
+                    else:
+                        print("")
+                if len(p) == 3:
+                    print("")
+                else:
+                    if len(o) == 2:
+                        if option == "user":
+                            try:
+                                user = await client.get_user_info(target)
+                                await client.say("{} User found: **{}**\nBanning and sending DM... <a:typing:393848431413559296>".format(check_img, user))
+                                o.append("+1")
+                                try:
+                                    await client.send_message(user, ":warning: \nYou have been warned by the Advertiser Bot's staff.\n`Reason:` {}\n`Warning count:` {}/3.".format(reason, len(o)))
+                                except:
+                                    await client.say("{} Unable to DM that user.".format(error_img))
+                                banned_users.append(target)
+                                await client.send_message(ubanc, "{} | Reached max warnings.".format(user.id))
+                                await client.say("{} The user has been warned and banned!".format(check_img))
+                            except:
+                                await client.say("{} User not found!".format(error_img))
+                            await client.send_message(warnsc, "{} | {} ### {} | {} | user | {}".format(target, author, author.id, reason, len(p) + 1))
+                        elif option == "server":
+                            try:
+                                server = client.get_server(target)
+                                await client.say("{} Server found: **{}**\nBanning and sending DM... <a:typing:393848431413559296>".format(check_img, server))
+                                o.append("+1")
+                                try:
+                                    await client.send_message(server.owner, ":warning: \nYour server `{}` has been warned by the Advertiser Bot's staff.\n`Reason:` {}\n`Warning count:` {}/3.".format(server.name, reason, len(o)))
+                                except:
+                                    await client.say("{} Unable to DM the server owner.".format(error_img))
+                                banned_servers.append(target)
+                                await client.send_message(sbanc, "{} | Reached max warnings.".format(server.id))
+                                await client.say("{} The server has been warned and banned!".format(check_img))
+                            except:
+                                await client.say("{} Server not found!".format(error_img))
+                            await client.send_message(warnsc, "{} | {} ### {} | {} | server | {}".format(target, author, author.id, reason, len(p) + 1))
+                        else:
+                            await client.say("{} Invalid option!\nOptions: `user`, `server`.")
+                    else:
+                        if option == "user":
+                            try:
+                                user = await client.get_user_info(target)
+                                await client.say("{} User found: **{}**\nSending DM... <a:typing:393848431413559296>".format(check_img, user))
+                                o.append("+1")
+                                try:
+                                    await client.send_message(user, ":warning: \nYou have been warned by the Advertiser Bot's staff.\n`Reason:` {}\n`Warning count:` {}/3.".format(reason, len(o)))
+                                except:
+                                    await client.say("{} Unable to DM that user.".format(error_img))
+                                await client.say("{} The user has been warned!".format(check_img))
+                                await client.send_message(warnsc, "{} | {} ### {} | {} | user | {}".format(target, author, author.id, reason, len(p) + 1))
+                            except:
+                                await client.say("{} User not found!".format(error_img))
+                        elif option == "server":
+                            try:
+                                server = client.get_server(target)
+                                await client.say("{} Server found: **{}**\nSending DM... <a:typing:393848431413559296>".format(check_img, server))
+                                o.append("+1")
+                                try:
+                                    await client.send_message(server.owner, ":warning: \nYour server `{}` has been warned by the Advertiser Bot's staff.\n`Reason:` {}\n`Warning count:` {}/3.".format(server.name, reason, len(o)))
+                                except:
+                                    await client.say("{} Unable to DM the server owner.".format(error_img))
+                                await client.say("{} The server has been warned!".format(check_img))
+                            except:
+                                await client.say("{} Server not found!".format(error_img))
+                            await client.send_message(warnsc, "{} | {} ### {} | {} | server | {}".format(target, author, author.id, reason, len(p) + 1))
+                        else:
+                            await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+            else:
+                await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+    else:
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
+
+# ad!clear <user/server> <id> <number>
+@client.command(pass_context=True)
+async def clear(ctx, option = None, target = None, number = None):
+    author = ctx.message.author
+    if author.id in bot_mods or author.id in bot_admins:
+        if option == None or target == None or number == None:
+            await client.say("{} Not all arguments were given!\nExamples:\n`ad!clear user 412201413335056386 1`.\n`ad!clear server 452865346081128448 3`.".format(error_img))
+        else:
+            try:
+                k = int(number)
+                if k < 0 and k > 3:
+                    await client.say("{} The number has to be 1, 2 or 3.")
+                else:
+                    if option == "user" or option == "server":
+                        o = []
+                        chnl = client.get_channel(warns_chnl)
+                        async for i in client.logs_from(chnl):
+                            a = i.content.split(' | ')
+                            if target == a[0] and option == a[3] and number == a[4]:
+                                await client.delete_message(i)
+                                await client.say("{} Warning cleared!".format(check_img))
+                                o.append("+1")
+                                break
+                            else:
+                                print("")
+                        if len(o) == 0:
+                            await client.say("{} Warning not found!".format(error_img))
+                        else:
+                            print("")
+                    else:
+                        await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+            except:
+                await client.say("{} That is not a number.".format(error_img))
+    else:
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
+
 # ad!remind
 @client.command(pass_context=True)
 async def remind(ctx):
@@ -1706,36 +1896,73 @@ async def check(ctx, option = None, target = None):
             await client.say("{} Not all arguments were given!\nExamples:\n`ad!check user 412201413335056386`.\n`ad!check server 452865346081128448`.".format(error_img))
         else:
             o = []
+            chnl2 = client.get_channel(warns_chnl)
             if option == "user":
-                chnl = client.get_channel(banned_users_chnl)
-                async for i in client.logs_from(chnl):
-                    a = str(i.content)
-                    if target in a:
-                        b = i.content.split(" | ")
-                        await client.say("The user with the ID: `{}` has been banned for `{}`.".format(b[0], b[1]))
-                        o.append("+1")
-                        break
+                try:
+                    user = await client.get_user_info(target)
+                    chnl = client.get_channel(banned_users_chnl)
+                    m = "CHECK FOR (user): **{} ### {}**".format(user, user.id)
+                    m += "\n`===================================`"
+                    async for i in client.logs_from(chnl):
+                        a = str(i.content)
+                        if target in a:
+                            b = i.content.split(' | ')
+                            m += "\n**Banned:** True"
+                            m += "\n-----**Reason:** {}".format(b[1])
+                            o.append("+1")
+                            break
+                        else:
+                            print("")
+                    if len(o) == 0:
+                        m += "\n**Banned:** False"
                     else:
                         print("")
-                if len(o) == 0:
-                    await client.say("The user with the ID: `{}` is not banned.".format(target))
-                else:
-                    print("")
+                    m += "\n`===================================`"
+                    m += "\n**Warnings:**"
+                    m += "\n`===================================`"
+                    async for i in client.logs_from(chnl2):
+                        b = i.content.split(' | ')
+                        if target == b[0]:
+                            m += "\n-----**{}**".format(b[4])
+                            m += "\n-----Warned by: **{}**".format(b[1])
+                            m += "\n-----Reason: **{}**".format(b[2])
+                            m += "\n`===================================`"
+                    await client.say(m)
+                except:
+                    await client.say("{} User not found!".format(error_img))
             elif option == "server":
-                chnl = client.get_channel(banned_servers_chnl)
-                async for i in client.logs_from(chnl):
-                    a = str(i.content)
-                    if target in a:
-                        b = i.content.split(" | ")
-                        await client.say("The server with the ID: `{}` has been banned for `{}`.".format(b[0], b[1]))
-                        o.append("+1")
-                        break
+                try:
+                    server = target
+                    chnl = client.get_channel(banned_users_chnl)
+                    m = "CHECK FOR (server): **{}**".format(server)
+                    m += "\n`===================================`"
+                    async for i in client.logs_from(chnl):
+                        a = str(i.content)
+                        if target in a:
+                            b = i.content.split(' | ')
+                            m += "\n**Banned:** True"
+                            m += "\n-----**Reason:** {}".format(b[1])
+                            o.append("+1")
+                            break
+                        else:
+                            print("")
+                    if len(o) == 0:
+                        m += "\n**Banned:** False"
                     else:
                         print("")
-                if len(o) == 0:
-                    await client.say("The server with the ID: `{}` is not banned.".format(target))
-                else:
-                    print("")
+                    m += "\n`===================================`"
+                    m += "\n**Warnings:**"
+                    m += "\n`===================================`"
+                    async for i in client.logs_from(chnl2):
+                        b = i.content.split(' | ')
+                        if target == b[0]:
+                            m += "\n-----**{}**".format(b[4])
+                            m += "\n-----Warned by: **{}**".format(b[1])
+                            m += "\n-----Reason: **{}**".format(b[2])
+                            m += "\n`===================================`"
+                    await client.say(m)
+                except:
+                    await client.say("{} Server not found!".format(error_img))
             else:
                 await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
     else:
@@ -2659,16 +2886,90 @@ async def say(ctx, *, args = None):
     else:
         await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
+# ad!mb <run/clear> [reason]
 @client.command(pass_context=True)
-async def ooooo(ctx, *, args = None):
-    a = []
-    for s in client.servers:
-        try:
-            await client.send_message(s.owner, args)
-            a.append("+1")
-        except:
-            print("")
-    await client.say("{}/{}".format(len(a), len(client.servers)))
+async def mb(ctx, option = None, *, args = None):
+    author = ctx.message.author
+    if author.id in bot_admins:
+        if option == None:
+            await client.say("{} No option given!\nOptions: `run`, `clear`.".format(error_img))
+        else:
+            chnl = client.get_channel(mass_ban_chnl)
+            chnl2 = client.get_channel(banned_users_chnl)
+            if option == "clear":
+                try:
+                    deleted = await client.purge_from(chnl, limit=10000000000)
+                    await client.say("{} Cleared!".format(check_img))
+                except:
+                    await client.say("{} Failed to clear!".format(check_img))
+            elif option == "run":
+                if args == None:
+                    reason = "Not following the TOS."
+                else:
+                    reason = args
+                o = []
+                await client.say("Saving... <a:typing:393848431413559296>")
+                async for i in client.logs_from(chnl):
+                    a = i.content.split('\n')
+                    for k in a:
+                        o.append(k)
+                await client.say("{} Saved!\nBanning... <a:typing:393848431413559296>".format(check_img))
+                for i in o:
+                    if i not in banned_users:
+                        banned_users.append(i)
+                        await client.send_message(chnl2, "{} | {}".format(i, reason))
+                    else:
+                        print("")
+                await client.say("{} Finished!".format(check_img))
+                
+            else:
+                await client.say("{} Invalid option!\nOptions: `run`, `clear`.".format(error_img))
+    else:
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
+
+# ad!ms
+mss = []
+@client.command(pass_context=True)
+async def ms(ctx):
+    author = ctx.message.author
+    chnl = client.get_channel(console_chnl)
+    await client.say("Starting mass scan... <a:typing:393848431413559296>\nThis will take awhile.")
+    k = []
+    if author.id in bot_admins:
+        if len(mss) == 0:
+            mss.append("+1")
+            for i in client.servers:
+                if i.id in ass:
+                    print("")
+                else:
+                    try:
+                        banned = await client.get_bans(i)
+                        for o in banned_users:
+                            user = discord.utils.get(banned,id=o)
+                            if user is not None:
+                                print("")
+                            else:
+                                try:
+                                    await client.http.ban(o, i.id, 0)
+                                    k.append("+1")
+                                except:
+                                    print("")
+                    except:
+                        print("")
+            await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
+            m = "```diff"
+            m += "\n- MASS SCAN -"
+            m += "\n+ Author: {} ### {}".format(author, author.id)
+            m += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
+            m += "\n+ Ban count: {}".format(len(banned_users))
+            m += "\n+ Banned count: {}/{}".format(len(k), len(banned_users) * len(client.servers))
+            m += "\n```"
+            await client.send_message(chnl, m)
+            mss.clear()
+        else:
+            await client.say("{} A mass scan is already running.".format(error_img))
+    else:
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
 # TURNS THE BOT ON
 client.run(os.environ['BOT_TOKEN'])
