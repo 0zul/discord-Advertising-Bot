@@ -155,6 +155,7 @@ banned_servers = []
 toggled_servers = []
 bumped_servers = []
 bumping = []
+ass = []
 
 bot_mods = ['412201413335056386']
 bot_admins = ['412201413335056386']
