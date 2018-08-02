@@ -2980,6 +2980,7 @@ async def ms(ctx):
     author = ctx.message.author
     chnl = client.get_channel(console_chnl)
     k = []
+    kk = []
     if author.id in bot_admins:
         if len(mss) == 0:
             await client.say("Saving servers... <a:typing:393848431413559296>")
@@ -2998,7 +2999,7 @@ async def ms(ctx):
                     server = client.get_server(i)
                     m = "```diff"
                     m += "\n- MASS SCAN INFO -"
-                    m += "\n+ Finished servers: {}/{}".format(len(h), len(u))
+                    m += "\n+ Finished servers: {}/{}".format(len(hh), len(u))
                     m += "\n+ Users banned: {}".format(len(k))
                     m += "\n+ Current server: {} ### {}".format(server.name, server.id)
                     m += "\n```"
@@ -3014,9 +3015,11 @@ async def ms(ctx):
                                     try:
                                         await client.http.ban(o, server.id, 0)
                                         k.append("+1")
+                                        kk.append("+1")
                                         print("[MS] Banned on {}".format(server.name))
                                     except:
                                         print("[MS] Permission error on {}".format(server.name))
+                                        kk.append("+1")
                                 else:
                                     print("[MS] User not in server")
                     except:
@@ -3026,9 +3029,9 @@ async def ms(ctx):
                 hh.append("+1")
                 m = "```diff"
                 m += "\n- MASS SCAN INFO -"
-                m += "\n+ Finished servers: {}/{}".format(len(h), len(u))
+                m += "\n+ Finished servers: {}/{}".format(len(hh), len(u))
                 m += "\n+ Users banned: {}".format(len(k))
-                m += "\n+ Current server: ###"
+                m += "\n+ Current server: ........................................."
                 m += "\n```"
                 await client.edit_message(h, m)
             await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
@@ -3038,7 +3041,7 @@ async def ms(ctx):
             m += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
             m += "\n+ Servers passed: {}/{}".format(len(hh), len(client.servers))
             m += "\n+ Ban count: {}".format(len(banned_users))
-            m += "\n+ Banned count: {}/{}".format(len(k), len(banned_users) * len(u))
+            m += "\n+ Banned count: {}/{}".format(len(k), len(kk) * len(u))
             m += "\n```"
             await client.send_message(chnl, m)
             mss.clear()
