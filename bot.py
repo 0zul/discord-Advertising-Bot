@@ -362,6 +362,44 @@ async def on_server_remove(server):
     else:
         print("")
     print("FINISHED")
+    
+# AUTO-SCAN SYSTEM
+@client.async_event
+async def on_member_join(user: discord.Member):
+    try:
+        server = user.server
+        if server.id in ass:
+            print("[AS] Server toggled")
+        else:
+            if user.id in banned_users:
+                try:
+                    await client.http.ban(o, server.id, 0)
+                    await client.send_message(client.get_channel('453192466716164137'), "{} | {} | 0".format(o, server.id))
+                    chnl = client.get_channel(banned_users_chnl)
+                    async for i in client.logs_from(chnl, limit=limit):
+                        a = i.content.split(' | ')
+                        if user.id == a[0]:
+                            m = "```diff"
+                            m += "\n- AUTO SCAN -"
+                            m += "\n+ Banned: {} ### {}".format(user, user.id)
+                            m += "\n+ Reason: {}".format(a[1])
+                            m += "\n```"
+                            break
+                        else:
+                            print("[AS] Skip")
+                    for i in server.channels:
+                        if i.id in logs_channels_ids:
+                            try:
+                                await client.send_message(m)
+                                break
+                            except:
+                                break
+                except:
+                    print("[AS] Permission error")
+            else:
+                print("[AS] User not banned")
+    except:
+        print("[AS] Global error")
 
 # AUTO ADVERTISING SYSTEM
 async def autoad():
@@ -2953,9 +2991,18 @@ async def ms(ctx):
                 else:
                     u.append(i.id)
             await client.say("{} Saved!\nStarting mass scan... <a:typing:393848431413559296>\nThis will take awhile.".format(check_img))
+            h = await client.say("This message will be updated with more information until the mass scan finishes.")
+            hh = []
             for i in u:
                 try:
                     server = client.get_server(i)
+                    m = "```diff"
+                    m += "\n- MASS SCAN INFO -"
+                    m += "\n+ Finished servers: {}/{}".format(len(h), len(u))
+                    m += "\n+ Users banned: {}".format(len(k))
+                    m += "\n+ Current server: {} ### {}".format(server.name, server.id)
+                    m += "\n```"
+                    await client.edit_message(h, m)
                     try:
                         banned = await client.get_bans(server)
                         for o in banned_users:
@@ -2963,21 +3010,33 @@ async def ms(ctx):
                             if user is not None:
                                 print("[MS] Already banned on {}".format(server.name))
                             else:
-                                try:
-                                    await client.http.ban(o, server.id, 0)
-                                    k.append("+1")
-                                    print("[MS] Banned on {}".format(server.name))
-                                except:
-                                    print("[MS] Permission error on {}".format(server.name))
+                                if user in server.members:
+                                    try:
+                                        await client.http.ban(o, server.id, 0)
+                                        k.append("+1")
+                                        print("[MS] Banned on {}".format(server.name))
+                                    except:
+                                        print("[MS] Permission error on {}".format(server.name))
+                                else:
+                                    print("[MS] User not in server")
                     except:
                         print("[MS] Couldn't get bans from {}".format(server.name))
                 except:
                     print("[MS] Server not found")
+                hh.append("+1")
+                m = "```diff"
+                m += "\n- MASS SCAN INFO -"
+                m += "\n+ Finished servers: {}/{}".format(len(h), len(u))
+                m += "\n+ Users banned: {}".format(len(k))
+                m += "\n+ Current server: ###"
+                m += "\n```"
+                await client.edit_message(h, m)
             await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
             m = "```diff"
             m += "\n- MASS SCAN -"
             m += "\n+ Author: {} ### {}".format(author, author.id)
             m += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
+            m += "\n+ Servers passed: {}/{}".format(len(hh), len(client.servers))
             m += "\n+ Ban count: {}".format(len(banned_users))
             m += "\n+ Banned count: {}/{}".format(len(k), len(banned_users) * len(u))
             m += "\n```"
