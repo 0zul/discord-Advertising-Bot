@@ -2951,7 +2951,7 @@ async def ms(ctx):
             u = []
             for i in client.servers:
                 if i.id in ass:
-                    print("")
+                    print("[MS] Pass 1")
                 else:
                     u.append(i.id)
             await client.say("{} Saved!\nStarting mass scan... <a:typing:393848431413559296>\nThis will take awhile.".format(check_img))
@@ -2963,17 +2963,18 @@ async def ms(ctx):
                         for o in banned_users:
                             user = discord.utils.get(banned,id=o)
                             if user is not None:
-                                print("")
+                                print("[MS] Pass 2")
                             else:
                                 try:
                                     await client.http.ban(o, server.id, 0)
                                     k.append("+1")
+                                    print("[MS] Banned")
                                 except:
-                                    print("")
+                                    print("[MS] Pass 3")
                     except:
-                        print("")
+                        print("[MS] Pass 4")
                 except:
-                    print("")
+                    print("[MS] Pass 5")
             await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
             m = "```diff"
             m += "\n- MASS SCAN -"
