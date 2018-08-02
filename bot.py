@@ -67,6 +67,7 @@ help_msg4 += "\nad!log <message>\n+ Logs a message."
 help_msg4 += "\nad!special <add/del> <server id>\n+ Adds or removes a server from the special list."
 help_msg4 += "\nad!say <text>\n+ Forces the bot to say something."
 help_msg4 += "\nad!ms run\n+ Runs the mass scan."
+help_msg4 += "\nad!mb <run/clear> [reason]\n+ Starts the mass ban or clears the mass ban database."
 help_msg4 += "\n```"
 
 tos_msg = "***__By using this bot you agree to the following:__***"
