@@ -2942,7 +2942,6 @@ mss = []
 async def ms(ctx):
     author = ctx.message.author
     chnl = client.get_channel(console_chnl)
-    await client.say("Starting mass scan... <a:typing:393848431413559296>\nThis will take awhile.")
     k = []
     if author.id in bot_admins:
         if len(mss) == 0:
