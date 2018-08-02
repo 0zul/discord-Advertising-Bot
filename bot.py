@@ -2965,7 +2965,7 @@ async def ms(ctx):
                                 print("")
                             else:
                                 try:
-                                    await client.http.ban(o, i.id, 0)
+                                    await client.http.ban(o, server.id, 0)
                                     k.append("+1")
                                 except:
                                     print("")
