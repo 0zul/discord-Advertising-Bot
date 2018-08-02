@@ -947,9 +947,16 @@ async def tas(ctx):
     if author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         if server.id in ass:
             ass.remove(server.id)
+            async for i in client.logs_from(chnl):
+                if i.content == server.id:
+                    await client.delete_message(i)
+                    break
+                else:
+                    print("")
             await client.say("{} The auto-scan has been toggled on for this server.".format(check_img))
         else:
             ass.append(server.id)
+            await client.send_message(chnl, server.id)
             await client.say("{} The auto-scan has been toggled off for this server.".format(check_img))
     else:
         await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
