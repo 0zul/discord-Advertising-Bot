@@ -139,6 +139,7 @@ support_chnl = '453133652029865995'
 warns_chnl = '474114441689038848'
 mass_ban_chnl = '474138613165326336'
 as_chnl = '474322276851122186'
+limit = 1000000000000000
 
 servers_links = []
 
@@ -169,7 +170,6 @@ ut_hours = []
 @client.event
 async def on_ready():
     await client.change_presence(game=discord.Game(name=loading_status), status='dnd')
-    limit = 100000
     ns = client.get_channel(normal_servers_chnl)
     ss = client.get_channel(special_servers_chnl)
     nsm = client.get_channel(normal_servers_msgs_chnl)
@@ -292,7 +292,7 @@ async def on_server_remove(server):
                     break
                 else:
                     print("")
-            async for m in client.logs_from(sl):
+            async for m in client.logs_from(sl, limit=limit):
                 if m.content == o[0]:
                     await client.delete_message(m)
                     print("REMOVED INVITE 2")
@@ -301,7 +301,7 @@ async def on_server_remove(server):
                     print("")
         except:
             print("")
-        async for m in client.logs_from(nsm):
+        async for m in client.logs_from(nsm, limit=limit):
             a = str(m.content)
             if server.id in a:
                 await client.delete_message(m)
@@ -317,7 +317,7 @@ async def on_server_remove(server):
                 break
             else:
                 print("")
-        async for m in client.logs_from(ssm):
+        async for m in client.logs_from(ssm, limit=limit):
             a = str(m.content)
             if server.id in a:
                 await client.delete_message(m)
@@ -333,7 +333,7 @@ async def on_server_remove(server):
                 break
             else:
                 print("")
-        async for m in client.logs_from(ns):
+        async for m in client.logs_from(ns, limit=limit):
             a = str(m.content)
             if server.id in a:
                 await client.delete_message(m)
@@ -346,7 +346,7 @@ async def on_server_remove(server):
             print("REMOVED ID 2")
         except:
             print("")
-        async for m in client.logs_from(ss):
+        async for m in client.logs_from(ss, limit=limit):
             a = str(m.content)
             if server.id in a:
                 await client.delete_message(m)
@@ -923,7 +923,8 @@ async def bump(ctx):
             bumping.remove(server.id)
         else:
             await client.say("{} This server is not being advertised. Use `ad!setup` to set it up.".format(error_img))
-            
+            bumping.remove(server.id)
+
 # ad!m [user]
 @client.command(pass_context=True)
 async def m(ctx, user: discord.User = None):
@@ -948,7 +949,7 @@ async def tas(ctx):
         chnl = client.get_channel(as_chnl)
         if server.id in ass:
             ass.remove(server.id)
-            async for i in client.logs_from(chnl):
+            async for i in client.logs_from(chnl, limit=limit):
                 if i.content == server.id:
                     await client.delete_message(i)
                     break
@@ -1142,7 +1143,6 @@ async def unsetup(ctx):
             log = "```diff"
             log += "\n--- STARTING UN-SETUP LOGGER ---"
             try:
-                limit = 100000
                 print("[UNSETUP] LIMIT SET")
                 nsm = client.get_channel(normal_servers_msgs_chnl)
                 print("[UNSETUP] CHANNEL GOT NSM")
@@ -1274,7 +1274,7 @@ async def unsetup(ctx):
                 print("[UNSETUP] LINKS GOT")
                 for link in invites:
                     if link.url in servers_links:
-                        async for message in client.logs_from(sl):
+                        async for message in client.logs_from(sl, limit=limit):
                             if message.content == link.url:
                                 await client.delete_message(message)
                                 log += "\n+ Removed 1/2!"
@@ -1357,7 +1357,6 @@ async def test(ctx):
             await client.say("Testing... <a:typing:393848431413559296>")
             log = "```diff"
             log += "\n--- STARTING TEST LOGGER (NORMAL) ---"
-            limit = 100000
             nsm = client.get_channel(normal_servers_msgs_chnl)
             cc = client.get_channel(channels_chnl)
             lc = client.get_channel(log_channels_chnl)
@@ -1486,7 +1485,6 @@ async def test(ctx):
             await client.say("Testing... <a:typing:393848431413559296>")
             log = "```diff"
             log += "\n--- STARTING TEST LOGGER (SPECIAL) ---"
-            limit = 100000
             ssm = client.get_channel(special_servers_msgs_chnl)
             cc = client.get_channel(channels_chnl)
             lc = client.get_channel(log_channels_chnl)
@@ -1672,7 +1670,7 @@ async def toggle(ctx):
         await client.say("Toggling... <a:typing:393848431413559296>")
         if server.id in toggled_servers:
             try:
-                async for message in client.logs_from(chnl):
+                async for message in client.logs_from(chnl, limit=limit):
                     if message.content == server.id:
                         await client.delete_message(message)
                         break
@@ -1741,7 +1739,7 @@ async def warn(ctx, option = None, target = None, *, reason = None):
             p = []
             k = []
             if option == "user" or option == "server":
-                async for i in client.logs_from(warnsc):
+                async for i in client.logs_from(warnsc, limit=limit):
                     a = i.content.split(' | ')
                     if target == a[0]:
                         p.append("+1")
@@ -1841,7 +1839,7 @@ async def clear(ctx, option = None, target = None, number = None):
                     if option == "user" or option == "server":
                         o = []
                         chnl = client.get_channel(warns_chnl)
-                        async for i in client.logs_from(chnl):
+                        async for i in client.logs_from(chnl, limit=limit):
                             a = i.content.split(' | ')
                             if target == a[0] and option == a[3] and number == a[4]:
                                 await client.delete_message(i)
@@ -1913,7 +1911,7 @@ async def check(ctx, option = None, target = None):
                     chnl = client.get_channel(banned_users_chnl)
                     m = "CHECK FOR (user): **{} ### {}**".format(user, user.id)
                     m += "\n`===================================`"
-                    async for i in client.logs_from(chnl):
+                    async for i in client.logs_from(chnl, limit=limit):
                         a = str(i.content)
                         if target in a:
                             b = i.content.split(' | ')
@@ -1930,7 +1928,7 @@ async def check(ctx, option = None, target = None):
                     m += "\n`===================================`"
                     m += "\n**Warnings:**"
                     m += "\n`===================================`"
-                    async for i in client.logs_from(chnl2):
+                    async for i in client.logs_from(chnl2, limit=limit):
                         b = i.content.split(' | ')
                         if target == b[0]:
                             m += "\n-----**{}**".format(b[4])
@@ -1946,7 +1944,7 @@ async def check(ctx, option = None, target = None):
                     chnl = client.get_channel(banned_users_chnl)
                     m = "CHECK FOR (server): **{}**".format(server)
                     m += "\n`===================================`"
-                    async for i in client.logs_from(chnl):
+                    async for i in client.logs_from(chnl, limit=limit):
                         a = str(i.content)
                         if target in a:
                             b = i.content.split(' | ')
@@ -1963,7 +1961,7 @@ async def check(ctx, option = None, target = None):
                     m += "\n`===================================`"
                     m += "\n**Warnings:**"
                     m += "\n`===================================`"
-                    async for i in client.logs_from(chnl2):
+                    async for i in client.logs_from(chnl2, limit=limit):
                         b = i.content.split(' | ')
                         if target == b[0]:
                             m += "\n-----**{}**".format(b[4])
@@ -1977,7 +1975,7 @@ async def check(ctx, option = None, target = None):
                 await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
     else:
         await client.say("{} This command can only be used by the bot's staff!".format(error_img))
-            
+
 # ad!msg <user/server> <id> <message>
 @client.command(pass_context=True)
 async def msg(ctx, option = None, target = None, *, args = None):
@@ -2118,7 +2116,7 @@ async def unban(ctx, option = None, target = None):
         else:
             if option == "user":
                 try:
-                    async for message in client.logs_from(chnl):
+                    async for message in client.logs_from(chnl, limit=limit):
                         a = str(message.content)
                         if target in a:
                             await client.delete_message(message)
@@ -2141,7 +2139,7 @@ async def unban(ctx, option = None, target = None):
                     await client.say("{} There was an error while trying to unban that user!".format(error_img))
             elif option == "server":
                 try:
-                    async for message in client.logs_from(chnl2):
+                    async for message in client.logs_from(chnl2, limit=limit):
                         a = str(message.content)
                         if target in a:
                             await client.delete_message(message)
@@ -2200,7 +2198,7 @@ async def reset(ctx, target = None):
                     await client.say("{} Server found ( {} )!".format(check_img, server.name))
                     await client.say("Resetting the server... <a:typing:393848431413559296>")
                     try:
-                        async for message in client.logs_from(ns):
+                        async for message in client.logs_from(ns, limit=limit):
                             if message.content == target:
                                 await client.delete_message(message)
                                 break
@@ -2210,7 +2208,7 @@ async def reset(ctx, target = None):
                             normal_servers.remove(target)
                         except:
                             print("")
-                        async for message in client.logs_from(nsm):
+                        async for message in client.logs_from(nsm, limit=limit):
                             a = str(message.content)
                             if target in a:
                                 await client.delete_message(message)
@@ -2231,7 +2229,7 @@ async def reset(ctx, target = None):
                                 break
                             else:
                                 print("")
-                        async for message in client.logs_from(c):
+                        async for message in client.logs_from(c, limit=limit):
                             if message.content == bb[0]:
                                 await client.delete_message(message)
                                 break
@@ -2245,14 +2243,14 @@ async def reset(ctx, target = None):
                                 break
                             else:
                                 print("")
-                        async for message in client.logs_from(lc):
+                        async for message in client.logs_from(lc, limit=limit):
                             if message.content == kk[0]:
                                 await client.delete_message(message)
                                 break
                             else:
                                 print("")
                         if target in toggled_servers:
-                            async for message in client.logs_from(ts):
+                            async for message in client.logs_from(ts, limit=limit):
                                 if message.content == target:
                                     await client.delete_message(message)
                                     break
@@ -2272,7 +2270,7 @@ async def reset(ctx, target = None):
                                     break
                                 else:
                                     print("")
-                            async for message in client.logs_from(sl):
+                            async for message in client.logs_from(sl, limit=limit):
                                 if message.content == oo[0]:
                                     await client.delete_message(message)
                                     break
@@ -2280,7 +2278,7 @@ async def reset(ctx, target = None):
                                     print("")
                         except:
                             print("")
-                        async for message in client.logs_from(ssm):
+                        async for message in client.logs_from(ssm, limit=limit):
                             u = str(message.content)
                             if target in u:
                                 await client.delete_message(message)
@@ -2294,7 +2292,7 @@ async def reset(ctx, target = None):
                                 break
                             else:
                                 print("")
-                        async for message in client.logs_from(ss):
+                        async for message in client.logs_from(ss, limit=limit):
                             if message.content == target:
                                 await client.delete_message(message)
                                 break
@@ -2376,7 +2374,7 @@ async def mod(ctx, option = None, user: discord.User = None):
                     await client.send_message(cnsl, msg)
             elif option == "del":
                 if user.id in bot_mods:
-                    async for message in client.logs_from(bm):
+                    async for message in client.logs_from(bm, limit=limit):
                         if message.content == user.id:
                             await client.delete_message(message)
                             break
@@ -2738,7 +2736,7 @@ async def special(ctx, option = None, target = None):
                             normal_servers.remove(s.id)
                             log += "\n+ Saved!"
                             log += "\n= Removing message from old lists..."
-                            async for message in client.logs_from(chnl1):
+                            async for message in client.logs_from(chnl1, limit=limit):
                                 if message.content == s.id:
                                     await client.delete_message(message)
                                     log += "\n+ Removed!"
@@ -2746,7 +2744,7 @@ async def special(ctx, option = None, target = None):
                                 else:
                                     print("")
                             log += "\n= Removing server ID from old lists..."
-                            async for message in client.logs_from(chnl2):
+                            async for message in client.logs_from(chnl2, limit=limit):
                                 a = str(message.content)
                                 if s.id in a:
                                     await client.delete_message(message)
@@ -2819,7 +2817,7 @@ async def special(ctx, option = None, target = None):
                         special_servers.remove(s.id)
                         log += "\n+ Removed!"
                         log += "\n= Removing old data 1/2..."
-                        async for message in client.logs_from(c1):
+                        async for message in client.logs_from(c1, limit=limit):
                             a = str(message.content)
                             if s.id in a:
                                 await client.delete_message(message)
@@ -2828,7 +2826,7 @@ async def special(ctx, option = None, target = None):
                             else:
                                 print("")
                         log += "\n= Removing old data 2/2..."
-                        async for message in client.logs_from(c2):
+                        async for message in client.logs_from(c2, limit=limit):
                             a = str(message.content)
                             if s.id in a:
                                 await client.delete_message(message)
@@ -2919,7 +2917,7 @@ async def mb(ctx, option = None, *, args = None):
                     reason = args
                 o = []
                 await client.say("Saving... <a:typing:393848431413559296>")
-                async for i in client.logs_from(chnl):
+                async for i in client.logs_from(chnl, limit=limit):
                     a = i.content.split('\n')
                     for k in a:
                         o.append(k)
@@ -2951,7 +2949,7 @@ async def ms(ctx):
             u = []
             for i in client.servers:
                 if i.id in ass:
-                    print("[MS] Pass 1")
+                    print("[MS] Skipped {}".format(i.name))
                 else:
                     u.append(i.id)
             await client.say("{} Saved!\nStarting mass scan... <a:typing:393848431413559296>\nThis will take awhile.".format(check_img))
@@ -2963,18 +2961,18 @@ async def ms(ctx):
                         for o in banned_users:
                             user = discord.utils.get(banned,id=o)
                             if user is not None:
-                                print("[MS] Pass 2")
+                                print("[MS] Already banned on {}".format(server.name))
                             else:
                                 try:
                                     await client.http.ban(o, server.id, 0)
                                     k.append("+1")
-                                    print("[MS] Banned")
+                                    print("[MS] Banned on {}".format(server.name))
                                 except:
-                                    print("[MS] Pass 3")
+                                    print("[MS] Permission error on {}".format(server.name))
                     except:
-                        print("[MS] Pass 4")
+                        print("[MS] Couldn't get bans from {}".format(server.name))
                 except:
-                    print("[MS] Pass 5")
+                    print("[MS] Server not found")
             await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
             m = "```diff"
             m += "\n- MASS SCAN -"
