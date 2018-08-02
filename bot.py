@@ -945,6 +945,7 @@ async def tas(ctx):
     author = ctx.message.author
     server = ctx.message.server
     if author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
+        chnl = client.get_channel(as_chnl)
         if server.id in ass:
             ass.remove(server.id)
             async for i in client.logs_from(chnl):
