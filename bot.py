@@ -67,7 +67,7 @@ help_msg4 += "\nad!log <message>\n+ Logs a message."
 help_msg4 += "\nad!special <add/del> <server id>\n+ Adds or removes a server from the special list."
 help_msg4 += "\nad!say <text>\n+ Forces the bot to say something."
 help_msg4 += "\nad!ms run\n+ Runs the mass scan."
-help_msg4 += "\nad!mb <run/clear> [reason]\n+ Starts the mass ban or clears the mass ban database."
+help_msg4 += "\nad!mb <run/clear>\n+ Either runs the multiple/mass banning system or clears the list."
 help_msg4 += "\n```"
 
 tos_msg = "***__By using this bot you agree to the following:__***"
@@ -185,7 +185,7 @@ async def on_ready():
     lc = client.get_channel(log_channels_chnl)
     asc = client.get_channel(as_chnl)
     msg = "```diff"
-    msg += "\n- LOGGED IN (DEV VERSION) -"
+    msg += "\n- LOGGED IN -"
     msg += "\n+ Name: {}".format(client.user.name)
     msg += "\n+ ID: {}".format(client.user.id)
     msg += "\n+ Total server count: {}".format(len(client.servers))
@@ -2939,13 +2939,20 @@ async def ms(ctx):
     k = []
     if author.id in bot_admins:
         if len(mss) == 0:
+            await client.say("Saving servers... <a:typing:393848431413559296>")
             mss.append("+1")
+            u = []
             for i in client.servers:
                 if i.id in ass:
                     print("")
                 else:
+                    u.append(i.id)
+            await client.say("{} Saved!\nStarting mass scan... <a:typing:393848431413559296>\nThis will take awhile.".format(check_img))
+            for i in u:
+                try:
+                    server = client.get_server(i)
                     try:
-                        banned = await client.get_bans(i)
+                        banned = await client.get_bans(server)
                         for o in banned_users:
                             user = discord.utils.get(banned,id=o)
                             if user is not None:
@@ -2958,13 +2965,15 @@ async def ms(ctx):
                                     print("")
                     except:
                         print("")
+                except:
+                    print("")
             await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
             m = "```diff"
             m += "\n- MASS SCAN -"
             m += "\n+ Author: {} ### {}".format(author, author.id)
             m += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
             m += "\n+ Ban count: {}".format(len(banned_users))
-            m += "\n+ Banned count: {}/{}".format(len(k), len(banned_users) * len(client.servers))
+            m += "\n+ Banned count: {}/{}".format(len(k), len(banned_users) * len(u))
             m += "\n```"
             await client.send_message(chnl, m)
             mss.clear()
