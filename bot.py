@@ -13,7 +13,7 @@ import re
 Client = discord.Client()
 bot_prefix= "ad!"
 client = commands.Bot(command_prefix=bot_prefix)
-footer_text = "Get Advertiser Bot: https://discord.gg/UBh9FpK"
+footer_text = "[+]Advertisement Bot[+]"
 version = '2.5'
 
 help_msg1 = "```diff"
@@ -66,8 +66,8 @@ help_msg4 += "\nad!force\n+ Forces the bot to advertise."
 help_msg4 += "\nad!log <message>\n+ Logs a message."
 help_msg4 += "\nad!special <add/del> <server id>\n+ Adds or removes a server from the special list."
 help_msg4 += "\nad!say <text>\n+ Forces the bot to say something."
-help_msg4 += "\nad!ms run\n+ Runs the mass scan."
 help_msg4 += "\nad!mb <run/clear>\n+ Either runs the multiple/mass banning system or clears the list."
+help_msg4 += "\nad!ms\n+ Starts the auto-scan on all servers who have it enabled. This is also known as mass scan."
 help_msg4 += "\n```"
 
 tos_msg = "***__By using this bot you agree to the following:__***"
@@ -123,8 +123,8 @@ special_servers_chnl = '450627929345622016'
 normal_servers_chnl = '450648126471143424'
 channels_chnl = '450648284264923146'
 log_channels_chnl = '451405759020793856'
-normal_servers_msgs_chnl = '450648203612913664'
-special_servers_msgs_chnl = '450648244138278933'
+normal_msgs_chnl = '450648203612913664'
+special_msgs_chnl = '450648244138278933'
 servers_links_chnl = '450960502831710208'
 support_server = '440108166789988353'
 community_server = 'https://discord.gg/UBh9FpK'
@@ -171,8 +171,8 @@ ut_hours = []
 async def on_ready():
     ns = client.get_channel(normal_servers_chnl)
     ss = client.get_channel(special_servers_chnl)
-    nsm = client.get_channel(normal_servers_msgs_chnl)
-    ssm = client.get_channel(special_servers_msgs_chnl)
+    nsm = client.get_channel(normal_msgs_chnl)
+    ssm = client.get_channel(special_msgs_chnl)
     ci = client.get_channel(channels_chnl)
     bu = client.get_channel(banned_users_chnl)
     bs = client.get_channel(banned_servers_chnl)
@@ -184,7 +184,7 @@ async def on_ready():
     lc = client.get_channel(log_channels_chnl)
     asc = client.get_channel(as_chnl)
     msg = "```diff"
-    msg += "\n- LOGGED IN -"
+    msg += "\n- LOGGED IN (DEV VERSION) -"
     msg += "\n+ Name: {}".format(client.user.name)
     msg += "\n+ ID: {}".format(client.user.id)
     msg += "\n+ Total server count: {}".format(len(client.servers))
@@ -255,7 +255,8 @@ async def on_ready():
     print("==========")
     print("==========")
     print("==========")
-    
+
+# SERVER COUNT
 @client.event
 async def on_server_join(server):
     c_chnl = client.get_channel(console_chnl)
