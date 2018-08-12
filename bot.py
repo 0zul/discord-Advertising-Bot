@@ -943,7 +943,7 @@ async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Chann
                             normal_servers_msgs.append(msg)
                             log += "\n+ Saved 1/2!"
                             log += "\n= Saving the message 2/2..."
-                            nsm = client.get_channel(normal_servers_msgs_chnl)
+                            nsm = client.get_channel(normal_msgs_chnl)
                             await client.send_message(nsm, msg)
                             log += "\n+ Saved 2/2!"
                             log += "\n= Saving the server's ID 1/2..."
@@ -988,7 +988,7 @@ async def unsetup(ctx):
             log += "\n--- STARTING UN-SETUP LOGGER ---"
             try:
                 print("[UNSETUP] LIMIT SET")
-                nsm = client.get_channel(normal_servers_msgs_chnl)
+                nsm = client.get_channel(normal_msgs_chnl)
                 print("[UNSETUP] CHANNEL GOT NSM")
                 cc = client.get_channel(channels_chnl)
                 print("[UNSETUP] CHANNEL GOT CC")
@@ -1201,7 +1201,7 @@ async def test(ctx):
             await client.say("Testing... <a:typing:393848431413559296>")
             log = "```diff"
             log += "\n--- STARTING TEST LOGGER (NORMAL) ---"
-            nsm = client.get_channel(normal_servers_msgs_chnl)
+            nsm = client.get_channel(normal_msgs_chnl)
             cc = client.get_channel(channels_chnl)
             lc = client.get_channel(log_channels_chnl)
             ns = client.get_channel(normal_servers_chnl)
@@ -1329,7 +1329,7 @@ async def test(ctx):
             await client.say("Testing... <a:typing:393848431413559296>")
             log = "```diff"
             log += "\n--- STARTING TEST LOGGER (SPECIAL) ---"
-            ssm = client.get_channel(special_servers_msgs_chnl)
+            ssm = client.get_channel(special_msgs_chnl)
             cc = client.get_channel(channels_chnl)
             lc = client.get_channel(log_channels_chnl)
             ss = client.get_channel(special_servers_chnl)
@@ -2020,8 +2020,8 @@ async def reset(ctx, target = None):
             ts = client.get_channel(toggled_servers_chnl)
             ss = client.get_channel(special_servers_chnl)
             ns = client.get_channel(normal_servers_chnl)
-            nsm = client.get_channel(normal_servers_msgs_chnl)
-            ssm = client.get_channel(special_servers_msgs_chnl)
+            nsm = client.get_channel(normal_msgs_chnl)
+            ssm = client.get_channel(special_msgs_chnl)
             c = client.get_channel(channels_chnl)
             lc = client.get_channel(log_channels_chnl)
             sl = client.get_channel(servers_links_chnl)
@@ -2546,9 +2546,9 @@ async def special(ctx, option = None, target = None):
     author = ctx.message.author
     cnsl = client.get_channel(console_chnl)
     chnl1 = client.get_channel(normal_servers_chnl)
-    chnl2 = client.get_channel(normal_servers_msgs_chnl)
+    chnl2 = client.get_channel(normal_msgs_chnl)
     c1 = client.get_channel(special_servers_chnl)
-    c2 = client.get_channel(special_servers_msgs_chnl)
+    c2 = client.get_channel(special_msgs_chnl)
     if author.id in bot_admins:
         if option == None or target == None:
             await client.say("{} Not all arguments were given!\nExamples:\n`ad!special add 440108166789988353`.\n`ad!special del 440108166789988353`.".format(error_img))
