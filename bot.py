@@ -169,7 +169,6 @@ ut_hours = []
 # EVENT - TELLS YOU WHEN THE BOT TURNS ON
 @client.event
 async def on_ready():
-    await client.change_presence(game=discord.Game(name=loading_status), status='dnd')
     ns = client.get_channel(normal_servers_chnl)
     ss = client.get_channel(special_servers_chnl)
     nsm = client.get_channel(normal_servers_msgs_chnl)
@@ -274,6 +273,7 @@ async def on_server_remove(server):
     await client.wait_until_ready()
     c_chnl = client.get_channel(console_chnl)
     await client.send_message(c_chnl, "```diff\n- LEFT SERVER -\n+ Name: {}\n+ ID: {}\n```".format(server.name, server.id))
+    '''
     if server.id in normal_servers or special_servers:
         nsm = client.get_channel(normal_servers_msgs_chnl)
         ssm = client.get_channel(special_servers_msgs_chnl)
@@ -362,6 +362,7 @@ async def on_server_remove(server):
     else:
         print("")
     print("FINISHED")
+    '''
     
 # AUTO-SCAN SYSTEM
 @client.async_event
