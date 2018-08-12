@@ -257,7 +257,6 @@ async def on_ready():
     print("==========")
     print("==========")
     
-VER COUNT
 @client.event
 async def on_server_join(server):
     c_chnl = client.get_channel(console_chnl)
