@@ -13,7 +13,7 @@ import re
 Client = discord.Client()
 bot_prefix= "ad!"
 client = commands.Bot(command_prefix=bot_prefix)
-footer_text = "[+]Advertisement Bot[+]"
+footer_text = "Get Advertiser Bot: https://discord.gg/UBh9FpK"
 version = '2.5'
 
 help_msg1 = "```diff"
@@ -66,8 +66,8 @@ help_msg4 += "\nad!force\n+ Forces the bot to advertise."
 help_msg4 += "\nad!log <message>\n+ Logs a message."
 help_msg4 += "\nad!special <add/del> <server id>\n+ Adds or removes a server from the special list."
 help_msg4 += "\nad!say <text>\n+ Forces the bot to say something."
+help_msg4 += "\nad!ms run\n+ Runs the mass scan."
 help_msg4 += "\nad!mb <run/clear>\n+ Either runs the multiple/mass banning system or clears the list."
-help_msg4 += "\nad!ms\n+ Starts the auto-scan on all servers who have it enabled. This is also known as mass scan."
 help_msg4 += "\n```"
 
 tos_msg = "***__By using this bot you agree to the following:__***"
@@ -123,8 +123,8 @@ special_servers_chnl = '450627929345622016'
 normal_servers_chnl = '450648126471143424'
 channels_chnl = '450648284264923146'
 log_channels_chnl = '451405759020793856'
-normal_msgs_chnl = '450648203612913664'
-special_msgs_chnl = '450648244138278933'
+normal_servers_msgs_chnl = '450648203612913664'
+special_servers_msgs_chnl = '450648244138278933'
 servers_links_chnl = '450960502831710208'
 support_server = '440108166789988353'
 community_server = 'https://discord.gg/UBh9FpK'
@@ -169,10 +169,11 @@ ut_hours = []
 # EVENT - TELLS YOU WHEN THE BOT TURNS ON
 @client.event
 async def on_ready():
+    await client.change_presence(game=discord.Game(name=loading_status), status='dnd')
     ns = client.get_channel(normal_servers_chnl)
     ss = client.get_channel(special_servers_chnl)
-    nsm = client.get_channel(normal_msgs_chnl)
-    ssm = client.get_channel(special_msgs_chnl)
+    nsm = client.get_channel(normal_servers_msgs_chnl)
+    ssm = client.get_channel(special_servers_msgs_chnl)
     ci = client.get_channel(channels_chnl)
     bu = client.get_channel(banned_users_chnl)
     bs = client.get_channel(banned_servers_chnl)
@@ -184,7 +185,7 @@ async def on_ready():
     lc = client.get_channel(log_channels_chnl)
     asc = client.get_channel(as_chnl)
     msg = "```diff"
-    msg += "\n- LOGGED IN (DEV VERSION) -"
+    msg += "\n- LOGGED IN -"
     msg += "\n+ Name: {}".format(client.user.name)
     msg += "\n+ ID: {}".format(client.user.id)
     msg += "\n+ Total server count: {}".format(len(client.servers))
@@ -248,6 +249,7 @@ async def on_ready():
     msg += "\n```"
     await client.send_message(c, msg)
     await client.wait_until_ready()
+    await client.change_presence(game=discord.Game(name=start_status))
     print("==========")
     print("==========")
     print("==========")
@@ -272,7 +274,95 @@ async def on_server_remove(server):
     await client.wait_until_ready()
     c_chnl = client.get_channel(console_chnl)
     await client.send_message(c_chnl, "```diff\n- LEFT SERVER -\n+ Name: {}\n+ ID: {}\n```".format(server.name, server.id))
-
+    if server.id in normal_servers or special_servers:
+        nsm = client.get_channel(normal_servers_msgs_chnl)
+        ssm = client.get_channel(special_servers_msgs_chnl)
+        ns = client.get_channel(normal_servers_chnl)
+        ss = client.get_channel(special_servers_chnl)
+        sl = client.get_channel(servers_links_chnl)
+        try:
+            o = []
+            for i in server_links:
+                a = await client.get_invite(i)
+                s = a.server.id
+                if s == server.id:
+                    servers_links.remove(i)
+                    o.append(i)
+                    print("REMOVED INVITE")
+                    break
+                else:
+                    print("")
+            async for m in client.logs_from(sl, limit=limit):
+                if m.content == o[0]:
+                    await client.delete_message(m)
+                    print("REMOVED INVITE 2")
+                    break
+                else:
+                    print("")
+        except:
+            print("")
+        async for m in client.logs_from(nsm, limit=limit):
+            a = str(m.content)
+            if server.id in a:
+                await client.delete_message(m)
+                print("REMOVED MSG")
+                break
+            else:
+                print("")
+        for i in normal_servers_msgs:
+            a = str(i)
+            if server.id in a:
+                normal_servers_msgs.remove(i)
+                print("REMOVED MSG 2")
+                break
+            else:
+                print("")
+        async for m in client.logs_from(ssm, limit=limit):
+            a = str(m.content)
+            if server.id in a:
+                await client.delete_message(m)
+                print("REMOVED SPEC MSG")
+                break
+            else:
+                print("")
+        for i in special_servers_msgs:
+            a = str(i)
+            if server.id in a:
+                special_servers_msgs.remove(i)
+                print("REMOVED SPEC MSG 2")
+                break
+            else:
+                print("")
+        async for m in client.logs_from(ns, limit=limit):
+            a = str(m.content)
+            if server.id in a:
+                await client.delete_message(m)
+                print("REMOVED ID")
+                break
+            else:
+                print("")
+        try:
+            normal_servers.remove(server.id)
+            print("REMOVED ID 2")
+        except:
+            print("")
+        async for m in client.logs_from(ss, limit=limit):
+            a = str(m.content)
+            if server.id in a:
+                await client.delete_message(m)
+                print("REMOVED SPEC ID")
+                break
+            else:
+                print("")
+        try:
+            special_servers.remove(server.id)
+            print("REMOVED SPEC ID 2")
+        except:
+            print("")
+    else:
+        print("")
+    print("FINISHED")
+    
 # AUTO-SCAN SYSTEM
 @client.async_event
 async def on_member_join(user: discord.Member):
@@ -285,6 +375,25 @@ async def on_member_join(user: discord.Member):
                 try:
                     await client.http.ban(o, server.id, 0)
                     await client.send_message(client.get_channel('453192466716164137'), "{} | {} | 0".format(o, server.id))
+                    chnl = client.get_channel(banned_users_chnl)
+                    async for i in client.logs_from(chnl, limit=limit):
+                        a = i.content.split(' | ')
+                        if user.id == a[0]:
+                            m = "```diff"
+                            m += "\n- AUTO SCAN -"
+                            m += "\n+ Banned: {} ### {}".format(user, user.id)
+                            m += "\n+ Reason: {}".format(a[1])
+                            m += "\n```"
+                            break
+                        else:
+                            print("[AS] Skip")
+                    for i in server.channels:
+                        if i.id in logs_channels_ids:
+                            try:
+                                await client.send_message(m)
+                                break
+                            except:
+                                break
                 except:
                     print("[AS] Permission error")
             else:
@@ -767,7 +876,92 @@ async def bug(ctx, *, args = None):
 # ad!bump
 @client.command(pass_context=True)
 async def bump(ctx):
-    await client.say("This command is temporary disabled.")
+    server = ctx.message.server
+    author = ctx.message.author
+    if ctx.message.server.id in banned_servers:
+        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+    elif ctx.message.author.id in banned_users:
+        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+    elif server.id in bumping:
+        await client.say("The server is already being bumped. Please wait.")
+    elif ctx.message.server.id in bumped_servers:
+        await client.say("{} This server is already bumped. Please try again after the bot restarts (`ad!uptime`).".format(error_img))
+    else:
+        bumping.append(server.id)
+        if server.id in normal_servers:
+            await client.say("Bumping... <a:typing:393848431413559296>")
+            try:
+                bumped_servers.append(server.id)
+                msgs = []
+                found = []
+                sent = []
+                for m in normal_servers_msgs:
+                    a = str(m)
+                    if server.id in a:
+                        msgs.append(m)
+                        break
+                    else:
+                        print("")
+                msg = msgs[0]
+                embed = discord.Embed(colour=0x00FFFF, description= "")
+                embed.title = ""
+                embed.set_footer(text=footer_text)
+                embed.add_field(name="bump", value="{}".format(msg))
+                for c in channels_ids:
+                    try:
+                        chnl = client.get_channel(c)
+                        found.append("+1")
+                        await client.send_message(chnl, embed=embed)
+                        sent.append("+1")
+                    except:
+                        print("")
+                await client.say("{} The server has been bumped on {}/{} servers!".format(check_img, len(sent), len(found)))
+            except:
+                try:
+                    bumped_servers.remove(server.id)
+                except:
+                    print("")
+                await client.say("{} Error in bumping the server!\nFor any help use `ad!support`.".format(error_img))
+            bumping.remove(server.id)
+        elif server.id in special_servers:
+            await client.say("Bumping... <a:typing:393848431413559296>")
+            try:
+                bumped_servers.append(server.id)
+                msgs = []
+                found = []
+                sent = []
+                for m in special_servers_msgs:
+                    a = str(m)
+                    if server.id in a:
+                        msgs.append(m)
+                        break
+                    else:
+                        print("")
+                msg = msgs[0]
+                embed = discord.Embed(colour=0xFFAE00, description= "")
+                embed.title = ""
+                embed.set_image(url="{}".format(special_server_img))
+                embed.set_footer(text=footer_text)
+                embed.add_field(name="bump", value="{}".format(msg))
+                for c in channels_ids:
+                    try:
+                        chnl = client.get_channel(c)
+                        found.append("+1")
+                        await client.send_message(chnl, embed=embed)
+                        sent.append("+1")
+                    except:
+                        print("")
+                await client.say("{} The server has been bumped on {}/{} servers!".format(check_img, len(sent), len(found)))
+            except:
+                try:
+                    bumped_servers.remove(server.id)
+                except:
+                    print("")
+                await client.say("{} Error in bumping the server!\nFor any help use `ad!support`.".format(error_img))
+            bumping.remove(server.id)
+        else:
+            await client.say("{} This server is not being advertised. Use `ad!setup` to set it up.".format(error_img))
+            bumping.remove(server.id)
 
 # ad!m [user]
 @client.command(pass_context=True)
@@ -943,7 +1137,7 @@ async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Chann
                             normal_servers_msgs.append(msg)
                             log += "\n+ Saved 1/2!"
                             log += "\n= Saving the message 2/2..."
-                            nsm = client.get_channel(normal_msgs_chnl)
+                            nsm = client.get_channel(normal_servers_msgs_chnl)
                             await client.send_message(nsm, msg)
                             log += "\n+ Saved 2/2!"
                             log += "\n= Saving the server's ID 1/2..."
@@ -988,7 +1182,7 @@ async def unsetup(ctx):
             log += "\n--- STARTING UN-SETUP LOGGER ---"
             try:
                 print("[UNSETUP] LIMIT SET")
-                nsm = client.get_channel(normal_msgs_chnl)
+                nsm = client.get_channel(normal_servers_msgs_chnl)
                 print("[UNSETUP] CHANNEL GOT NSM")
                 cc = client.get_channel(channels_chnl)
                 print("[UNSETUP] CHANNEL GOT CC")
@@ -1201,7 +1395,7 @@ async def test(ctx):
             await client.say("Testing... <a:typing:393848431413559296>")
             log = "```diff"
             log += "\n--- STARTING TEST LOGGER (NORMAL) ---"
-            nsm = client.get_channel(normal_msgs_chnl)
+            nsm = client.get_channel(normal_servers_msgs_chnl)
             cc = client.get_channel(channels_chnl)
             lc = client.get_channel(log_channels_chnl)
             ns = client.get_channel(normal_servers_chnl)
@@ -1329,7 +1523,7 @@ async def test(ctx):
             await client.say("Testing... <a:typing:393848431413559296>")
             log = "```diff"
             log += "\n--- STARTING TEST LOGGER (SPECIAL) ---"
-            ssm = client.get_channel(special_msgs_chnl)
+            ssm = client.get_channel(special_servers_msgs_chnl)
             cc = client.get_channel(channels_chnl)
             lc = client.get_channel(log_channels_chnl)
             ss = client.get_channel(special_servers_chnl)
@@ -2020,8 +2214,8 @@ async def reset(ctx, target = None):
             ts = client.get_channel(toggled_servers_chnl)
             ss = client.get_channel(special_servers_chnl)
             ns = client.get_channel(normal_servers_chnl)
-            nsm = client.get_channel(normal_msgs_chnl)
-            ssm = client.get_channel(special_msgs_chnl)
+            nsm = client.get_channel(normal_servers_msgs_chnl)
+            ssm = client.get_channel(special_servers_msgs_chnl)
             c = client.get_channel(channels_chnl)
             lc = client.get_channel(log_channels_chnl)
             sl = client.get_channel(servers_links_chnl)
@@ -2546,9 +2740,9 @@ async def special(ctx, option = None, target = None):
     author = ctx.message.author
     cnsl = client.get_channel(console_chnl)
     chnl1 = client.get_channel(normal_servers_chnl)
-    chnl2 = client.get_channel(normal_msgs_chnl)
+    chnl2 = client.get_channel(normal_servers_msgs_chnl)
     c1 = client.get_channel(special_servers_chnl)
-    c2 = client.get_channel(special_msgs_chnl)
+    c2 = client.get_channel(special_servers_msgs_chnl)
     if author.id in bot_admins:
         if option == None or target == None:
             await client.say("{} Not all arguments were given!\nExamples:\n`ad!special add 440108166789988353`.\n`ad!special del 440108166789988353`.".format(error_img))
@@ -2776,6 +2970,83 @@ async def mb(ctx, option = None, *, args = None):
                 
             else:
                 await client.say("{} Invalid option!\nOptions: `run`, `clear`.".format(error_img))
+    else:
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
+
+# ad!ms
+mss = []
+@client.command(pass_context=True)
+async def ms(ctx):
+    author = ctx.message.author
+    chnl = client.get_channel(console_chnl)
+    k = []
+    kk = []
+    if author.id in bot_admins:
+        if len(mss) == 0:
+            await client.say("Saving servers... <a:typing:393848431413559296>")
+            mss.append("+1")
+            u = []
+            for i in client.servers:
+                if i.id in ass:
+                    print("[MS] Skipped {}".format(i.name))
+                else:
+                    u.append(i.id)
+            await client.say("{} Saved!\nStarting mass scan... <a:typing:393848431413559296>\nThis will take awhile.".format(check_img))
+            h = await client.say("This message will be updated with more information until the mass scan finishes.")
+            hh = []
+            for i in u:
+                try:
+                    server = client.get_server(i)
+                    m = "```diff"
+                    m += "\n- MASS SCAN INFO -"
+                    m += "\n+ Finished servers: {}/{}".format(len(hh), len(u))
+                    m += "\n+ Users banned: {}".format(len(k))
+                    m += "\n+ Current server: {} ### {}".format(server.name, server.id)
+                    m += "\n```"
+                    await client.edit_message(h, m)
+                    try:
+                        banned = await client.get_bans(server)
+                        for o in banned_users:
+                            user = discord.utils.get(banned,id=o)
+                            if user is not None:
+                                print("[MS] Already banned on {}".format(server.name))
+                            else:
+                                if user in server.members:
+                                    try:
+                                        await client.http.ban(o, server.id, 0)
+                                        k.append("+1")
+                                        kk.append("+1")
+                                        print("[MS] Banned on {}".format(server.name))
+                                    except:
+                                        print("[MS] Permission error on {}".format(server.name))
+                                        kk.append("+1")
+                                else:
+                                    print("[MS] User not in server")
+                    except:
+                        print("[MS] Couldn't get bans from {}".format(server.name))
+                except:
+                    print("[MS] Server not found")
+                hh.append("+1")
+                m = "```diff"
+                m += "\n- MASS SCAN INFO -"
+                m += "\n+ Finished servers: {}/{}".format(len(hh), len(u))
+                m += "\n+ Users banned: {}".format(len(k))
+                m += "\n+ Current server: ........................................."
+                m += "\n```"
+                await client.edit_message(h, m)
+            await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
+            m = "```diff"
+            m += "\n- MASS SCAN -"
+            m += "\n+ Author: {} ### {}".format(author, author.id)
+            m += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
+            m += "\n+ Servers passed: {}/{}".format(len(hh), len(client.servers))
+            m += "\n+ Ban count: {}".format(len(banned_users))
+            m += "\n+ Banned count: {}/{}".format(len(k), len(kk) * len(u))
+            m += "\n```"
+            await client.send_message(chnl, m)
+            mss.clear()
+        else:
+            await client.say("{} A mass scan is already running.".format(error_img))
     else:
         await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
