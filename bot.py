@@ -782,7 +782,7 @@ async def bug(ctx, *, args = None):
 # ad!bump
 @client.command(pass_context=True)
 async def bump(ctx):
-    await client.say("This command is disabled due to the bot experiencing a lot of lag. This will be enabled next week.")
+    await client.say("This command is disabled due to the bot experiencing a lot of lag. This will be enabled n.")
 
 # ad!m [user]
 @client.command(pass_context=True)
